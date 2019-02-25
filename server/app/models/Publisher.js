@@ -9,4 +9,4 @@ const PublisherSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Publisher', GameSchema);
+module.exports = mongoose.model('Publisher', PublisherSchema);

@@ -25,7 +25,7 @@ exports.login = async function (req, res, next) {
         if (isPasswordCorrect) {
             let userInfo = setUserInfo(existingUser, existingUser._id);
             return res.status(200).json({
-                token: 'JWT ' + generateToken(userInfo),
+                token: generateToken(userInfo),
                 user: userInfo
             });
         } else {
@@ -67,7 +67,7 @@ exports.register = function (req, res, next) {
             }
             let userInfo = setUserInfo(user, user._id);
             res.status(201).json({
-                token: 'JWT ' + generateToken(userInfo),
+                token: generateToken(userInfo),
                 user: userInfo
             })
         });
