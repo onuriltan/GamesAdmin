@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <a class="navbar-brand ml-4" href="#">
         <img src="../assets/console-white.png"  width="35" height="35" class="d-inline-block align-top mr-2" alt="console">
-        Bootstrap
+        GamesAdmin
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
