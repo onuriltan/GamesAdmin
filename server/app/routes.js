@@ -1,27 +1,28 @@
-let AuthenticationController = require('./controllers/authentication'),
-    TodoController = require('./controllers/todos'),
+let AuthController = require('./controllers/authController'),
+    GameController = require('./controllers/gameController'),
     express = require('express');
 
 module.exports = function(app){
 
     let apiRoutes = express.Router(),
         authRoutes = express.Router(),
-        todoRoutes = express.Router();
+        gameRoutes = express.Router();
 
     // Auth Routes
     apiRoutes.use('/auth', authRoutes);
-    authRoutes.post('/register', AuthenticationController.register);
-    authRoutes.post('/login', AuthenticationController.login);
+    authRoutes.post('/register', AuthController.register);
+    authRoutes.post('/login', AuthController.login);
     authRoutes.get('/protected', function(req, res){
         res.send({ content: 'Success'});
     });
 
-    // Todo Routes
-    apiRoutes.use('/todos', todoRoutes);
-    todoRoutes.get('/', TodoController.getTodos);
-    todoRoutes.post('/', TodoController.createTodo);
-    todoRoutes.delete('/:todo_id',  TodoController.deleteTodo);
+    // Game Routes
+    apiRoutes.use('/games', gameRoutes);
+    gameRoutes.get('/', GameController.getGames);
+    gameRoutes.get('/:game_id', GameController.getGame);
+    gameRoutes.post('/', GameController.createGame);
+    gameRoutes.delete('/:game_id',  GameController.deleteGame);
 
-    // Set up routes
+    // Setup routes
     app.use('/api', apiRoutes);
 };

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const TodoSchema = new mongoose.Schema({
+const GameSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -9,4 +9,4 @@ const TodoSchema = new mongoose.Schema({
     timestamps: true
 });
 
-module.exports = mongoose.model('Todo', TodoSchema);
+module.exports = mongoose.model('Game', GameSchema);
