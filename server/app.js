@@ -29,6 +29,14 @@ app.use(cors());
 // Load Routes
 router(app);
 
+// Serve Vue SPA
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(__dirname + '/public'));
+    // Redirect All Routers to SPA
+    app.get('*', (req, res) => res.sendFile(__dirname + '/public/index.html'));
+    app.get(/.*/, (req, res) => res.sendFile(__dirname + '/public/index.html'));
+}
+
 // Run the Express App
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
