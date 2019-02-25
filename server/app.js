@@ -16,6 +16,11 @@ mongoose.connect(dbAddress, { useNewUrlParser: true })
     .then(() => console.log('MongoDB connected.'))
     .catch(err => console.log(err));
 
+// Load Initial Data
+const dataLoader = require('./app/helpers/DataLoader');
+dataLoader.loadData();
+
+// Middlewares for Express
 app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
 app.use(logger('dev')); // Log requests to API using morgan

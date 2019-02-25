@@ -1,28 +1,33 @@
-let AuthController = require('./controllers/authController'),
-    GameController = require('./controllers/gameController'),
-    express = require('express');
+const authController = require('./controllers/AuthController');
+const gameController = require('./controllers/GameController');
+const userController = require('./controllers/UserController');
+const express = require('express');
 
 module.exports = function(app){
 
-    let apiRoutes = express.Router(),
-        authRoutes = express.Router(),
-        gameRoutes = express.Router();
+    let apiRoutes = express.Router();
+    let authRoutes = express.Router();
+    let gameRoutes = express.Router();
+    let userRoutes = express.Router();
 
     // Auth Routes
     apiRoutes.use('/auth', authRoutes);
-    authRoutes.post('/register', AuthController.register);
-    authRoutes.post('/login', AuthController.login);
-    authRoutes.get('/protected', function(req, res){
-        res.send({ content: 'Success'});
-    });
+    authRoutes.post('/register', authController.register);
+    authRoutes.post('/login', authController.login);
+
+    // User Routes
+    apiRoutes.use('/user', userRoutes);
+    userRoutes.post('/', userController.addUser);
+    userRoutes.delete('/', userController.deleteUser);
+    userRoutes.put('/deactivate', userController.deactivateUser);
 
     // Game Routes
-    apiRoutes.use('/games', gameRoutes);
-    gameRoutes.get('/', GameController.getGames);
-    gameRoutes.get('/:game_id', GameController.getGame);
-    gameRoutes.post('/', GameController.createGame);
-    gameRoutes.delete('/:game_id',  GameController.deleteGame);
+    apiRoutes.use('/game', gameRoutes);
+    gameRoutes.get('/getGames', gameController.getGames);
+    gameRoutes.get('/:game_id', gameController.getGame);
+    gameRoutes.post('/', gameController.createGame);
+    gameRoutes.delete('/:game_id',  gameController.deleteGame);
 
-    // Setup routes
+    // Base rout
     app.use('/api', apiRoutes);
 };

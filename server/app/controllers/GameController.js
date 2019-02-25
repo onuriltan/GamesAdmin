@@ -1,4 +1,4 @@
-let Game = require('../models/game');
+let Game = require('../models/Game');
 
 exports.getGames = function(req, res, next){
     Game.find(function(err, games) {
