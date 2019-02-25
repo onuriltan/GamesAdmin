@@ -19,10 +19,15 @@ exports.deleteUser = function (req, res, next) {
 
 exports.addUser = async function (req, res, next) {
     const {email, password} = req.body;
-
+    if (!email) {
+        return res.status(422).send({error: 'You must enter an email address'});
+    }
+    if (!password) {
+        return res.status(422).send({error: 'You must enter a password'});
+    }
     const existingUser = await User.findOne({"email": email});
     if (existingUser) {
-        return res.status(422).send({error: 'Username or password is wrong'})
+        return res.status(422).send({error: 'That email address is already in use'})
     } else {
         let user = new User({
             email: email,
@@ -42,10 +47,15 @@ exports.deactivateUser = async function (req, res, next) {
     if (existingUser) {
         existingUser.active = false;
         existingUser.save((err, updatedUser) => {
-            if (err) console.log(err);
-            else console.log(updatedUser.name + " activated")
+            if (err) {
+                console.log(err);
+                return res.status(500).send({error: 'Error occured'})
+            }
+            else {
+                console.log(updatedUser.name + " deactivated")
+                return res.status(201).send({message: 'User deactivated'})
+            }
         });
-        return res.status(201).send({error: 'User deactivated'})
     } else {
         return res.status(422).send({error: 'User not found'})
     }
