@@ -12,14 +12,13 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 //Connect to MongoDB
-const dbAddress = process.env.MONGO_URL;
-mongoose.connect(dbAddress, { useNewUrlParser: true })
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
     .then(() => console.log('MongoDB connected.'))
     .catch(err => console.log(err));
 
-// Load Initial Data
-const dataLoader = require('./app/helpers/DataLoader');
-dataLoader.loadData();
+// Load Initial Data to MongoDB
+const initialDataLoader = require('./app/helpers/InitialDataLoader');
+initialDataLoader.loadData();
 
 // Middlewares for Express
 app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies

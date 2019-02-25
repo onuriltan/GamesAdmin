@@ -3,14 +3,14 @@ const jwtHelper = require('../helpers/JwtHelper');
 
 exports.deleteUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (typeof authData !== "undefined" && authData.role === 'admin') {
+    if (authData !== null && authData.role === 'admin') {
         const { email } = req.body;
         User.findOne({email: email}, function (err, existingUser) {
             if (err) {
                 return next(err);
             }
             if (existingUser) {
-                existingUser.remove()
+                existingUser.remove();
                 return res.status(201).send({message: 'User deleted'});
             }
             return res.status(422).send({error: 'No user with this email'});
@@ -42,7 +42,7 @@ exports.addUser = async function (req, res, next) {
                 role: 'user'
             });
             user.save();
-            return res.status(201).send({error: 'User added'});
+            return res.status(201).send({message: 'User added'});
         }
     } else {
         return res.sendStatus(403)
@@ -52,7 +52,7 @@ exports.addUser = async function (req, res, next) {
 
 exports.deactivateUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res, next);
-    if (typeof authData !== "undefined" && authData.role === 'admin') {
+    if (authData !== null && authData.role === 'admin') {
         const {email} = req.body;
         const existingUser = await User.findOne({"email": email});
         if (existingUser) {

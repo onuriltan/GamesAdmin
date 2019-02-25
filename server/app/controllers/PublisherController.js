@@ -1,42 +1,62 @@
-let Publisher = require('../models/Publisher');
+const Publisher = require('../models/Publisher');
+const jwtHelper = require('../helpers/JwtHelper');
 
-exports.getPublishers = function(req, res, next){
-    Publisher.find(function(err, publishers) {
-        if (err){
-            res.send(err);
-        }
-        res.json(publishers);
-    });
-};
-
-exports.getPublisher = function(req, res, next){
-    Publisher.find({
-        _id : req.params.publisher_id
-    }, function(err, publisher) {
-        res.json(publisher);
-    });
-};
-
-exports.createPublisher = function(req, res, next){
-    Publisher.create({
-        title : req.body.title
-    }, function(err, publisher) {
-        if (err){
-            res.send(err);
-        }
-        Publisher.find(function(err, publishers) {
-            if (err){
+exports.getPublishers = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        Publisher.find({email}, function (err, publishers) {
+            if (err) {
                 res.send(err);
             }
             res.json(publishers);
         });
-    });
+    } else {
+        res.sendStatus(403);
+    }
 };
 
-exports.deletePublisher = function(req, res, next){
-    Publisher.remove({
-        _id : req.params.publisher_id
-    }, function(err, publisher) {
-        res.json(publisher);
-    });
+exports.getPublisher = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let title = req.params.publishername;
+        let {email} = authData;
+        Publisher.findOne({email, title}, function (err, publishers) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(publishers);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+};
+
+exports.createPublisher = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        let title = req.body.title;
+        const newPublisher = new Publisher({
+            title,
+            email
+        });
+        await newPublisher.save();
+        res.json(newPublisher);
+    } else {
+        res.sendStatus(403);
+    }
+};
+
+exports.deletePublisher = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        let title = req.params.publishername;
+        await Publisher.deleteOne({title: title, email: email});
+        res.sendStatus(200);
+
+    } else {
+        res.sendStatus(403);
+    }
 };

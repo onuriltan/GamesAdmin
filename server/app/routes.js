@@ -16,7 +16,6 @@ module.exports = function(app){
 
     // Auth Routes
     apiRoutes.use('/auth', authRoutes);
-    authRoutes.post('/register', authController.register);
     authRoutes.post('/login', authController.login);
 
     // User Routes
@@ -28,23 +27,23 @@ module.exports = function(app){
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
     gameRoutes.get('/getGames', gameController.getGames);
-    gameRoutes.get('/:game_id', gameController.getGame);
+    gameRoutes.get('/:gamename', gameController.getGame);
     gameRoutes.post('/', gameController.createGame);
-    gameRoutes.delete('/:game_id',  gameController.deleteGame);
+    gameRoutes.delete('/:gamename',  gameController.deleteGame);
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
     consoleRoutes.get('/getConsoles', consoleController.getConsoles);
-    consoleRoutes.get('/:console_id', consoleController.getConsole);
+    consoleRoutes.get('/:consolename', consoleController.getConsole);
     consoleRoutes.post('/', consoleController.createConsole);
-    consoleRoutes.delete('/:console_id',  consoleController.deleteConsole);
+    consoleRoutes.delete('/:consolename',  consoleController.deleteConsole);
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
     publisherRoutes.get('/getPublishers', publisherController.getPublishers);
-    publisherRoutes.get('/:publisher_id', publisherController.getPublisher);
+    publisherRoutes.get('/:publishername', publisherController.getPublisher);
     publisherRoutes.post('/', publisherController.createPublisher);
-    publisherRoutes.delete('/:publisher_id',  publisherController.deletePublisher);
+    publisherRoutes.delete('/:publishername',  publisherController.deletePublisher);
 
     // Base route
     app.use('/api', apiRoutes);

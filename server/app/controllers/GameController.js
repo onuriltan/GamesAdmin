@@ -1,42 +1,63 @@
-let Game = require('../models/Game');
+const Game = require('../models/Game');
+const jwtHelper = require('../helpers/JwtHelper');
 
-exports.getGames = function(req, res, next){
-    Game.find(function(err, games) {
-        if (err){
-            res.send(err);
-        }
-        res.json(games);
-    });
-};
-
-exports.getGame = function(req, res, next){
-    Game.find({
-        _id : req.params.game_id
-    }, function(err, game) {
-        res.json(game);
-    });
-};
-
-exports.createGame = function(req, res, next){
-    Game.create({
-        title : req.body.title
-    }, function(err, game) {
-        if (err){
-            res.send(err);
-        }
-        Game.find(function(err, games) {
-            if (err){
+exports.getGames = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        Game.find({email}, function (err, games) {
+            if (err) {
                 res.send(err);
             }
             res.json(games);
         });
-    });
+    } else {
+        res.sendStatus(403);
+    }
 };
 
-exports.deleteGame = function(req, res, next){
-    Game.remove({
-        _id : req.params.game_id
-    }, function(err, game) {
-        res.json(game);
-    });
+exports.getGame = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let title = req.params.gamename;
+        let {email} = authData;
+        Game.findOne({email, title}, function (err, games) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(games);
+        });
+    } else {
+        res.sendStatus(403);
+    }
+};
+
+exports.createGame = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        let title = req.body.title;
+        const newGame = new Game({
+            title,
+            email
+        });
+        await newGame.save();
+        res.json(newGame);
+    } else {
+        res.sendStatus(403);
+    }
+};
+
+exports.deleteGame = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        let title = req.params.gamename;
+        console.log(title)
+        await Game.deleteOne({title: title, email: email});
+        res.sendStatus(200);
+
+    } else {
+        res.sendStatus(403);
+    }
 };
