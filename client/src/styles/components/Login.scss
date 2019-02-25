@@ -1,12 +1,22 @@
+.login {
+  background: url('~@/assets/background.jpg') no-repeat fixed center;
+  background-size: cover;
+  min-height: 100vh;
+
+}
 .login-container {
   display: flex;
   justify-content: center;
+
   &__form {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      margin-top: 100px;
-      width: 400px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 100px;
+    width: 400px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 40px;
   }
 }
 
