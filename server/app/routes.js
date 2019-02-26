@@ -20,8 +20,9 @@ module.exports = function(app){
 
     // User Routes
     apiRoutes.use('/user', userRoutes);
+    userRoutes.get('/getUsers', userController.getUsers);
     userRoutes.post('/', userController.addUser);
-    userRoutes.delete('/', userController.deleteUser);
+    userRoutes.post('/delete', userController.deleteUser);
     userRoutes.put('/deactivate', userController.deactivateUser);
 
     // Game Routes

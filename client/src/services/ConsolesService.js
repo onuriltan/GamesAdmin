@@ -4,7 +4,6 @@ import Store from '../store/index'
 const url = process.env.VUE_APP_CONSOLES_URL
 
 class ConsolesService {
-
   static getConsole (consolename) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
@@ -25,7 +24,7 @@ class ConsolesService {
   static getConsoles () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
@@ -41,7 +40,7 @@ class ConsolesService {
   static createConsole (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return axios.post(url, { title }, config)
   }
@@ -49,10 +48,9 @@ class ConsolesService {
   static deleteConsole (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return axios.delete(`${url}/${title}`, config)
   }
-
 }
 export default ConsolesService

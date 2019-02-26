@@ -11,7 +11,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div style="display: flex; flex-grow: 1" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
             <router-link class="nav-link" to="/games" v-if="isUser">Games</router-link>
@@ -30,21 +30,31 @@
           </li>
         </ul>
       </div>
+      <button v-if="isAuthenticated" class="btn btn-outline-dark my-2 my-sm-0" @click="logout()">Logout</button>
+
     </nav>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Header",
+  name: 'Header',
   computed: {
-    isAdmin() {
-      return this.$store.state.AuthStore.role === "admin"
+    isAdmin () {
+      return this.$store.state.AuthStore.role === 'admin'
     },
-    isUser() {
-      return this.$store.state.AuthStore.role === "user"
+    isUser () {
+      return this.$store.state.AuthStore.role === 'user'
+    },
+    isAuthenticated () {
+      return this.$store.state.AuthStore.isAuthenticated === true
     }
   },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+    }
+  }
 }
 </script>
 

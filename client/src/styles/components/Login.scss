@@ -2,7 +2,17 @@
   background: url('~@/assets/background.jpg') no-repeat fixed center;
   background-size: cover;
   min-height: 100vh;
+}
+.button--loading {
+  opacity: 0.6 !important;
+}
 
+.show--button--loading--icon {
+  display: block !important;
+}
+
+.hide--button--loading--icon {
+  display: none;
 }
 .login-container {
   display: flex;
@@ -17,6 +27,12 @@
     background-color: white;
     border-radius: 5px;
     padding: 40px;
+    &__button {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }
 

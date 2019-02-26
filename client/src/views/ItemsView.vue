@@ -13,7 +13,7 @@ import Items from '../components/Items'
 import GamesService from '../services/GamesService'
 
 export default {
-  name: "GamesView",
+  name: 'ItemsView',
   components: {
     Items
   },
@@ -42,9 +42,8 @@ export default {
       this.isLoading = false
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.getGames()
   }
 }
 </script>
-

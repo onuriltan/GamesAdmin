@@ -1,6 +1,21 @@
 const User = require('../models/User');
 const jwtHelper = require('../helpers/JwtHelper');
 
+exports.getUsers = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null && authData.role === 'admin') {
+        User.find( { role: "user" }, function (err, users) {
+            if (err) {
+                return next(err);
+            }
+            else  {
+                return res.json(users);
+            }
+        });
+    } else {
+        return res.sendStatus(403)
+    }
+};
 exports.deleteUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
@@ -18,7 +33,6 @@ exports.deleteUser = async function (req, res, next) {
     } else {
         return res.sendStatus(403)
     }
-
 };
 
 

@@ -1,14 +1,13 @@
 <template>
-
-
+  <Users />
 </template>
 
 <script>
-  export default {
-    name: "UsersView"
+import Users from '../components/Users'
+export default {
+  name: 'UsersView',
+  components: {
+    Users
   }
+}
 </script>
-
-<style scoped lang="scss">
-
-</style>

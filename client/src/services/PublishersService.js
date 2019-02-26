@@ -3,8 +3,7 @@ import Store from '../store/index'
 
 const url = process.env.VUE_APP_PUBLISHERS_URL
 
-class PublishersService{
-
+class PublishersService {
   static getPublisher (publishername) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
@@ -25,7 +24,7 @@ class PublishersService{
   static getPublishers () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
@@ -41,7 +40,7 @@ class PublishersService{
   static createPublisher (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return axios.post(url, { title }, config)
   }
@@ -49,10 +48,9 @@ class PublishersService{
   static deletePublisher (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return axios.delete(`${url}/${title}`, config)
   }
-
 }
 export default PublishersService

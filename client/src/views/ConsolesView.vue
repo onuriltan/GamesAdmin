@@ -12,7 +12,7 @@
 import ConsolesService from '../services/ConsolesService'
 import Items from '../components/Items'
 export default {
-  name: "ConsolesView",
+  name: 'ConsolesView',
   components: {
     Items
   },
@@ -41,7 +41,7 @@ export default {
       this.isLoading = false
     }
   },
-  beforeMount() {
+  beforeMount () {
     this.getConsoles()
   }
 

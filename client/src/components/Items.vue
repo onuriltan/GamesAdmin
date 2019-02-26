@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "Games",
+  name: 'Games',
   data () {
     return {
       newTitle: ''
@@ -29,8 +29,8 @@ export default {
     pageName: String,
     isLoading: Boolean,
     deleteItem: Function,
-    getItems:Function,
-    createItem: Function,
+    getItems: Function,
+    createItem: Function
   }
 }
 </script>

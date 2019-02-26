@@ -6,8 +6,12 @@ exports.login = async function (req, res, next) {
     const {email, password} = req.body;
     const existingUser = await User.findOne({"email": email});
     if (existingUser) {
+        if(!existingUser.active) {
+            return res.status(403).send({error: 'User is not active'});
+        }
         let isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
         if (isPasswordCorrect) {
+
             let userInfo = setUserInfo(existingUser);
             return res.status(200).json({
                 token: generateToken(userInfo),

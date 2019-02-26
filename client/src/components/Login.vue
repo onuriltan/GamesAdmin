@@ -12,7 +12,12 @@
           <label for="exampleInputPassword1">Password</label>
           <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary login-container__form__button" :class="{ 'button--loading': loginClicked }">
+          <i class="fa fa-refresh fa-spin hide--button--loading--icon" :class="{ 'show--button--loading--icon': loginClicked }"></i>
+          <div style="margin: 0 5px;">
+            Login
+          </div>
+        </button>
       </form>
     </div>
   </div>
@@ -20,21 +25,21 @@
 
 <script>
 export default {
-  name:'Login',
+  name: 'Login',
   data () {
     return {
       email: '',
       password: '',
-      loginClicked: false,
+      loginClicked: false
     }
   },
-  methods : {
+  methods: {
     async login () {
-        this.loginClicked = true
-        setTimeout(async () => {
-          const res = await this.$store.dispatch('login', { email: this.email, password: this.password })
-          this.loginClicked = false
-        }, 1000)
+      this.loginClicked = true
+      setTimeout(async () => {
+        const res = await this.$store.dispatch('login', { email: this.email, password: this.password })
+        this.loginClicked = false
+      }, 1000)
     }
   }
 }

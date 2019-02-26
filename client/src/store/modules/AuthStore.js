@@ -19,15 +19,16 @@ const AuthStore = {
       return state.role
     },
     isAdmin () {
-      return state.role === "admin"
+      return state.role === 'admin'
     },
     isUser () {
-      return state.role === "user"
+      return state.role === 'user'
     }
   },
   actions: {
     logout (context) {
-      context.commit('deleteToken')
+      context.commit('clearStateandToken')
+      router.push('/login')
     },
     login (context, credentials) {
       return new Promise(resolve => {
@@ -48,10 +49,11 @@ const AuthStore = {
     }
   },
   mutations: {
-    deleteToken (state) {
+    clearStateandToken (state) {
       window.localStorage.removeItem('token')
       state.isAuthenticated = false
-      router.push('/login')
+      state.sessionExpired = false
+      state.role = null
     },
 
     checkIsAuthenticated (state) {
