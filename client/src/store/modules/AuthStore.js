@@ -14,6 +14,15 @@ const AuthStore = {
   getters: {
     isAuthenticated () {
       return state.isAuthenticated
+    },
+    getRole () {
+      return state.role
+    },
+    isAdmin () {
+      return state.role === "admin"
+    },
+    isUser () {
+      return state.role === "user"
     }
   },
   actions: {
