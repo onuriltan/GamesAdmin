@@ -1,0 +1,9 @@
+.games-list {
+  margin-top: 100px;
+  &__view {
+    flex-direction: row;
+    &__title {
+      width: 100%;
+    }
+  }
+}

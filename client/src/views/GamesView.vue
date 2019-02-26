@@ -1,14 +1,15 @@
 <template>
-
-
+  <Games/>
 </template>
 
 <script>
+import Games from '../components/Games'
+
 export default {
-    name: "GamesView"
+  name: "GamesView",
+  components: {
+    Games
+  }
 }
 </script>
-
-<style scoped lang="scss">
-
-</style>
+s

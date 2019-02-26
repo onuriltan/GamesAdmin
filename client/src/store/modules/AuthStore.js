@@ -67,6 +67,7 @@ const AuthStore = {
           state.isAuthenticated = false
           router.push('/login')
           state.sessionExpired = false
+          state.role = null
         }, 2000)
       }
     },
