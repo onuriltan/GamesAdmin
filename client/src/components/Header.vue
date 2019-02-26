@@ -11,22 +11,22 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div style="display: flex; flex-grow: 1" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <router-link class="nav-link" to="/games" v-if="isUser">Games</router-link>
+      <div style="display: flex; flex-grow: 1">
+        <ul class="navbar-nav mr-auto" style="display: contents">
+          <li class="nav-item mr-2" v-if="isUser">
+            <router-link class="nav-link" to="/games" >Games</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/consoles" v-if="isUser">Consoles</router-link>
+          <li class="nav-item mr-2" v-if="isUser">
+            <router-link class="nav-link" to="/consoles" >Consoles</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/publishers" v-if="isUser">Publishers</router-link>
+          <li class="nav-item mr-2" v-if="isUser">
+            <router-link class="nav-link" to="/publishers" >Publishers</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/logs" v-if="isAdmin">Logs</router-link>
+          <li class="nav-item mr-2" v-if="isAdmin">
+            <router-link class="nav-link" to="/logs" >Logs</router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/users" v-if="isAdmin">Users</router-link>
+          <li class="nav-item mr-2" v-if="isAdmin">
+            <router-link class="nav-link" to="/users" >Users</router-link>
           </li>
         </ul>
       </div>

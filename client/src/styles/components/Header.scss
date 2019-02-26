@@ -1,4 +1,10 @@
+.navbar-toggler {
+  display: none !important;
+}
 .header-container {
+  .link {
+    color: antiquewhite;
+  }
   .active {
     color: white !important;
   }
