@@ -13,4 +13,5 @@ const loadData = async () => {
     }
 };
 
+
 module.exports.loadData = loadData;

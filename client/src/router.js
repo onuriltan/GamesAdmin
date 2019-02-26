@@ -45,7 +45,7 @@ async function alreadyLoggedIn (to, from, next) {
     if (Store.state.AuthStore.isAuthenticated) {
       next()
     } else {
-      next('/')
+      next('/login')
     }
   }
   await Store.dispatch('loadUser')
@@ -65,7 +65,7 @@ export default new Router({
   mode: 'history',
   linkActiveClass: 'active', // router-link active class name
   routes: [
-    { path: '/', redirect: '/login' },
+    { path: '/', redirect: '/dashboard' },
     { path: '/dashboard', name: 'dashboard', component: Dashboard, beforeEnter: requireAuth },
     { path: '/login', name: 'login', component: Login },
     { path: '/games', name: 'games', component: Games, beforeEnter: requireUserAuth },
