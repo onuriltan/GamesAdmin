@@ -36,3 +36,12 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .login-container {
+    &__form {
+      width: 280px;
+    }
+  }
+}
+
+
