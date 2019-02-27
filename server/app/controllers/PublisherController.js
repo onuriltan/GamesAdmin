@@ -66,3 +66,17 @@ exports.deletePublisher = async function (req, res, next) {
         res.sendStatus(403);
     }
 };
+
+exports.deletePublisherById = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null && authData.role === "admin") {
+        let {email} = authData;
+        let id = req.body.id;
+        console.log(id);
+        let deletedConsole = await publisherDb.deletePublisherById(id);
+        logDb.createLog(deletedConsole.title+" deleted", "console", email);
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(403);
+    }
+};

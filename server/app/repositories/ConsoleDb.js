@@ -1,4 +1,5 @@
 const Console = require('../models/Console');
+const mongodb = require('mongodb');
 
 exports.getAll = async function () {
     return Console.find().select('-__v');
@@ -22,5 +23,9 @@ exports.createConsole = async function (email, title) {
 };
 
 exports.deleteConsole = async function (email, title) {
-    await Console.deleteOne({title: title, email: email}).select('-__v');
+    return await Console.deleteOne({title: title, email: email}).select('-__v');
+};
+
+exports.deleteConsoleById = async function (id) {
+    return await Console.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
 };

@@ -68,5 +68,12 @@ class ConsoleService {
     }
     return axios.delete(`${url}/${title}`, config)
   }
+  static deleteConsoleById (id) {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    return axios.post(`${url}/deleteById`, { id } ,config)
+  }
 }
 export default ConsoleService

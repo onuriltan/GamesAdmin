@@ -66,3 +66,17 @@ exports.deleteConsole = async function (req, res, next) {
         res.sendStatus(403);
     }
 };
+
+exports.deleteConsoleById = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null && authData.role === "admin") {
+        let {email} = authData;
+        let id = req.body.id;
+        console.log(id);
+        let deletedConsole = await consoleDb.deleteConsoleById(id);
+        logDb.createLog(deletedConsole.title+" deleted", "console", email);
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(403);
+    }
+};

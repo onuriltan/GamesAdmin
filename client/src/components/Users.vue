@@ -1,9 +1,9 @@
 <template>
   <div class="items-list container">
     <h1 class="text-center mb-5">List of Users</h1>
-    <form @submit.prevent="addUser" class="form-inline mb-5">
+    <form @submit.prevent="addUser" class="form m-auto justify-content-center align-items-end" style="width: 300px; margin-bottom: 50px !important;">
       <div class="form-group mr-3">
-        <label for="exampleInputEmail1" class="mr-2">Email address</label>
+        <label for="exampleInputEmail1" class="mr-2">Email</label>
         <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" v-model="email">
       </div>
       <div class="form-group mr-3">

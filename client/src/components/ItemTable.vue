@@ -13,7 +13,7 @@
         <td>{{item.title}}</td>
         <td>{{item.email}}</td>
         <td>
-          <button type="button" class="btn btn-danger" @click="deleteItem(group,item.title)">Delete</button>
+          <button type="button" class="btn btn-danger" @click="deleteItemById(group,item._id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -26,7 +26,7 @@ export default {
   name: 'ItemTable',
   props: {
     items: Array,
-    deleteItem: Function,
+    deleteItemById: Function,
     group: String
   }
 }

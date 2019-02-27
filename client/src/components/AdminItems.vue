@@ -21,7 +21,7 @@
           </div>
           <button type="submit" class="btn btn-primary">Add Game</button>
         </form>
-        <ItemTable :items="games" :deleteItem="deleteItem" group="game"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <form @submit.prevent="addItem('console', console)" class="form-inline mb-5 mt-5 align-items-end">
@@ -31,7 +31,7 @@
           </div>
           <button type="submit" class="btn btn-primary">Add Console</button>
         </form>
-        <ItemTable :items="consoles" :deleteItem="deleteItem" group="console"/>
+        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <form @submit.prevent="addItem('publisher', publisher)" class="form-inline mb-5 mt-5 align-items-end">
@@ -41,7 +41,7 @@
           </div>
           <button type="submit" class="btn btn-primary">Add Publisher</button>
         </form>
-        <ItemTable :items="publishers" :deleteItem="deleteItem" group="publisher"/>
+        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher"/>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@ export default {
     consoles: Array,
     publishers: Array,
     addItem: Function,
-    deleteItem: Function
+    deleteItemById: Function
   }
 }
 

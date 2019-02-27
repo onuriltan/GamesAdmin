@@ -1,6 +1,6 @@
 <template>
   <AdminItems :games="games" :consoles="consoles"
-              :publishers="publishers" :deleteItem="deleteItem" :addItem="addItem"/>
+              :publishers="publishers" :deleteItemById="deleteItemById" :addItem="addItem"/>
 </template>
 
 <script>
@@ -31,17 +31,17 @@ export default {
     async getPublishers () {
       this.publishers = await publisherService.getAll()
     },
-    async deleteItem (group, title) {
+    async deleteItemById (group, id) {
       if (group === 'game') {
-        await gameService.deleteGame(title)
+        await gameService.deleteGameById(id)
         await this.getGames()
       }
       if (group === 'console') {
-        await consoleService.deleteConsole(title)
+        await consoleService.deleteConsoleById(id)
         await this.getConsoles()
       }
       if (group === 'publisher') {
-        await publisherService.deletePublisher(title)
+        await publisherService.deletePublisherById(id)
         await this.getPublishers()
       }
     },

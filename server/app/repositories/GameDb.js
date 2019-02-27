@@ -1,4 +1,5 @@
 const Game = require('../models/Game');
+const mongodb = require('mongodb');
 
 exports.getAll = async function () {
     return Game.find().select('-__v');
@@ -21,5 +22,9 @@ exports.createGame = async function (email, title) {
 };
 
 exports.deleteGame = async function (email, title) {
-    await Game.deleteOne({title: title, email: email}).select('-__v');
+    return await Game.deleteOne({title: title, email: email}).select('-__v');
+};
+
+exports.deleteGameById = async function (id) {
+    return await Game.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
 };

@@ -66,3 +66,17 @@ exports.deleteGame = async function (req, res, next) {
         res.sendStatus(403);
     }
 };
+
+exports.deleteGameById = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null &&  authData.role === "admin") {
+        let {email} = authData;
+        let id = req.body.id;
+        console.log(id);
+        let deletedGame = await gameDb.deleteGameById(id);
+        logDb.createLog(deletedGame.title+" deleted", "game", email);
+        res.sendStatus(200);
+    } else {
+        res.sendStatus(403);
+    }
+};

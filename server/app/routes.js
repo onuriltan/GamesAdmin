@@ -34,6 +34,7 @@ module.exports = function(app){
     gameRoutes.get('/:gamename', gameController.getGame);
     gameRoutes.post('/', gameController.createGame);
     gameRoutes.delete('/:gamename',  gameController.deleteGame);
+    gameRoutes.post('/deleteById',  gameController.deleteGameById);
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
@@ -42,6 +43,7 @@ module.exports = function(app){
     consoleRoutes.get('/:consolename', consoleController.getConsole);
     consoleRoutes.post('/', consoleController.createConsole);
     consoleRoutes.delete('/:consolename',  consoleController.deleteConsole);
+    consoleRoutes.post('/deleteById',  consoleController.deleteConsoleById);
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
@@ -50,6 +52,7 @@ module.exports = function(app){
     publisherRoutes.get('/:publishername', publisherController.getPublisher);
     publisherRoutes.post('/', publisherController.createPublisher);
     publisherRoutes.delete('/:publishername',  publisherController.deletePublisher);
+    publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);
 
     // Log Routes
     apiRoutes.use('/log', logRoutes);

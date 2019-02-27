@@ -68,5 +68,13 @@ class GameService {
     }
     return axios.delete(`${url}/${title}`, config)
   }
+
+  static deleteGameById (id) {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    return axios.post(`${url}/deleteById`, { id } ,config)
+  }
 }
 export default GameService
