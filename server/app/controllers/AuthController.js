@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const userDb = require('../db/UserDb')
 const bcrypt = require('bcrypt');
 
 exports.login = async function (req, res, next) {
     const {email, password} = req.body;
-    const existingUser = await User.findOne({"email": email});
-    console.log(existingUser)
+    const existingUser = await userDb.getUser(email);
     if (existingUser) {
         if(!existingUser.active) {
             return res.status(403).send({error: 'User is not active'});
