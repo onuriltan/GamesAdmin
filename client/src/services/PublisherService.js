@@ -1,14 +1,14 @@
 import axios from 'axios'
 import Store from '../store/index'
 
-const url = process.env.VUE_APP_CONSOLES_URL
+const url = process.env.VUE_APP_PUBLISHERS_URL
 
-class ConsolesService {
-  static getConsole (consolename) {
+class PublisherService {
+  static getPublisher (publishername) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
-      params: { consolename: consolename }
+      params: { publishername: publishername }
     }
     return new Promise(async (resolve, reject) => {
       try {
@@ -21,14 +21,14 @@ class ConsolesService {
     })
   }
 
-  static getConsoles () {
+  static getPublishers () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}/getConsoles`, config)
+        const res = await axios.get(`${url}/getPublishers`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -37,7 +37,7 @@ class ConsolesService {
     })
   }
 
-  static createConsole (title) {
+  static createPublisher (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
@@ -45,7 +45,7 @@ class ConsolesService {
     return axios.post(url, { title }, config)
   }
 
-  static deleteConsole (title) {
+  static deletePublisher (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
@@ -53,4 +53,4 @@ class ConsolesService {
     return axios.delete(`${url}/${title}`, config)
   }
 }
-export default ConsolesService
+export default PublisherService

@@ -1,7 +1,6 @@
 <template>
   <div class="login">
     <div class="login-container container">
-
       <form class="login-container__form" @submit.prevent="login">
         <div class="alert alert-danger" v-if="error">
           {{error}}

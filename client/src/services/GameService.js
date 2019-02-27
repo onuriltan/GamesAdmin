@@ -1,14 +1,14 @@
 import axios from 'axios'
 import Store from '../store/index'
 
-const url = process.env.VUE_APP_PUBLISHERS_URL
+const url = process.env.VUE_APP_GAMES_URL
 
-class PublishersService {
-  static getPublisher (publishername) {
+class GameService {
+  static getGame (gamename) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
-      params: { publishername: publishername }
+      params: { gamename: gamename }
     }
     return new Promise(async (resolve, reject) => {
       try {
@@ -21,14 +21,14 @@ class PublishersService {
     })
   }
 
-  static getPublishers () {
+  static getGames () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}/getPublishers`, config)
+        const res = await axios.get(`${url}/getGames`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -37,7 +37,7 @@ class PublishersService {
     })
   }
 
-  static createPublisher (title) {
+  static createGame (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
@@ -45,7 +45,7 @@ class PublishersService {
     return axios.post(url, { title }, config)
   }
 
-  static deletePublisher (title) {
+  static deleteGame (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
@@ -53,4 +53,4 @@ class PublishersService {
     return axios.delete(`${url}/${title}`, config)
   }
 }
-export default PublishersService
+export default GameService

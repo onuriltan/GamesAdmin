@@ -10,7 +10,7 @@
 
 <script>
 import Items from '../components/Items'
-import PublishersService from '../services/PublishersService'
+import PublisherService from '../services/PublisherService'
 
 export default {
   name: 'PublishersView',
@@ -26,18 +26,18 @@ export default {
   methods: {
     async getPublishers () {
       this.isLoading = true
-      this.publishers = await PublishersService.getPublishers()
+      this.publishers = await PublisherService.getPublishers()
       this.isLoading = false
     },
     async createPublisher (publisherTitle) {
       this.isLoading = true
-      await PublishersService.createPublisher(publisherTitle)
+      await PublisherService.createPublisher(publisherTitle)
       await this.getPublishers()
       this.isLoading = false
     },
     async deletePublisher (publisherTitle) {
       this.isLoading = true
-      await PublishersService.deletePublisher(publisherTitle)
+      await PublisherService.deletePublisher(publisherTitle)
       await this.getPublishers()
       this.isLoading = false
     }

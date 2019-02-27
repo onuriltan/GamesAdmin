@@ -1,13 +1,14 @@
 <template>
-
+  <Logs />
 </template>
 
 <script>
+import Logs from '../components/Logs'
 export default {
-  name: 'LogsView'
+  name: 'LogsView',
+  components: {
+    Logs
+  }
 }
 </script>
 
-<style scoped lang="scss">
-
-</style>

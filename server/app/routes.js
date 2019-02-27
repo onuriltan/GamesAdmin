@@ -3,6 +3,7 @@ const gameController = require('./controllers/GameController');
 const consoleController = require('./controllers/ConsoleController');
 const publisherController = require('./controllers/PublisherController');
 const userController = require('./controllers/UserController');
+const logController = require('./controllers/LogController');
 
 const express = require('express');
 
@@ -13,6 +14,7 @@ module.exports = function(app){
     let consoleRoutes = express.Router();
     let publisherRoutes = express.Router();
     let userRoutes = express.Router();
+    let logRoutes = express.Router();
 
     // Auth Routes
     apiRoutes.use('/auth', authRoutes);
@@ -45,6 +47,10 @@ module.exports = function(app){
     publisherRoutes.get('/:publishername', publisherController.getPublisher);
     publisherRoutes.post('/', publisherController.createPublisher);
     publisherRoutes.delete('/:publishername',  publisherController.deletePublisher);
+
+    // Log Routes
+    apiRoutes.use('/log', logRoutes);
+    logRoutes.get('/getLogs/:api', logController.getLogsByApi);
 
     // Base route
     app.use('/api', apiRoutes);

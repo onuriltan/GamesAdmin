@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import UsersService from '../services/UsersService'
+import UserService from '../services/UserService'
 export default {
   name: 'Users',
   data () {
@@ -42,27 +42,27 @@ export default {
   methods: {
     async getUsers () {
       this.isLoading = true
-      this.users = await UsersService.getUsers()
+      this.users = await UserService.getUsers()
       this.isLoading = false
     },
     async deleteUser (email) {
       this.isLoading = true
       this.error = null
-      await UsersService.deleteUser(email)
+      await UserService.deleteUser(email)
       await this.getUsers()
       this.isLoading = false
     },
     async deactivateUser (email) {
       this.isLoading = true
       this.error = null
-      await UsersService.deactivateUser(email)
+      await UserService.deactivateUser(email)
       await this.getUsers()
       this.isLoading = false
     },
     async addUser () {
       this.isLoading = true
       this.error = null
-      let res = await UsersService.addUser({ email: this.email, password: this.password})
+      let res = await UserService.addUser({ email: this.email, password: this.password})
       if(res.error) {
         this.error = res.error
       }

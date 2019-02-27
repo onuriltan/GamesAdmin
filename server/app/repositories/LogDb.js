@@ -1,11 +1,15 @@
 const Log = require('../models/Log');
 
-exports.createLog = async function (title, api, email) {
+exports.createLog = function (title, api, email) {
     const log = new Log({
         title,
         api,
         email
     });
-    await log.save();
-    return log;
+    log.save();
+};
+
+
+exports.findLogsByApi = function (api) {
+    return Log.find({api})
 };

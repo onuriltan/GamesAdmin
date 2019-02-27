@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ConsolesService from '../services/ConsolesService'
+import ConsoleService from '../services/ConsoleService'
 import Items from '../components/Items'
 export default {
   name: 'ConsolesView',
@@ -25,18 +25,18 @@ export default {
   methods: {
     async getConsoles () {
       this.isLoading = true
-      this.consoles = await ConsolesService.getConsoles()
+      this.consoles = await ConsoleService.getConsoles()
       this.isLoading = false
     },
     async createConsole (consoleTitle) {
       this.isLoading = true
-      await ConsolesService.createConsole(consoleTitle)
+      await ConsoleService.createConsole(consoleTitle)
       await this.getConsoles()
       this.isLoading = false
     },
     async deleteConsole (consoleTitle) {
       this.isLoading = true
-      await ConsolesService.deleteConsole(consoleTitle)
+      await ConsoleService.deleteConsole(consoleTitle)
       await this.getConsoles()
       this.isLoading = false
     }

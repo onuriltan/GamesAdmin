@@ -10,7 +10,7 @@
 
 <script>
 import Items from '../components/Items'
-import GamesService from '../services/GamesService'
+import GameService from '../services/GameService'
 
 export default {
   name: 'ItemsView',
@@ -26,18 +26,18 @@ export default {
   methods: {
     async getGames () {
       this.isLoading = true
-      this.games = await GamesService.getGames()
+      this.games = await GameService.getGames()
       this.isLoading = false
     },
     async createGame (gameTitle) {
       this.isLoading = true
-      await GamesService.createGame(gameTitle)
+      await GameService.createGame(gameTitle)
       await this.getGames()
       this.isLoading = false
     },
     async deleteGame (gameTitle) {
       this.isLoading = true
-      await GamesService.deleteGame(gameTitle)
+      await GameService.deleteGame(gameTitle)
       await this.getGames()
       this.isLoading = false
     }

@@ -1,14 +1,14 @@
 import axios from 'axios'
 import Store from '../store/index'
 
-const url = process.env.VUE_APP_USERS_URL
+const url = process.env.VUE_APP_CONSOLES_URL
 
-class UsersService {
-  static getUser (username) {
+class ConsoleService {
+  static getConsole (consolename) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
-      params: { username: username }
+      params: { consolename: consolename }
     }
     return new Promise(async (resolve, reject) => {
       try {
@@ -21,14 +21,14 @@ class UsersService {
     })
   }
 
-  static getUsers () {
+  static getConsoles () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}/getUsers`, config)
+        const res = await axios.get(`${url}/getConsoles`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -37,34 +37,20 @@ class UsersService {
     })
   }
 
-  static async addUser (data) {
+  static createConsole (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    let res = null;
-    try {
-      res = await axios.post(url, data, config);
-    } catch (err) {
-      res = err.response.data
-    }
-    return res;
+    return axios.post(url, { title }, config)
   }
 
-  static deleteUser (email) {
+  static deleteConsole (title) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.post(`${url}/delete`,{email : email }, config)
-  }
-
-  static deactivateUser (email) {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    }
-    return axios.put(`${url}/deactivate`, {email : email }, config)
+    return axios.delete(`${url}/${title}`, config)
   }
 }
-export default UsersService
+export default ConsoleService
