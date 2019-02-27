@@ -3,13 +3,9 @@ const logDb = require('../repositories/LogDb')
 const jwtHelper = require('../helpers/JwtHelper');
 
 exports.getAll = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === 'admin') {
-        let consoles = await consoleDb.getAll();
-        res.json(consoles);
-    } else {
-        res.sendStatus(403);
-    }
+    let consoles = await consoleDb.getAll();
+    res.json(consoles);
+
 };
 
 

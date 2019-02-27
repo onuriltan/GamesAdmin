@@ -2,13 +2,8 @@ const jwtHelper = require('../helpers/JwtHelper');
 const userDb = require('../repositories/UserDb')
 
 exports.getUsers = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === 'admin') {
-        let users = await userDb.getUsersByRole('user');
-        return res.json(users);
-    } else {
-        return res.sendStatus(403)
-    }
+    let users = await userDb.getUsersByRole('user');
+    return res.json(users);
 };
 exports.deleteUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);

@@ -11,5 +11,5 @@ exports.createLog = function (title, api, email) {
 
 
 exports.findLogsByApi = function (api) {
-    return Log.find({api})
+    return Log.find({api}).select('-__v')
 };
