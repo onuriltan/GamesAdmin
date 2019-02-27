@@ -30,7 +30,11 @@ exports.getPublisher = async function (req, res, next) {
         let title = req.params.publishername;
         let {email} = authData;
         let publisher = await publisherDb.getPublisher(email, title);
-        logDb.createLog(publisher.title+' found', "publisher", email);
+        if(publisher !== null) {
+            logDb.createLog(publisher.title+' found', "console", email);
+        }else {
+            logDb.createLog(title+' not found', "console", email);
+        }
         res.json(publisher);
     } else {
         res.sendStatus(403);

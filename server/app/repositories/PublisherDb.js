@@ -17,7 +17,7 @@ exports.createPublisher = async function (email, title) {
         title,
         email
     });
-    await newPublisher.save().select('-__v');
+    await newPublisher.save();
     return newPublisher;
 };
 

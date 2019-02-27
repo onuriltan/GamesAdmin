@@ -42,13 +42,13 @@ class UserService {
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    let res = null;
+    let res = null
     try {
-      res = await axios.post(url, data, config);
+      res = await axios.post(url, data, config)
     } catch (err) {
       res = err.response.data
     }
-    return res;
+    return res
   }
 
   static deleteUser (email) {
@@ -56,7 +56,7 @@ class UserService {
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.post(`${url}/delete`,{email : email }, config)
+    return axios.post(`${url}/delete`, { email: email }, config)
   }
 
   static deactivateUser (email) {
@@ -64,7 +64,7 @@ class UserService {
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.put(`${url}/deactivate`, {email : email }, config)
+    return axios.put(`${url}/deactivate`, { email: email }, config)
   }
 }
 export default UserService

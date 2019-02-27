@@ -40,10 +40,10 @@ export default {
   methods: {
     async login () {
       this.loginClicked = true
-      this.error = null;
+      this.error = null
       setTimeout(async () => {
         const res = await this.$store.dispatch('login', { email: this.email, password: this.password })
-        if(res.data.error) this.error = res.data.error
+        if (res.data.error) this.error = res.data.error
         this.loginClicked = false
       }, 1000)
     }

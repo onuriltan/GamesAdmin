@@ -1,5 +1,5 @@
 <template>
-  <div class="table-responsive">
+  <div class="table-responsive mt-5">
     <table class="table table-bordered">
       <thead>
       <tr>
@@ -21,9 +21,9 @@
 
 <script>
 export default {
-  name: "LogTable",
+  name: 'LogTable',
   props: {
-    logs : Array
+    logs: Array
   },
   filters: {
     convertDate: function (date) {

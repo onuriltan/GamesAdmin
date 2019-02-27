@@ -4,13 +4,13 @@
     <form class="input-group mb-5" @submit.prevent="createItem(newTitle)">
       <input type="text" class="form-control" :placeholder="'Create '+pageName+' ...'" v-model="newTitle">
       <div class="input-group-append">
-        <button class="btn btn-primary" type="submit">OK</button>
+        <button class="btn btn-primary" type="submit">Create</button>
       </div>
     </form>
     <ul class="list-group items-list__view" v-for="item in items">
       <li class="list-group-item items-list__view__title">
         {{item.title}}
-        <button class="btn btn-danger" style="float: right" type="button" @click="deleteItem(item.title)">DELETE</button>
+        <button class="btn btn-danger" style="float: right" type="button" @click="deleteItem(item.title)">Delete</button>
       </li>
     </ul>
   </div>

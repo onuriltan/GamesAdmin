@@ -17,7 +17,7 @@ exports.createConsole = async function (email, title) {
         title,
         email
     });
-    await newConsole.save().select('-__v');
+    await newConsole.save();
     return newConsole;
 };
 

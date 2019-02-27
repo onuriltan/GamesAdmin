@@ -30,7 +30,11 @@ exports.getConsole = async function (req, res, next) {
         let title = req.params.consolename;
         let {email} = authData;
         let console = await consoleDb.getConsole(email, title);
-        logDb.createLog(console.title+' found', "console", email);
+        if(console !== null) {
+            logDb.createLog(console.title+' found', "console", email);
+        }else {
+            logDb.createLog(title+' not found', "console", email);
+        }
         res.json(console);
     } else {
         res.sendStatus(403);

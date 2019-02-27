@@ -16,7 +16,7 @@ exports.createGame = async function (email, title) {
         title,
         email
     });
-    await newGame.save().select('-__v');
+    await newGame.save();
     return newGame;
 };
 

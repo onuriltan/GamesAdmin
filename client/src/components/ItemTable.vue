@@ -22,14 +22,14 @@
 </template>
 
 <script>
-  export default {
-    name: "ItemTable",
-    props: {
-      items : Array,
-      deleteItem: Function,
-      group: String
-    }
+export default {
+  name: 'ItemTable',
+  props: {
+    items: Array,
+    deleteItem: Function,
+    group: String
   }
+}
 </script>
 
 <style scoped>

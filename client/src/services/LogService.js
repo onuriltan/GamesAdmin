@@ -7,7 +7,7 @@ class LogService {
   static getLogs (api) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {

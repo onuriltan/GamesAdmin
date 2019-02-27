@@ -14,13 +14,13 @@ exports.addUser = async function (email, password, role) {
         password,
         "role": role
     });
-    await newUser.save().select('-__v');
+    await newUser.save();
     return newUser;
 };
 
 exports.deactivateUser = async function (user) {
     user.active = false;
-    await user.save().select('-__v');
+    await user.save();
     return user;
 };
 

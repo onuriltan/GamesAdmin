@@ -30,7 +30,11 @@ exports.getGame = async function (req, res, next) {
         let title = req.params.gamename;
         let {email} = authData;
         let game = await gameDb.getGame(email, title);
-        logDb.createLog(game.title+' found', "game", email);
+        if(game !== null) {
+            logDb.createLog(game.title+' found', "game", email);
+        }else {
+            logDb.createLog(title+' not found', "game", email);
+        }
         res.json(game);
     } else {
         res.sendStatus(403);

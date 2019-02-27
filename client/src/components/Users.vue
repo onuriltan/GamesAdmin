@@ -1,6 +1,6 @@
 <template>
   <div class="items-list container">
-    <h1 class="text-center mb-5">List of users</h1>
+    <h1 class="text-center mb-5">List of Users</h1>
     <form @submit.prevent="addUser" class="form-inline mb-5">
       <div class="form-group mr-3">
         <label for="exampleInputEmail1" class="mr-2">Email address</label>
@@ -62,8 +62,8 @@ export default {
     async addUser () {
       this.isLoading = true
       this.error = null
-      let res = await UserService.addUser({ email: this.email, password: this.password})
-      if(res.error) {
+      let res = await UserService.addUser({ email: this.email, password: this.password })
+      if (res.error) {
         this.error = res.error
       }
       await this.getUsers()

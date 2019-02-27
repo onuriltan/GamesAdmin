@@ -1,5 +1,6 @@
 <template>
-  <AdminItems :games="games" :consoles="consoles" :publishers="publishers" :deleteItem="deleteItem"/>
+  <AdminItems :games="games" :consoles="consoles"
+              :publishers="publishers" :deleteItem="deleteItem" :addItem="addItem"/>
 </template>
 
 <script>
@@ -9,7 +10,7 @@ import consoleService from '../services/ConsoleService'
 import publisherService from '../services/PublisherService'
 
 export default {
-  name: "AdminItemsView",
+  name: 'AdminItemsView',
   components: {
     AdminItems
   },
@@ -19,34 +20,48 @@ export default {
       consoles: [],
       publishers: []
     }
-  }
-  ,
+  },
   methods: {
     async getGames () {
-      this.games = await gameService.getAll();
+      this.games = await gameService.getAll()
     },
     async getConsoles () {
-      this.consoles = await consoleService.getAll();
+      this.consoles = await consoleService.getAll()
     },
     async getPublishers () {
-      this.publishers = await publisherService.getAll();
+      this.publishers = await publisherService.getAll()
     },
     async deleteItem (group, title) {
-      if(group === "game") {
+      if (group === 'game') {
         await gameService.deleteGame(title)
         await this.getGames()
       }
-      if(group === "console") {
+      if (group === 'console') {
         await consoleService.deleteConsole(title)
         await this.getConsoles()
       }
-      if(group === "publisher") {
+      if (group === 'publisher') {
         await publisherService.deletePublisher(title)
+        await this.getPublishers()
+      }
+    },
+    async addItem (group, title) {
+      if (group === 'game') {
+        await gameService.createGame(title)
+        await this.getGames()
+      }
+      if (group === 'console') {
+        await consoleService.createConsole(title)
+        await this.getConsoles()
+      }
+      if (group === 'publisher') {
+        await publisherService.createPublisher(title)
         await this.getPublishers()
       }
     }
   },
-  async beforeMount() {
+
+  async beforeMount () {
     await this.getGames()
     await this.getConsoles()
     await this.getPublishers()

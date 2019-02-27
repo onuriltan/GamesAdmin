@@ -1,5 +1,6 @@
 <template>
   <div class="logs-container container">
+    <h1 class="text-center mb-5">List of Logs</h1>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#game" role="tab" aria-controls="game" aria-selected="true">Game Logs</a>
@@ -29,7 +30,7 @@
 import LogService from '../services/LogService'
 import LogTable from '../components/LogTable'
 export default {
-  name: "Logs",
+  name: 'Logs',
   components: {
     LogTable
   },
@@ -45,9 +46,9 @@ export default {
       this.gameLogs = await LogService.getLogs('game')
       this.consoleLogs = await LogService.getLogs('console')
       this.publisherLogs = await LogService.getLogs('publisher')
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.getLogs()
   }
 }
