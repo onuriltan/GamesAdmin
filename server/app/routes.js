@@ -29,6 +29,7 @@ module.exports = function(app){
 
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
+    gameRoutes.get('/getAll', gameController.getAll);
     gameRoutes.get('/getGames', gameController.getGames);
     gameRoutes.get('/:gamename', gameController.getGame);
     gameRoutes.post('/', gameController.createGame);
@@ -36,6 +37,7 @@ module.exports = function(app){
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
+    consoleRoutes.get('/getAll', consoleController.getAll);
     consoleRoutes.get('/getConsoles', consoleController.getConsoles);
     consoleRoutes.get('/:consolename', consoleController.getConsole);
     consoleRoutes.post('/', consoleController.createConsole);
@@ -43,6 +45,7 @@ module.exports = function(app){
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
+    publisherRoutes.get('/getAll', publisherController.getAll);
     publisherRoutes.get('/getPublishers', publisherController.getPublishers);
     publisherRoutes.get('/:publishername', publisherController.getPublisher);
     publisherRoutes.post('/', publisherController.createPublisher);

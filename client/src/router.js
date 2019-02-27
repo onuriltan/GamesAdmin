@@ -59,6 +59,8 @@ const Publishers = () => import('./views/PublishersView.vue')
 const Consoles = () => import('./views/ConsolesView.vue')
 const Logs = () => import('./views/LogsView.vue')
 const Users = () => import('./views/UsersView.vue')
+const AdminItems = () => import('./views/AdminItemsView.vue')
+
 
 export default new Router({
   scrollBehavior: (to, from, savedPosition) => ({ y: 0 }), // scroll to top of the page every time route changes
@@ -72,6 +74,7 @@ export default new Router({
     { path: '/publishers', name: 'publishers', component: Publishers, beforeEnter: requireUserAuth },
     { path: '/consoles', name: 'consoles', component: Consoles, beforeEnter: requireUserAuth },
     { path: '/logs', name: 'logs', component: Logs, beforeEnter: requireAdminAuth },
-    { path: '/users', name: 'users', component: Users, beforeEnter: requireAdminAuth }
+    { path: '/users', name: 'users', component: Users, beforeEnter: requireAdminAuth },
+    { path: '/items', name: 'items', component: AdminItems, beforeEnter: requireAdminAuth },
   ]
 })

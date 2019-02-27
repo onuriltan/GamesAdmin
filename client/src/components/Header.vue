@@ -28,6 +28,9 @@
           <li class="nav-item mr-2" v-if="isAdmin">
             <router-link class="nav-link" to="/users" >Users</router-link>
           </li>
+          <li class="nav-item mr-2" v-if="isAdmin">
+            <router-link class="nav-link" to="/items" >Items</router-link>
+          </li>
         </ul>
       </div>
       <button v-if="isAuthenticated" class="btn btn-outline-dark my-2 my-sm-0" @click="logout()">Logout</button>

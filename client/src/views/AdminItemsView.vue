@@ -1,0 +1,55 @@
+<template>
+  <AdminItems :games="games" :consoles="consoles" :publishers="publishers" :deleteItem="deleteItem"/>
+</template>
+
+<script>
+import AdminItems from '../components/AdminItems'
+import gameService from '../services/GameService'
+import consoleService from '../services/ConsoleService'
+import publisherService from '../services/PublisherService'
+
+export default {
+  name: "AdminItemsView",
+  components: {
+    AdminItems
+  },
+  data () {
+    return {
+      games: [],
+      consoles: [],
+      publishers: []
+    }
+  }
+  ,
+  methods: {
+    async getGames () {
+      this.games = await gameService.getAll();
+    },
+    async getConsoles () {
+      this.consoles = await consoleService.getAll();
+    },
+    async getPublishers () {
+      this.publishers = await publisherService.getAll();
+    },
+    async deleteItem (group, title) {
+      if(group === "game") {
+        await gameService.deleteGame(title)
+        await this.getGames()
+      }
+      if(group === "console") {
+        await consoleService.deleteConsole(title)
+        await this.getConsoles()
+      }
+      if(group === "publisher") {
+        await publisherService.deletePublisher(title)
+        await this.getPublishers()
+      }
+    }
+  },
+  async beforeMount() {
+    await this.getGames()
+    await this.getConsoles()
+    await this.getPublishers()
+  }
+}
+</script>

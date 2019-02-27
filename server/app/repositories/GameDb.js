@@ -1,5 +1,8 @@
 const Game = require('../models/Game');
 
+exports.getAll = async function () {
+    return Game.find();
+};
 exports.getGames = async function (email) {
     return Game.find({email});
 };

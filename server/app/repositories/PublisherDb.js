@@ -1,5 +1,9 @@
 const Publisher = require('../models/Publisher');
 
+exports.getAll = async function () {
+    return Publisher.find();
+};
+
 exports.getPublishers = async function (email) {
     return Publisher.find({email});
 };

@@ -1,5 +1,9 @@
 const Console = require('../models/Console');
 
+exports.getAll = async function () {
+    return Console.find();
+};
+
 exports.getConsoles = async function (email) {
     return Console.find({email});
 };
