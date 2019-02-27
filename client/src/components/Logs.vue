@@ -13,19 +13,13 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <ul class="list-group" v-for="log in gameLogs">
-          <li class="list-group-item">{{log.title}}</li>
-        </ul>
+        <LogTable :logs="gameLogs" />
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
-        <ul class="list-group" v-for="log in consoleLogs">
-          <li class="list-group-item">{{log.title}}</li>
-        </ul>
+       <LogTable :logs="consoleLogs" />
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
-        <ul class="list-group" v-for="log in publisherLogs">
-          <li class="list-group-item">{{log.title}}</li>
-        </ul>
+        <LogTable :logs="publisherLogs" />
       </div>
     </div>
   </div>
@@ -33,8 +27,12 @@
 
 <script>
 import LogService from '../services/LogService'
+import LogTable from '../components/LogTable'
 export default {
   name: "Logs",
+  components: {
+    LogTable
+  },
   data () {
     return {
       gameLogs: [],

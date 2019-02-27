@@ -6,7 +6,6 @@ exports.getLogsByApi = async function (req, res, next) {
     if (authData !== null && authData.role === 'admin') {
         let api = req.params.api;
         let logs = await logDb.findLogsByApi(api);
-        console.log(logs)
         res.json(logs);
     } else {
         res.sendStatus(403);
