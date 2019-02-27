@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const userDb = require('../db/UserDb')
+const userDb = require('../repositories/UserDb')
 const bcrypt = require('bcrypt');
 
 exports.login = async function (req, res, next) {
@@ -10,7 +10,6 @@ exports.login = async function (req, res, next) {
             return res.status(403).send({error: 'User is not active'});
         }
         let isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
-        console.log(isPasswordCorrect)
         if (isPasswordCorrect) {
             let userInfo = setUserInfo(existingUser);
             return res.status(200).json({

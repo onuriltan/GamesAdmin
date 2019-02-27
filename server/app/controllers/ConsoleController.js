@@ -1,5 +1,4 @@
-const Console = require('../models/Console');
-const consoleDb = require('../db/ConsoleDb');
+const consoleDb = require('../repositories/ConsoleDb');
 const jwtHelper = require('../helpers/JwtHelper');
 
 exports.getConsoles = async function (req, res, next) {

@@ -37,12 +37,18 @@ class UsersService {
     })
   }
 
-  static addUser (data) {
+  static async addUser (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.post(url, data, config)
+    let res = null;
+    try {
+      res = await axios.post(url, data, config);
+    } catch (err) {
+      res = err.response.data
+    }
+    return res;
   }
 
   static deleteUser (email) {

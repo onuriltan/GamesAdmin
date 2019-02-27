@@ -1,6 +1,5 @@
 const jwtHelper = require('../helpers/JwtHelper');
-const gameDb = require('../db/GameDb');
-const Log = require('../models/Log');
+const gameDb = require('../repositories/GameDb');
 
 exports.getGames = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);

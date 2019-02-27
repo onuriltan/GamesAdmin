@@ -11,7 +11,7 @@ const router = require('./app/routes');
 const dotenv = require('dotenv');
 dotenv.config();
 
-//Connect to MongoDB
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
     .then(() => console.log('MongoDB connected.'))
     .catch(err => console.log(err));

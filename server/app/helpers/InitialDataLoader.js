@@ -9,7 +9,7 @@ const loadData = async () => {
     const existingUser = await User.findOne({ "email":AdminUser.email});
     if(!existingUser) {
         AdminUser.save()
-        console.log("Admin saved to db")
+        console.log("Admin saved to repositories")
     }
 };
 

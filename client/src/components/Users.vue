@@ -12,9 +12,12 @@
       </div>
       <button type="submit" class="btn btn-primary">Add User</button>
     </form>
+    <div class="alert alert-danger" v-if="error !== null">
+      {{error}}
+    </div>
 
-    <ul class="list-group items-list__view" v-for="user in users">
-      <li class="list-group-item items-list__view__title" :class="{'bg-secondary' : !user.active}">
+    <ul class="list-group items-list__view" v-for="(user,index) in users">
+      <li class="list-group-item items-list__view__title" :class="{'bg-secondary' : !user.active}" :key="index">
         {{user.email}}
         <button class="btn btn-danger" style="float: right" @click="deleteUser(user.email)" >Delete</button>
         <button class="btn btn-warning mr-2" style="float: right" v-if="user.active" @click="deactivateUser(user.email)">Deactivate</button>
@@ -32,7 +35,8 @@ export default {
       users: [],
       isLoading: false,
       email: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
@@ -43,19 +47,25 @@ export default {
     },
     async deleteUser (email) {
       this.isLoading = true
+      this.error = null
       await UsersService.deleteUser(email)
       await this.getUsers()
       this.isLoading = false
     },
     async deactivateUser (email) {
       this.isLoading = true
+      this.error = null
       await UsersService.deactivateUser(email)
       await this.getUsers()
       this.isLoading = false
     },
     async addUser () {
       this.isLoading = true
-      await UsersService.addUser({ email: this.email, password: this.password})
+      this.error = null
+      let res = await UsersService.addUser({ email: this.email, password: this.password})
+      if(res.error) {
+        this.error = res.error
+      }
       await this.getUsers()
       this.isLoading = false
     }

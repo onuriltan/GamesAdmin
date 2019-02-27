@@ -1,6 +1,5 @@
-const User = require('../models/User');
 const jwtHelper = require('../helpers/JwtHelper');
-const userDb = require('../db/UserDb')
+const userDb = require('../repositories/UserDb')
 
 exports.getUsers = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);

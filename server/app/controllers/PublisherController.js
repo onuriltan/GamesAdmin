@@ -1,5 +1,5 @@
 const jwtHelper = require('../helpers/JwtHelper');
-const publisherDb = require('../db/PublisherDb');
+const publisherDb = require('../repositories/PublisherDb');
 
 exports.getPublishers = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
