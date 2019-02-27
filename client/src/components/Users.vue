@@ -19,8 +19,8 @@
     <ul class="list-group items-list__view" v-for="(user,index) in users">
       <li class="list-group-item items-list__view__title" :class="{'bg-secondary' : !user.active}" :key="index">
         {{user.email}}
-        <button class="btn btn-danger" style="float: right" @click="deleteUser(user.email)" >Delete</button>
-        <button class="btn btn-warning mr-2" style="float: right" v-if="user.active" @click="deactivateUser(user.email)">Deactivate</button>
+        <button class="btn btn-danger btn-sm" style="float: right" @click="deleteUser(user.email)" >Delete</button>
+        <button class="btn btn-warning btn-sm mr-2" style="float: right" v-if="user.active" @click="deactivateUser(user.email)">Deactivate</button>
       </li>
     </ul>
   </div>

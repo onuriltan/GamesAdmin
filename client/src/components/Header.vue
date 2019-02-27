@@ -11,8 +11,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div style="display: flex; flex-grow: 1">
-        <ul class="navbar-nav mr-auto" style="display: contents">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item mr-2" v-if="isUser">
             <router-link class="nav-link" to="/games" >Games</router-link>
           </li>
@@ -32,8 +32,8 @@
             <router-link class="nav-link" to="/items" >Items</router-link>
           </li>
         </ul>
+        <button v-if="isAuthenticated" class="btn btn-warning" @click="logout()">Logout</button>
       </div>
-      <button v-if="isAuthenticated" class="btn btn-outline-dark my-2 my-sm-0" @click="logout()">Logout</button>
 
     </nav>
   </div>
