@@ -34,7 +34,6 @@
         </ul>
         <button v-if="isAuthenticated" class="btn btn-warning" @click="logout()">Logout</button>
       </div>
-
     </nav>
   </div>
 </template>
@@ -50,6 +49,7 @@ export default {
       return this.$store.state.AuthStore.role === 'user'
     },
     isAuthenticated () {
+      console.log(this.$store.state.AuthStore.isAuthenticated === true)
       return this.$store.state.AuthStore.isAuthenticated === true
     }
   },
