@@ -13,11 +13,8 @@ exports.getGames = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        logDb.createLog("getGames api called", "game", email);
         let games = await gameDb.getGames(email);
-        for (let game of games) {
-            logDb.createLog(game.title + ' called', "game", email);
-        }
+        await createCrudLog(req,email);
         res.json(games);
     } else {
         res.sendStatus(403);
@@ -30,9 +27,7 @@ exports.getGame = async function (req, res, next) {
         let title = req.params.gamename;
         let {email} = authData;
         let game = await gameDb.getGame(email, title);
-        if(game !== null) {
-            logDb.createLog(game.title+' found', "game", email);
-        }else {
+        if(game === null) {
             logDb.createLog(title+' not found', "game", email);
         }
         res.json(game);
@@ -47,7 +42,7 @@ exports.createGame = async function (req, res, next) {
         let {email} = authData;
         let title = req.body.title;
         let newGame = await gameDb.createGame(email, title);
-        logDb.createLog(title+" created", "game", email);
+        await createCrudLog(req,email);
         res.json(newGame);
     } else {
         res.sendStatus(403);
@@ -60,7 +55,7 @@ exports.deleteGame = async function (req, res, next) {
         let {email} = authData;
         let title = req.params.gamename;
         await gameDb.deleteGame(email, title);
-        logDb.createLog(title+" deleted", "game", email);
+        await createCrudLog(req,email);
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
@@ -74,9 +69,19 @@ exports.deleteGameById = async function (req, res, next) {
         let id = req.body.id;
         console.log(id);
         let deletedGame = await gameDb.deleteGameById(id);
-        logDb.createLog(deletedGame.title+" deleted", "game", email);
+        await createCrudLog(req,email);
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
     }
 };
+
+async function createCrudLog(req, email) {
+    let existingLog = await logDb.findLogsByPathandEmail(req.originalUrl, email);
+    if(existingLog) {
+        existingLog.count = existingLog.count +1;
+        existingLog.save();
+    }else {
+        logDb.createLog(req.originalUrl, "crud", email, 1);
+    }
+}

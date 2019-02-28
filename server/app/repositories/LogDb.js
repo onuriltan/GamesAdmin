@@ -1,10 +1,11 @@
 const Log = require('../models/Log');
 
-exports.createLog = function (title, api, email) {
+exports.createLog = function (path, api, email, count) {
     const log = new Log({
-        title,
+        path,
         api,
-        email
+        email,
+        count
     });
     log.save();
 };
@@ -12,4 +13,8 @@ exports.createLog = function (title, api, email) {
 
 exports.findLogsByApi = function (api) {
     return Log.find({api}).select('-__v')
+};
+
+exports.findLogsByPathandEmail = function (path, email) {
+    return Log.findOne({path, email}).select('-__v')
 };

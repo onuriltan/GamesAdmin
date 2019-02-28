@@ -20,23 +20,6 @@ class PublisherService {
     })
   }
 
-  static getPublisher (publishername) {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` },
-      params: { publishername: publishername }
-    }
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios.get(url, config)
-        const data = res.data
-        resolve(data)
-      } catch (e) {
-        reject(e)
-      }
-    })
-  }
-
   static getPublishers () {
     Store.dispatch('checkIsAuthenticated')
     let config = {

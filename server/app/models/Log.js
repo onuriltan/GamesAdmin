@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const LogSchema = new mongoose.Schema({
-    title: {
+    path: {
         type: String,
         required: true
     },
@@ -13,7 +13,10 @@ const LogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
+    count: {
+        type: Number,
+        required: true
+    }
 }, {
     timestamps: true
 });

@@ -13,11 +13,8 @@ exports.getPublishers = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        logDb.createLog("getPublishers api called", "publisher", email);
         let publishers = await publisherDb.getPublishers(email);
-        for (let publisher of publishers) {
-            logDb.createLog(publisher.title + ' called', "publisher", email);
-        }
+        await createCrudLog(req,email);
         res.json(publishers);
     } else {
         res.sendStatus(403);
@@ -30,9 +27,7 @@ exports.getPublisher = async function (req, res, next) {
         let title = req.params.publishername;
         let {email} = authData;
         let publisher = await publisherDb.getPublisher(email, title);
-        if(publisher !== null) {
-            logDb.createLog(publisher.title+' found', "console", email);
-        }else {
+        if(publisher === null) {
             logDb.createLog(title+' not found', "console", email);
         }
         res.json(publisher);
@@ -47,7 +42,7 @@ exports.createPublisher = async function (req, res, next) {
         let {email} = authData;
         let title = req.body.title;
         let newPublisher = await publisherDb.createPublisher(email, title);
-        logDb.createLog(title+" created", "publisher", email);
+        await createCrudLog(req,email);
         res.json(newPublisher);
     } else {
         res.sendStatus(403);
@@ -60,7 +55,7 @@ exports.deletePublisher = async function (req, res, next) {
         let {email} = authData;
         let title = req.params.publishername;
         await publisherDb.deletePublisher(email,title);
-        logDb.createLog(title+" deleted", "publisher", email);
+        await createCrudLog(req,email);
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
@@ -74,9 +69,19 @@ exports.deletePublisherById = async function (req, res, next) {
         let id = req.body.id;
         console.log(id);
         let deletedConsole = await publisherDb.deletePublisherById(id);
-        logDb.createLog(deletedConsole.title+" deleted", "console", email);
+        await createCrudLog(req,email);
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
     }
 };
+
+async function createCrudLog(req, email) {
+    let existingLog = await logDb.findLogsByPathandEmail(req.originalUrl, email);
+    if(existingLog) {
+        existingLog.count = existingLog.count +1;
+        existingLog.save();
+    }else {
+        logDb.createLog(req.originalUrl, "crud", email, 1);
+    }
+}

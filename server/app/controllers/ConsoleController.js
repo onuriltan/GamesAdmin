@@ -5,19 +5,14 @@ const jwtHelper = require('../helpers/JwtHelper');
 exports.getAll = async function (req, res, next) {
     let consoles = await consoleDb.getAll();
     res.json(consoles);
-
 };
-
 
 exports.getConsoles = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        logDb.createLog("getConsoles api called", "console", email);
+        await createCrudLog(req,email);
         let consoles = await consoleDb.getConsoles(email);
-        for(let console of consoles) {
-            logDb.createLog(console.title+' called', "console", email);
-        }
         res.json(consoles);
     } else {
         res.sendStatus(403);
@@ -30,10 +25,8 @@ exports.getConsole = async function (req, res, next) {
         let title = req.params.consolename;
         let {email} = authData;
         let console = await consoleDb.getConsole(email, title);
-        if(console !== null) {
-            logDb.createLog(console.title+' found', "console", email);
-        }else {
-            logDb.createLog(title+' not found', "console", email);
+        if(console === null) {
+            logDb.createLog(title + ' not found', "console", email);
         }
         res.json(console);
     } else {
@@ -47,7 +40,7 @@ exports.createConsole = async function (req, res, next) {
         let {email} = authData;
         let title = req.body.title;
         let newConsole = await consoleDb.createConsole(email, title);
-        logDb.createLog(title+" created", "console", email);
+        await createCrudLog(req,email);
         res.json(newConsole);
     } else {
         res.sendStatus(403);
@@ -60,7 +53,7 @@ exports.deleteConsole = async function (req, res, next) {
         let {email} = authData;
         let title = req.params.consolename;
         await consoleDb.deleteConsole(email,title);
-        logDb.createLog(title+" deleted", "console", email);
+        await createCrudLog(req,email);
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
@@ -74,9 +67,19 @@ exports.deleteConsoleById = async function (req, res, next) {
         let id = req.body.id;
         console.log(id);
         let deletedConsole = await consoleDb.deleteConsoleById(id);
-        logDb.createLog(deletedConsole.title+" deleted", "console", email);
+        await createCrudLog(req,email);
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
     }
 };
+
+async function createCrudLog(req, email) {
+    let existingLog = await logDb.findLogsByPathandEmail(req.originalUrl, email);
+    if(existingLog) {
+        existingLog.count = existingLog.count +1;
+        existingLog.save();
+    }else {
+        logDb.createLog(req.originalUrl, "crud", email, 1);
+    }
+}
