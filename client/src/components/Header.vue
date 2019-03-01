@@ -49,7 +49,6 @@ export default {
       return this.$store.state.AuthStore.role === 'user'
     },
     isAuthenticated () {
-      console.log(this.$store.state.AuthStore.isAuthenticated === true)
       return this.$store.state.AuthStore.isAuthenticated === true
     }
   },
