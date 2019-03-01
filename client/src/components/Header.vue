@@ -12,7 +12,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav" style="min-width: 100%; justify-content: flex-end !important;">
           <li class="nav-item mr-2" v-if="isUser">
             <router-link class="nav-link" to="/games" >Games</router-link>
           </li>
@@ -31,8 +31,20 @@
           <li class="nav-item mr-2" v-if="isAdmin">
             <router-link class="nav-link" to="/items" >Items</router-link>
           </li>
+          <li class="nav-item dropdown" style="float: right" v-if="isUser">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Menu
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" v-if="isUser">
+              <router-link class="dropdown-item" to="/userprofile">Profile</router-link>
+              <div class="dropdown-divider"></div>
+              <div class="dropdown-item" style="cursor:pointer;" @click="logout()">
+                Logout
+              </div>
+            </div>
+          </li>
         </ul>
-        <button v-if="isAuthenticated" class="btn btn-warning" @click="logout()">Logout</button>
+
       </div>
     </nav>
   </div>

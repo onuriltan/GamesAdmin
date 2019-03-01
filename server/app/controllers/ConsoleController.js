@@ -1,6 +1,6 @@
 const consoleDb = require('../repositories/ConsoleDb');
-const logDb = require('../repositories/LogDb')
 const jwtHelper = require('../helpers/JwtHelper');
+const logHelper = require('../helpers/LogHelper');
 
 exports.getAll = async function (req, res, next) {
     let consoles = await consoleDb.getAll();
@@ -11,7 +11,7 @@ exports.getConsoles = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        await createLog(req, email, "crud");
+        await logHelper.createLog(req, email, "crud");
         let consoles = await consoleDb.getConsoles(email);
         res.json(consoles);
     } else {
@@ -26,7 +26,7 @@ exports.getConsole = async function (req, res, next) {
         let {email} = authData;
         let console = await consoleDb.getConsole(email, title);
         if(console === null) {
-            await createLog(req+" not found", email, "console");
+            await logHelper.createLog(req+" not found", email, "console");
         }
         res.json(console);
     } else {
@@ -40,7 +40,7 @@ exports.createConsole = async function (req, res, next) {
         let {email} = authData;
         let title = req.body.title;
         let newConsole = await consoleDb.createConsole(email, title);
-        await createLog(req, email, "crud");
+        await logHelper.createLog(req, email, "crud");
         res.json(newConsole);
     } else {
         res.sendStatus(403);
@@ -53,7 +53,7 @@ exports.deleteConsole = async function (req, res, next) {
         let {email} = authData;
         let title = req.params.consolename;
         await consoleDb.deleteConsole(email,title);
-        await createLog(req, email, "crud");
+        await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
@@ -67,19 +67,9 @@ exports.deleteConsoleById = async function (req, res, next) {
         let id = req.body.id;
         console.log(id);
         let deletedConsole = await consoleDb.deleteConsoleById(id);
-        await createLog(req, email, "crud");
+        await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);
     } else {
         res.sendStatus(403);
     }
 };
-
-async function createLog(req, email, type) {
-    let existingLog = await logDb.findLogsByPathandEmail(req.originalUrl, email);
-    if(existingLog) {
-        existingLog.count = existingLog.count +1;
-        existingLog.save();
-    }else {
-        logDb.createLog(req.originalUrl, type, email, 1);
-    }
-}

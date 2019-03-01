@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="modal fade" id="userInfoChaneModal"  data-keyboard="false"
+    <div class="modal fade" id="userInfoChaneModal" data-keyboard="false" data-backdrop="static"
          tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -12,19 +12,25 @@
           </div>
           <div class="modal-body">
             <form>
+              <div class="alert alert-success" v-if="updatedMessage">
+                {{updatedMessage}}
+              </div>
+              <div class="alert alert-danger" v-if="errorMessage">
+                {{errorMessage}}
+              </div>
               <div class="form-group">
                 <label for="email" class="col-form-label">Email:</label>
-                <input v-if="user" type="email" class="form-control" id="email" :value="user.email">
+                <input v-if="user" type="email" class="form-control" id="email" v-model="newEmail">
               </div>
               <div class="form-group">
                 <label for="password" class="col-form-label">Password:</label>
-                <input v-if="user" type="text" class="form-control" id="password">
+                <input v-if="user" type="password" class="form-control" id="password" v-model="newPassword">
               </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="resetUser">Close</button>
-            <button type="button" class="btn btn-success">Update</button>
+            <button type="button" class="btn btn-success" @click="updateUser(user.email, newEmail, newPassword)">Update</button>
           </div>
         </div>
       </div>
@@ -37,10 +43,16 @@ export default {
   name: "UserInfoChangeModal",
   props: {
     user: Object,
-    resetUser: Function
+    resetUser: Function,
+    updateUser: Function,
+    updatedMessage: String,
+    errorMessage: String
   },
-  mounted(){
-
+  data() {
+    return {
+      newEmail: this.user.email,
+      newPassword: ''
+    }
   }
 }
 </script>

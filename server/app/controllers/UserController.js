@@ -1,5 +1,6 @@
 const jwtHelper = require('../helpers/JwtHelper');
-const userDb = require('../repositories/UserDb')
+const logHelper = require('../helpers/LogHelper');
+const userDb = require('../repositories/UserDb');
 
 exports.getUsers = async function (req, res, next) {
     let users = await userDb.getUsersByRole('user');
@@ -45,6 +46,36 @@ exports.addUser = async function (req, res, next) {
     }
 };
 
+exports.updateUser = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if(authData !== null && authData.role === "user") {
+        await logHelper.createLog(req, authData.email, "user");
+        const {newEmail, newPassword} = req.body;
+        const existingUser = await userDb.getUser(authData.email);
+        if(newEmail) existingUser.email = newEmail;
+        if(newPassword) existingUser.password = newPassword;
+        existingUser.save();
+        return res.status(201).send({message: 'User updated'});
+    }
+    if (authData !== null && authData.role === 'admin') {
+        await logHelper.createLog(req, authData.email, "admin");
+        const {oldEmail, newEmail, newPassword} = req.body;
+        if(!oldEmail) {
+            return res.status(422).send({error: 'You must enter the oldEmail'});
+        }
+        const existingUser = await userDb.getUser(oldEmail);
+        if(!existingUser) {
+            return res.status(404).send({error: 'User not found'});
+        }
+        if(newEmail) existingUser.email = newEmail;
+        if(newPassword) existingUser.password = newPassword;
+        existingUser.save();
+        return res.status(201).send({message: 'User updated'});
+    } else {
+        return res.sendStatus(403);
+    }
+};
+
 
 exports.deactivateUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res, next);
@@ -62,3 +93,5 @@ exports.deactivateUser = async function (req, res, next) {
         return res.sendStatus(403)
     }
 };
+
+

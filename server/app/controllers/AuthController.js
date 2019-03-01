@@ -18,10 +18,10 @@ exports.login = async function (req, res, next) {
                 user: userInfo
             });
         } else {
-            return res.status(422).send({error: 'Username or password is wrong'});
+            return res.status(403).send({error: 'Username or password is wrong'});
         }
     } else {
-        return res.status(422).send({error: 'Username or password is wrong'});
+        return res.status(403).send({error: 'Username or password is wrong'});
     }
 };
 

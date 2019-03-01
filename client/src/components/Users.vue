@@ -25,7 +25,8 @@
                 @click="setUser(user)" data-toggle="modal" data-target="#userInfoChaneModal">Update</button>
       </li>
     </ul>
-    <UserInfoChangeModal :user="selectedUser" :resetUser="resetUser"/>
+    <UserInfoChangeModal v-if="selectedUser" :user="selectedUser" :resetUser="resetUser"
+                         :updateUser="updateUser" :updatedMessage="updatedMessage" :errorMessage="errorMessage"/>
   </div>
 </template>
 
@@ -42,6 +43,8 @@ export default {
       users: [],
       isLoading: false,
       email: '',
+      updatedMessage: null,
+      errorMessage: null,
       selectedUser: null,
       password: '',
       error: null
@@ -52,11 +55,24 @@ export default {
       this.selectedUser = selectedUser
     },
     resetUser () {
-      this.selectedUser = null
+      this.updatedMessage = null
+      this.errorMessage = null
+      setTimeout( () => {this.selectedUser = null}, 300);
     },
     async getUsers () {
       this.isLoading = true
       this.users = await UserService.getUsers()
+      this.isLoading = false
+    },
+    async updateUser (oldEmail, newEmail, newPassword) {
+      this.isLoading = true
+      this.error = null
+      this.updatedMessage = null
+      this.errorMessage = null
+      let res = await UserService.updateUser(oldEmail, newEmail, newPassword)
+      if(res.data.message) this.updatedMessage = res.data.message
+      if(res.data.error) this.errorMessage = res.data.error
+      await this.getUsers()
       this.isLoading = false
     },
     async deleteUser (email) {
