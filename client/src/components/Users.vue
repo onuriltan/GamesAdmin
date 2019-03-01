@@ -25,7 +25,7 @@
                 @click="setUser(user)" data-toggle="modal" data-target="#userInfoChaneModal">Update</button>
       </li>
     </ul>
-    <UserInfoChangeModal :user="selectedUser"/>
+    <UserInfoChangeModal :user="selectedUser" :resetUser="resetUser"/>
   </div>
 </template>
 
@@ -50,6 +50,9 @@ export default {
   methods: {
     setUser (selectedUser) {
       this.selectedUser = selectedUser
+    },
+    resetUser () {
+      this.selectedUser = null
     },
     async getUsers () {
       this.isLoading = true
