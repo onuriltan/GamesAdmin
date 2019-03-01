@@ -5,7 +5,7 @@ const LogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    api: {
+    type: {
         type: String,
         required: true
     },

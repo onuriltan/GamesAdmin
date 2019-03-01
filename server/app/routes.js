@@ -56,7 +56,7 @@ module.exports = function(app){
 
     // Log Routes
     apiRoutes.use('/log', logRoutes);
-    logRoutes.get('/getLogs/:api', logController.getLogsByApi);
+    logRoutes.get('/getLogs/:type', logController.getLogsByType);
 
     // Base route
     app.use('/api', apiRoutes);

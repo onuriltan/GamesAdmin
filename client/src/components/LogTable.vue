@@ -3,16 +3,18 @@
     <table class="table table-bordered">
       <thead>
       <tr>
-        <th scope="col">Log</th>
+        <th scope="col">Path</th>
         <th scope="col">User</th>
-        <th scope="col">Time</th>
+        <th scope="col">Last Time</th>
+        <th scope="col">Count</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="log in logs">
-        <td>{{log.title}}</td>
+        <td>{{log.path}}</td>
         <td>{{log.email}}</td>
-        <td>{{log.createdAt | convertDate()}}</td>
+        <td>{{log.updatedAt | convertDate()}}</td>
+        <td>{{log.count}}</td>
       </tr>
       </tbody>
     </table>
