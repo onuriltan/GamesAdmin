@@ -35,9 +35,9 @@
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Menu
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" >
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <router-link class="dropdown-item" to="/userprofile" v-if="isUser">Profile</router-link>
-              <div class="dropdown-divider"></div>
+              <div class="dropdown-divider" v-if="isUser"></div>
               <div class="dropdown-item" style="cursor:pointer;" @click="logout()">
                 Logout
               </div>
