@@ -1,6 +1,7 @@
 const gameDb = require('../repositories/GameDb');
 const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
+const gameValidation = require('../validations/GameValidation');
 
 exports.getAll = async function (req, res, next) {
     let games = await gameDb.getAll();
@@ -23,6 +24,10 @@ exports.createGame = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
+        let error = gameValidation.validateCreateGame(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         let newGame = await gameDb.createGame(req.body, email);
         await logHelper.createLog(req,email,"crud");
         return res.status(200).send({message: newGame.name+' added'});
@@ -31,27 +36,19 @@ exports.createGame = async function (req, res, next) {
     }
 };
 
-exports.deleteGame = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let {email} = authData;
-        let name = req.params.gamename;
-        await gameDb.deleteGame(email, name);
-        await logHelper.createLog(req,email,"crud");
-        res.sendStatus(200);
-    } else {
-        res.sendStatus(403);
-    }
-};
 
 exports.deleteGameById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null &&  authData.role === "admin") {
         let {email} = authData;
         let id = req.body.id;
+        let error = gameValidation.validatedeleteGame(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         let deletedGame = await gameDb.deleteGameById(id);
         await logHelper.createLog(req,email, "crud");
-        res.sendStatus(200);
+        return res.sendStatus(200);
     }
     if (authData !== null &&  authData.role === "user") {
         let {email} = authData;
@@ -60,14 +57,13 @@ exports.deleteGameById = async function (req, res, next) {
         if(hasGameWithEmail) {
             await gameDb.deleteGameById(id);
             await logHelper.createLog(req,email, "crud");
-            res.sendStatus(200);
+            return res.sendStatus(200);
         } else {
-            res.sendStatus(200);
+            return res.sendStatus(200);
         }
     }
-
     else {
-        res.sendStatus(403);
+        return res.sendStatus(403);
     }
 };
 
