@@ -32,7 +32,6 @@ module.exports = function(app){
     apiRoutes.use('/game', gameRoutes);
     gameRoutes.get('/getAll', gameController.getAll);
     gameRoutes.get('/getGames', gameController.getGames);
-    gameRoutes.get('/:gamename', gameController.getGame);
     gameRoutes.post('/', gameController.createGame);
     gameRoutes.delete('/:gamename',  gameController.deleteGame);
     gameRoutes.post('/deleteById',  gameController.deleteGameById);
@@ -52,6 +51,7 @@ module.exports = function(app){
     publisherRoutes.get('/getPublishers', publisherController.getPublishers);
     publisherRoutes.get('/:publishername', publisherController.getPublisher);
     publisherRoutes.get('/getPublisherById/:id', publisherController.getPublisherById);
+    publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);
 
     publisherRoutes.post('/', publisherController.createPublisher);
     publisherRoutes.delete('/:publishername',  publisherController.deletePublisher);

@@ -22,9 +22,9 @@ exports.getConsoles = async function (req, res, next) {
 exports.getConsole = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let title = req.params.consolename;
+        let name = req.params.consolename;
         let {email} = authData;
-        let console = await consoleDb.getConsole(email, title);
+        let console = await consoleDb.getConsole(email, name);
         if(console === null) {
             await logHelper.createLog(req+" not found", email, "console");
         }
@@ -50,8 +50,8 @@ exports.deleteConsole = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let title = req.params.consolename;
-        await consoleDb.deleteConsole(email,title);
+        let name = req.params.consolename;
+        await consoleDb.deleteConsole(email, name);
         await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);
     } else {
@@ -67,7 +67,19 @@ exports.deleteConsoleById = async function (req, res, next) {
         let deletedConsole = await consoleDb.deleteConsoleById(id);
         await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);
-    } else {
+    }
+    if (authData !== null &&  authData.role === "user") {
+        let {email} = authData;
+        let id = req.body.id;
+        let hasConsoleWithEmail = await consoleDb.getConsoleByEmailandId(email, id);
+        if(hasConsoleWithEmail) {
+            await consoleDb.deleteConsoleById(id);
+            await logHelper.createLog(req,email, "crud");
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(200);
+        }
+    }else {
         res.sendStatus(403);
     }
 };

@@ -50,12 +50,12 @@ class ConsoleService {
     return res
   }
 
-  static deleteConsole (title) {
+  static deleteConsole (name) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     };
-    return axios.delete(`${url}/${title}`, config)
+    return axios.delete(`${url}/${name}`, config)
   }
   static deleteConsoleById (id) {
     Store.dispatch('checkIsAuthenticated')

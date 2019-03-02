@@ -9,12 +9,16 @@ exports.getPublishers = async function (email) {
     return Publisher.find({email}).select('-__v');
 };
 
-exports.getPublisher = async function (email, title) {
-    return Publisher.findOne({email, title}).select('-__v');
+exports.getPublisher = async function (email, name) {
+    return Publisher.findOne({email, name}).select('-__v');
 };
 
 exports.getPublisherById = async function (id) {
     return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
+};
+
+exports.getPublisherByEmailandId = async function (email, id) {
+    return Publisher.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.createPublisher = async function (data, email) {
@@ -29,8 +33,8 @@ exports.createPublisher = async function (data, email) {
     return newPublisher;
 };
 
-exports.deletePublisher = async function (email, title) {
-    await Publisher.deleteOne({title: title, email: email}).select('-__v');
+exports.deletePublisher = async function (email, name) {
+    await Publisher.deleteOne({name: name, email: email}).select('-__v');
 };
 
 exports.deletePublisherById = async function (id) {

@@ -19,21 +19,6 @@ exports.getGames = async function (req, res, next) {
     }
 };
 
-exports.getGame = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let title = req.params.gamename;
-        let {email} = authData;
-        let game = await gameDb.getGame(email, title);
-        if(game === null) {
-            await logHelper.createLog(req +" not found",email,"game");
-        }
-        res.json(game);
-    } else {
-        res.sendStatus(403);
-    }
-};
-
 exports.createGame = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
@@ -50,8 +35,8 @@ exports.deleteGame = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let title = req.params.gamename;
-        await gameDb.deleteGame(email, title);
+        let name = req.params.gamename;
+        await gameDb.deleteGame(email, name);
         await logHelper.createLog(req,email,"crud");
         res.sendStatus(200);
     } else {
@@ -67,7 +52,21 @@ exports.deleteGameById = async function (req, res, next) {
         let deletedGame = await gameDb.deleteGameById(id);
         await logHelper.createLog(req,email, "crud");
         res.sendStatus(200);
-    } else {
+    }
+    if (authData !== null &&  authData.role === "user") {
+        let {email} = authData;
+        let id = req.body.id;
+        let hasGameWithEmail = await gameDb.getGameByEmailandId(email, id);
+        if(hasGameWithEmail) {
+            await gameDb.deleteGameById(id);
+            await logHelper.createLog(req,email, "crud");
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(200);
+        }
+    }
+
+    else {
         res.sendStatus(403);
     }
 };

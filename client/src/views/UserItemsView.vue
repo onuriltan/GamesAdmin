@@ -30,61 +30,59 @@
 </template>
 
 <script>
-import gameService from '../services/GameService'
-import consoleService from '../services/ConsoleService'
-import publisherService from '../services/PublisherService'
-import AddGame from '../components/AddGame'
-import AddConsole from '../components/AddConsole'
-import AddPublisher from '../components/AddPublisher'
-import ItemTable from '../components/ItemTable'
+  import gameService from '../services/GameService'
+  import consoleService from '../services/ConsoleService'
+  import publisherService from '../services/PublisherService'
+  import AddGame from '../components/AddGame'
+  import AddConsole from '../components/AddConsole'
+  import AddPublisher from '../components/AddPublisher'
+  import ItemTable from '../components/ItemTable'
 
-export default {
-  name: 'AdminItemsView',
-  components: {
-    ItemTable,
-    AddGame,
-    AddConsole,
-    AddPublisher
-  },
-  data () {
-    return {
-      games: [],
-      consoles: [],
-      publishers: [],
+  export default {
+    name: 'UserItemsView',
+    components: {
+      ItemTable,
+      AddGame,
+      AddConsole,
+      AddPublisher
+    },
+    data () {
+      return {
+        games: [],
+        consoles: [],
+        publishers: [],
+      }
+    },
+    methods: {
+      async getGames () {
+        this.games = await gameService.getGames()
+      },
+      async getConsoles () {
+        this.consoles = await consoleService.getConsoles()
+      },
+      async getPublishers () {
+        this.publishers = await publisherService.getPublishers()
+      },
+
+      async deleteItemById (group, id) {
+        if (group === 'game') {
+          await gameService.deleteGameById(id)
+          await this.getGames()
+        }
+        if (group === 'console') {
+          await consoleService.deleteConsoleById(id)
+          await this.getConsoles()
+        }
+        if (group === 'publisher') {
+          await publisherService.deletePublisherById(id)
+          await this.getPublishers()
+        }
+      }
+    },
+    async beforeMount () {
+      await this.getGames()
+      await this.getConsoles()
+      await this.getPublishers()
     }
-  },
-  methods: {
-    async getGames () {
-      this.games = await gameService.getAll()
-    },
-    async getConsoles () {
-      this.consoles = await consoleService.getAll()
-    },
-    async getPublishers () {
-      this.publishers = await publisherService.getAll()
-    },
-
-    async deleteItemById (group, id) {
-      console.log("deleting")
-
-      if (group === 'game') {
-        await gameService.deleteGameById(id)
-        await this.getGames()
-      }
-      if (group === 'console') {
-        await consoleService.deleteConsoleById(id)
-        await this.getConsoles()
-      }
-      if (group === 'publisher') {
-        await publisherService.deletePublisherById(id)
-        await this.getPublishers()
-      }
-    }
-  },
-  async beforeMount () {
-    await this.getGames()
-    await this.getConsoles()
-    await this.getPublishers()
   }
-}
 </script>

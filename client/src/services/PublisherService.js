@@ -66,12 +66,12 @@ class PublisherService {
     return res
   }
 
-  static deletePublisher (title) {
+  static deletePublisher (name) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.delete(`${url}/${title}`, config)
+    return axios.delete(`${url}/${name}`, config)
   }
 
   static deletePublisherById (id) {

@@ -8,8 +8,8 @@ exports.getGames = async function (email) {
     return Game.find({email}).select('-__v');
 };
 
-exports.getGame = async function (email, title) {
-    return Game.findOne({email, title}).select('-__v');
+exports.getGameByEmailandId = async function (email, id) {
+    return Game.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.createGame = async function (data, email) {
@@ -24,8 +24,8 @@ exports.createGame = async function (data, email) {
     return newGame;
 };
 
-exports.deleteGame = async function (email, title) {
-    return await Game.deleteOne({title: title, email: email}).select('-__v');
+exports.deleteGame = async function (email, name) {
+    return await Game.deleteOne({name: name, email: email}).select('-__v');
 };
 
 exports.deleteGameById = async function (id) {

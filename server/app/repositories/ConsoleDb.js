@@ -9,8 +9,12 @@ exports.getConsoles = async function (email) {
     return Console.find({email}).select('-__v');
 };
 
-exports.getConsole = async function (email, title) {
-    return Console.findOne({email, title}).select('-__v');
+exports.getConsole = async function (email, name) {
+    return Console.findOne({email, name}).select('-__v');
+};
+
+exports.getConsoleByEmailandId = async function (email, id) {
+    return Console.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.createConsole = async function (data, email) {
@@ -27,8 +31,8 @@ exports.createConsole = async function (data, email) {
     return newConsole;
 };
 
-exports.deleteConsole = async function (email, title) {
-    return await Console.deleteOne({title: title, email: email}).select('-__v');
+exports.deleteConsole = async function (email, name) {
+    return await Console.deleteOne({name: name, email: email}).select('-__v');
 };
 
 exports.deleteConsoleById = async function (id) {

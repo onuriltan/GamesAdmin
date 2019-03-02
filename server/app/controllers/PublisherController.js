@@ -23,9 +23,9 @@ exports.getPublishers = async function (req, res, next) {
 exports.getPublisher = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let title = req.params.publishername;
+        let name = req.params.publishername;
         let {email} = authData;
-        let publisher = await publisherDb.getPublisher(email, title);
+        let publisher = await publisherDb.getPublisher(email, name);
         if(publisher === null) {
             await logHelper.createLog(req, email, "publisher");
         }
@@ -66,11 +66,12 @@ exports.deletePublisher = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let title = req.params.publishername;
-        await publisherDb.deletePublisher(email,title);
+        let name = req.params.publishername;
+        await publisherDb.deletePublisher(email,name);
         await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);
-    } else {
+    }
+    else {
         res.sendStatus(403);
     }
 };
@@ -83,7 +84,20 @@ exports.deletePublisherById = async function (req, res, next) {
         let deletedConsole = await publisherDb.deletePublisherById(id);
         await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);
-    } else {
+    }
+    if (authData !== null &&  authData.role === "user") {
+        let {email} = authData;
+        let id = req.body.id;
+        let hasConsoleWithEmail = await publisherDb.getPublisherByEmailandId(email, id);
+        if(hasConsoleWithEmail) {
+            await publisherDb.deletePublisherById(id);
+            await logHelper.createLog(req,email, "crud");
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(200);
+        }
+    }
+    else {
         res.sendStatus(403);
     }
 };
