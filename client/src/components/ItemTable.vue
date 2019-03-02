@@ -23,7 +23,7 @@
         <td v-for="publisher in publishers" v-if="group ==='game' && publisher._id === item.publisherId">
             {{publisher.name}}
         </td>
-        <td v-if="group ==='game'">{{item.dateReleased}}</td>
+        <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
         <td v-if="group ==='console'">{{item.cpu}}</td>
         <td v-if="group ==='console'">{{item.ram}}</td>
         <td v-if="group ==='console'">{{item.year}}</td>
@@ -48,21 +48,19 @@ export default {
     publishers: Array,
     group: String
   },
-  data () {
-    return {
-      publisher: null
-    }
-  },
-  methods: {
-    async getPublisher(id) {
-      this.publisher = await this.getPublisherById(id)
-    }
-  },
-  watch: {
-    group: function(newVal, oldVal) { // watch it
-      if(newVal==='game') {
-
+  filters: {
+    readableDate (date) {
+      let theDate = new Date(date)
+      let month = theDate.getUTCMonth() + 1;
+      if (month < 10) {
+        month = "0" + month;
       }
+      let day = theDate.getUTCDate();
+      if (day < 10) {
+        day = "0" + day;
+      }
+      let year = theDate.getUTCFullYear();
+      return day + "/" + month + "/" + year;
     }
   }
 }
