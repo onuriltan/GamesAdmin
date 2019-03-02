@@ -1,4 +1,5 @@
 const gameDb = require('../repositories/GameDb');
+const userDb = require('../repositories/UserDb');
 const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
@@ -12,11 +13,16 @@ exports.getGames = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let games = await gameDb.getGames(email);
-        await logHelper.createLog(req, email, "crud");
-        res.json(games);
+        let user = await userDb.getUser(email);
+        if(user) {
+            let games = await gameDb.getGames(user.id);
+            await logHelper.createLog(req, email, "crud");
+            return res.json(games);
+        }else {
+            res.sendStatus(403);
+        }
     } else {
-        res.sendStatus(403);
+        return res.sendStatus(403);
     }
 };
 
@@ -28,9 +34,14 @@ exports.createGame = async function (req, res, next) {
         if(error) {
             return res.status(400).send({error})
         }
-        let newGame = await gameDb.createGame(req.body, email);
-        await logHelper.createLog(req,email,"crud");
-        return res.status(200).send({message: newGame.name+' added'});
+        let user = await userDb.getUser(email);
+        if(user) {
+            let newGame = await gameDb.createGame(req.body, user.id);
+            await logHelper.createLog(req,email,"crud");
+            return res.status(200).send({message: newGame.name+' added'});
+        }else {
+            return res.sendStatus(403);
+        }
     } else {
         res.sendStatus(403);
     }
@@ -42,7 +53,7 @@ exports.deleteGameById = async function (req, res, next) {
     if (authData !== null &&  authData.role === "admin") {
         let {email} = authData;
         let id = req.body.id;
-        let error = gameValidation.validatedeleteGame(req);
+        let error = gameValidation.validateDelete(req);
         if(error) {
             return res.status(400).send({error})
         }
