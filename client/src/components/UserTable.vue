@@ -4,6 +4,7 @@
       <thead>
       <tr>
         <th scope="col">User</th>
+        <th scope="col">Role</th>
         <th scope="col">Comment</th>
         <th scope="col">Actions</th>
       </tr>
@@ -11,6 +12,7 @@
       <tbody>
       <tr v-for="user in users">
         <td>{{user.email}}</td>
+        <td>{{user.role}}</td>
         <td>{{user.comment}}</td>
         <td class="d-flex align-items-center justify-content-center">
           <button class="btn btn-danger btn-sm  mr-2" style="float: right" @click="deleteUser(user.email)" >Delete</button>

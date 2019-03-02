@@ -2,14 +2,21 @@ const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const userDb = require('../repositories/UserDb');
 const bcrypt = require('bcrypt');
+const userValidation = require('../validations/UserValidation');
 
 exports.getUsers = async function (req, res, next) {
-    let users = await userDb.getUsersByRole('user');
-    return res.json(users);
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null && authData.role === 'admin') {
+        let users = await userDb.getUsersByRole('user');
+        return res.json(users);
+    } else {
+        return res.sendStatus(403)
+    }
 };
 exports.deleteUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
+        userValidation.validateDeleteUser(req, res);
         const { email } = req.body;
         let existingUser = await userDb.getUser(email);
         if (existingUser) {
@@ -29,18 +36,11 @@ exports.addUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
         const {email, password, role, comment} = req.body;
-        if (!email) {
-            return res.status(400).send({error: 'You must enter an email address'});
-        }
-        if (!password) {
-            return res.status(400).send({error: 'You must enter a password'});
-        }
-        if (!role) {
-            return res.status(400).send({error: 'You must enter a role'});
-        }
+        userValidation.validateAddUser(req, res);
+        console.log("aömfnasdkjlfsadkjlf")
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
-            return res.status(405).send({error: 'That email address is already in use'})
+            return res.status(403).send({error: 'That email address is already in use'})
         } else {
             await userDb.addUser(email, password, role, comment);
             return res.status(200).send({message: 'User added'});
@@ -54,20 +54,14 @@ exports.updatePassword = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if(authData !== null && authData.role === "user") {
         await logHelper.createLog(req, authData.email, "user");
-        const {oldPassword, newPassword, repeatPassword} = req.body;
+        userValidation.validateUpdatePassword(req, res);
+        const {oldPassword, newPassword} = req.body;
         const existingUser = await userDb.getUser(authData.email);
         let isPasswordCorrect = bcrypt.compareSync(oldPassword, existingUser.password);
         if(isPasswordCorrect) {
-            if(newPassword === repeatPassword) {
-                if(newPassword.length < 6 ) {
-                    return res.status(400).send({message: 'Password length should be at least 6'});
-                }
                 existingUser.password = newPassword;
                 existingUser.save()
                 return res.status(200).send({message: 'Password updated'});
-            }else {
-                return res.status(400).send({error: 'Passwords do not match'});
-            }
         }else {
             return res.status(403).send({error: 'Old password is not correct'});
         }
@@ -81,7 +75,12 @@ exports.updateEmail = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if(authData !== null && authData.role === "user") {
         await logHelper.createLog(req, authData.email, "user");
+        userValidation.validateUpdateEmail(req, res);
         const { newEmail } = req.body;
+        const existingEmail = await userDb.getUser(newEmail);
+        if(existingEmail) {
+            return res.status(403).send({message: 'This email is already registered'});
+        }
         const existingUser = await userDb.getUser(authData.email);
         if(existingUser) {
             existingUser.email = newEmail;
@@ -99,6 +98,7 @@ exports.updateUser = async function(req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
         await logHelper.createLog(req, authData.email, "admin");
+        userValidation.validateUpdateUser(req, res);
         const {oldEmail, newEmail, newPassword} = req.body;
         if(!oldEmail) {
             return res.status(400).send({error: 'You must enter the old email'});
@@ -121,6 +121,8 @@ exports.updateUser = async function(req, res, next) {
 exports.deactivateUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res, next);
     if (authData !== null && authData.role === 'admin') {
+        await logHelper.createLog(req, authData.email, 'admin');
+        userValidation.validateDeactivateUser(req, res);
         const {email} = req.body;
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
