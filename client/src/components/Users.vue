@@ -1,25 +1,34 @@
 <template>
   <div class="items-list container">
     <h1 class="text-center mb-5">List of Users</h1>
-    <form @submit.prevent="addUser" class="form m-auto justify-content-center align-items-end" style="width: 300px; margin-bottom: 50px !important;">
+    <form @submit.prevent="addUser" class="form justify-content-center  mb-5">
       <div class="alert alert-danger mb-3" v-if="error !== null">
         {{error}}
       </div>
-      <div class="form-group mr-3">
-        <label for="exampleInputEmail1" class="mr-2">Email</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" v-model="email">
+      <div class="form-row">
+        <div class="col">
+          <label for="exampleInputEmail1" class="mr-2">Email</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" v-model="email">
+        </div>
+        <div class="col">
+          <label for="exampleInputPassword1" class="mr-2">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password">
+        </div>
       </div>
-      <div class="form-group mr-3">
-        <label for="exampleInputPassword1" class="mr-2">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password">
+      <div class="form-row mt-3">
+        <div class="col">
+          <label for="role">Role</label>
+          <select class="form-control" id="role" v-model="role">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="comment" class="mr-2">Comment</label>
+          <input type="text" class="form-control" id="comment" v-model="comment">
+        </div>
       </div>
-      <div class="form-group mr-3">
-        <label for="role">Role</label>
-        <select class="form-control" id="role" v-model="role">
-ü          <option :value="{ role: 'user' }">User</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Add User</button>
+      <button type="submit" class="btn btn-primary mt-3">Add User</button>
     </form>
 
     <ul class="list-group items-list__view" v-for="(user,index) in users">
@@ -51,6 +60,7 @@ export default {
       email: null,
       password: null,
       role: null,
+      comment: null,
       updatedMessage: null,
       errorMessage: null,
       selectedUser: null,

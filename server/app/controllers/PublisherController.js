@@ -39,10 +39,9 @@ exports.createPublisher = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let title = req.body.title;
-        let newPublisher = await publisherDb.createPublisher(email, title);
+        let newPublisher = await publisherDb.createPublisher(req.body, email);
         await logHelper.createLog(req, email, "crud");
-        res.json(newPublisher);
+        return res.status(200).send({message: newPublisher.name+' added'});
     } else {
         res.sendStatus(403);
     }

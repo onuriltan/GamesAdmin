@@ -13,10 +13,15 @@ exports.getConsole = async function (email, title) {
     return Console.findOne({email, title}).select('-__v');
 };
 
-exports.createConsole = async function (email, title) {
+exports.createConsole = async function (data, email) {
+    let {name, cpu, ram, year, comment} = data;
     const newConsole = new Console({
-        title,
-        email
+        name,
+        email,
+        cpu,
+        ram,
+        year,
+        comment
     });
     await newConsole.save();
     return newConsole;

@@ -38,10 +38,9 @@ exports.createGame = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let title = req.body.title;
-        let newGame = await gameDb.createGame(email, title);
+        let newGame = await gameDb.createGame(req.body, email);
         await logHelper.createLog(req,email,"crud");
-        res.json(newGame);
+        return res.status(200).send({message: newGame.name+' added'});
     } else {
         res.sendStatus(403);
     }

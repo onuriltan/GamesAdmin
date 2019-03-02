@@ -1,18 +1,50 @@
 <template>
-  <AdminItems :games="games" :consoles="consoles"
-              :publishers="publishers" :deleteItemById="deleteItemById" :addItem="addItem"/>
+  <div class="items-container container mt-5">
+    <h1 class="text-center mb-5">List of Items</h1>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#game" role="tab" aria-controls="game" aria-selected="true">Games</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#console" role="tab" aria-controls="console" aria-selected="false">Consoles</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#publisher" role="tab" aria-controls="publisher" aria-selected="false">Publishers</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
+        <AddGame :getGames="getGames"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" group="game"/>
+      </div>
+      <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
+        <AddConsole :getConsoles="getConsoles"/>
+        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console"/>
+      </div>
+      <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
+        <AddPublisher :getPublishers="getPublishers"/>
+        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher"/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import AdminItems from '../components/AdminItems'
 import gameService from '../services/GameService'
 import consoleService from '../services/ConsoleService'
 import publisherService from '../services/PublisherService'
+import AddGame from '../components/AddGame'
+import AddConsole from '../components/AddConsole'
+import AddPublisher from '../components/AddPublisher'
+import ItemTable from '../components/ItemTable'
 
 export default {
   name: 'AdminItemsView',
   components: {
-    AdminItems
+    ItemTable,
+    AddGame,
+    AddConsole,
+    AddPublisher
   },
   data () {
     return {
@@ -31,6 +63,7 @@ export default {
     async getPublishers () {
       this.publishers = await publisherService.getAll()
     },
+
     async deleteItemById (group, id) {
       if (group === 'game') {
         await gameService.deleteGameById(id)
@@ -44,23 +77,8 @@ export default {
         await publisherService.deletePublisherById(id)
         await this.getPublishers()
       }
-    },
-    async addItem (group, title) {
-      if (group === 'game') {
-        await gameService.createGame(title)
-        await this.getGames()
-      }
-      if (group === 'console') {
-        await consoleService.createConsole(title)
-        await this.getConsoles()
-      }
-      if (group === 'publisher') {
-        await publisherService.createPublisher(title)
-        await this.getPublishers()
-      }
     }
   },
-
   async beforeMount () {
     await this.getGames()
     await this.getConsoles()

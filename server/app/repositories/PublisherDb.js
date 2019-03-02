@@ -13,10 +13,13 @@ exports.getPublisher = async function (email, title) {
     return Publisher.findOne({email, title}).select('-__v');
 };
 
-exports.createPublisher = async function (email, title) {
+exports.createPublisher = async function (data, email) {
+    let {name, location, comment} = data;
     const newPublisher = new Publisher({
-        title,
-        email
+        name,
+        email,
+        location,
+        comment
     });
     await newPublisher.save();
     return newPublisher;

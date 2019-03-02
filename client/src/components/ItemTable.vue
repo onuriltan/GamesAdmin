@@ -10,7 +10,7 @@
       </thead>
       <tbody>
       <tr v-for="item in items">
-        <td>{{item.title}}</td>
+        <td>{{item.name}}</td>
         <td>{{item.email}}</td>
         <td>
           <button type="button" class="btn btn-danger" @click="deleteItemById(group,item._id)">Delete</button>

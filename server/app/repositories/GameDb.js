@@ -12,10 +12,12 @@ exports.getGame = async function (email, title) {
     return Game.findOne({email, title}).select('-__v');
 };
 
-exports.createGame = async function (email, title) {
+exports.createGame = async function (data, email) {
+    let { name, dateReleased } = data;
     const newGame = new Game({
-        title,
-        email
+        name,
+        email,
+        dateReleased
     });
     await newGame.save();
     return newGame;

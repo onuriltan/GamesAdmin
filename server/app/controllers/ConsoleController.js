@@ -38,10 +38,9 @@ exports.createConsole = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let title = req.body.title;
-        let newConsole = await consoleDb.createConsole(email, title);
+        let newConsole = await consoleDb.createConsole(req.body, email);
         await logHelper.createLog(req, email, "crud");
-        res.json(newConsole);
+        return res.status(200).send({message: newConsole.name+' added'});
     } else {
         res.sendStatus(403);
     }

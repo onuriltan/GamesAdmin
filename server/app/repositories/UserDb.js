@@ -8,11 +8,12 @@ exports.getUsersByRole = async function (role) {
     return User.find( { "role" : role}).select('-__v');
 };
 
-exports.addUser = async function (email, password, role) {
+exports.addUser = async function (email, password, role, comment) {
     const newUser = new User({
         email,
         password,
-        role
+        role,
+        comment
     });
     await newUser.save();
     return newUser;
