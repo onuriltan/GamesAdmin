@@ -61,7 +61,7 @@ class PublisherService {
     try {
       res = await axios.post(url, data, config)
     } catch (err) {
-      res = err.response.data
+      res = err.response
     }
     return res
   }

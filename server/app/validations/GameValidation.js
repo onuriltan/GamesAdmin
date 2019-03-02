@@ -1,4 +1,4 @@
-exports.validateCreateGame = function (req) {
+exports.validateCreate = function (req) {
     let { name, dateReleased, publisherId } = req.body;
     if (!name) {
         return 'You must enter a game name';
@@ -14,7 +14,7 @@ exports.validateCreateGame = function (req) {
     return null;
 };
 
-exports.validatedeleteGame = function (req) {
+exports.validateDelete = function (req) {
     let { id } = req.body;
     if (!id) {
         return 'You must enter an id';

@@ -43,7 +43,6 @@ module.exports = function(app){
     consoleRoutes.get('/getConsoles', consoleController.getConsoles);
     consoleRoutes.get('/:consolename', consoleController.getConsole);
     consoleRoutes.post('/', consoleController.createConsole);
-    consoleRoutes.delete('/:consolename',  consoleController.deleteConsole);
     consoleRoutes.post('/deleteById',  consoleController.deleteConsoleById);
 
     // Publisher Routes
@@ -55,7 +54,6 @@ module.exports = function(app){
     publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);
 
     publisherRoutes.post('/', publisherController.createPublisher);
-    publisherRoutes.delete('/:publishername',  publisherController.deletePublisher);
     publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);
 
     // Log Routes

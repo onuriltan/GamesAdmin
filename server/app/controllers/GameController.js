@@ -24,7 +24,7 @@ exports.createGame = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        let error = gameValidation.validateCreateGame(req);
+        let error = gameValidation.validateCreate(req);
         if(error) {
             return res.status(400).send({error})
         }
@@ -53,6 +53,10 @@ exports.deleteGameById = async function (req, res, next) {
     if (authData !== null &&  authData.role === "user") {
         let {email} = authData;
         let id = req.body.id;
+        let error = gameValidation.validatedeleteGame(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         let hasGameWithEmail = await gameDb.getGameByEmailandId(email, id);
         if(hasGameWithEmail) {
             await gameDb.deleteGameById(id);

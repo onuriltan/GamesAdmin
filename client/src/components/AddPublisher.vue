@@ -52,10 +52,6 @@ export default {
       if(res.data.error) this.error = res.data.error
       if(res.data.message) this.message = res.data.message
       this.getPublishers()
-      setTimeout( () => {
-        this.error = null
-        this.message = null
-      },3000)
     }
   }
 }
