@@ -65,8 +65,6 @@ export default {
     },
 
     async deleteItemById (group, id) {
-      console.log("deleting")
-
       if (group === 'game') {
         await gameService.deleteGameById(id)
         await this.getGames()

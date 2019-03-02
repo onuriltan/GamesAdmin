@@ -51,6 +51,34 @@ class UserService {
     return res
   }
 
+  static async updatePassword (data) {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    let res = null
+    try {
+      res = await axios.post(`${url}/updatePassword`, data, config)
+    } catch (err) {
+      res = err.response
+    }
+    return res
+  }
+
+  static async updateEmail (data) {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    let res = null
+    try {
+      res = await axios.post(`${url}/updateEmail`, data, config)
+    } catch (err) {
+      res = err.response.data
+    }
+    return res
+  }
+
   static async updateUser (oldEmail, newEmail, newPassword) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
@@ -60,7 +88,7 @@ class UserService {
     try {
       res = await axios.post(`${url}/update`, {oldEmail, newEmail, newPassword}, config)
     } catch (err) {
-      res = err.response.data
+      res = err.response
     }
     return res
   }

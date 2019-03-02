@@ -27,6 +27,8 @@ module.exports = function(app){
     userRoutes.post('/delete', userController.deleteUser);
     userRoutes.put('/deactivate', userController.deactivateUser);
     userRoutes.post('/update', userController.updateUser);
+    userRoutes.post('/updateEmail', userController.updateEmail);
+    userRoutes.post('/updatePassword', userController.updatePassword);
 
     // Game Routes
     apiRoutes.use('/game', gameRoutes);

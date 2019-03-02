@@ -10,11 +10,11 @@
           {{message}}
         </div>
         <input type="password" class="input-lg form-control mb-3" name="password1" id="oldPassword"
-               placeholder="Old Password" autocomplete="off">
+               placeholder="Old Password" autocomplete="off" v-model="data.oldPassword">
         <input type="password" class="input-lg form-control mb-3" name="password1" id="newPassword"
-               placeholder="New Password" autocomplete="off" v-model="newPassword">
+               placeholder="New Password" autocomplete="off" v-model="data.newPassword">
         <input type="password" class="input-lg form-control mb-4" name="password2" id="newPasswordRepeat"
-               placeholder="Repeat Password" autocomplete="off">
+               placeholder="Repeat Password" autocomplete="off" v-model="data.repeatPassword">
         <input type="submit" class="col-xs-12 btn btn-primary btn-load" data-loading-text="Changing Password..."
                value="Change Password">
       </form>
@@ -22,29 +22,37 @@
 </template>
 
 <script>
-  import userService from '../services/UserService'
-  export default {
-    name: "ChangePassword",
-    data () {
-      return {
+import userService from '../services/UserService'
+export default {
+  name: "ChangePassword",
+  data () {
+    return {
+      data: {
         oldPassword: null,
         newPassword: null,
-        error: null,
-        message: null
+        repeatPassword: null
+      },
+      error: null,
+      message: null
+    }
+  },
+  methods: {
+    async chagePassword () {
+      this.error = null
+      this.message  = null
+      let res = await userService.updatePassword(this.data)
+      if(res.data.error) {
+        this.error = res.data.error
       }
-    },
-    methods: {
-      async chagePassword () {
-        let res = await userService.updateUser(null, null, this.newPassword)
-        if(res.data.error) {
-          this.error = res.data.error
-        }
-        if(res.data.message) {
-          this.message = res.data.message
-        }
+      if(res.data.message) {
+        this.message = res.data.message
+        this.data.oldPassword = null
+        this.data.newPassword = null
+        this.data.repeatPassword = null
       }
     }
   }
+}
 </script>
 
 <style scoped lang="scss">
