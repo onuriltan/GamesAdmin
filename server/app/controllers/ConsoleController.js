@@ -64,7 +64,6 @@ exports.deleteConsoleById = async function (req, res, next) {
     if (authData !== null && authData.role === "admin") {
         let {email} = authData;
         let id = req.body.id;
-        console.log(id);
         let deletedConsole = await consoleDb.deleteConsoleById(id);
         await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);

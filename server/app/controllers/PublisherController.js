@@ -35,6 +35,21 @@ exports.getPublisher = async function (req, res, next) {
     }
 };
 
+exports.getPublisherById = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let id = req.params.id;
+        let publisher = await publisherDb.getPublisherById(id);
+        if(publisher === null) {
+            await logHelper.createLog(req, authData.email, "publisher");
+        }
+        res.json(publisher);
+    } else {
+        res.sendStatus(403);
+    }
+};
+
+
 exports.createPublisher = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
@@ -65,7 +80,6 @@ exports.deletePublisherById = async function (req, res, next) {
     if (authData !== null && authData.role === "admin") {
         let {email} = authData;
         let id = req.body.id;
-        console.log(id);
         let deletedConsole = await publisherDb.deletePublisherById(id);
         await logHelper.createLog(req, email, "crud");
         res.sendStatus(200);

@@ -13,7 +13,7 @@
       </div>
       <div class="col">
         <label for="addReleaseDate" class="mr-2">Release Date</label>
-        <input type="date" class="form-control" id="addReleaseDate" v-model="data.releaseDate">
+        <input type="date" class="form-control" id="addReleaseDate" v-model="data.dateReleased">
       </div>
       <div class="col">
         <label for="role">Publisher</label>
@@ -38,7 +38,7 @@ export default {
     return {
       data: {
         name: null,
-        releaseDate: null,
+        dateReleased: null,
         publisherId: null
       },
       error: null,

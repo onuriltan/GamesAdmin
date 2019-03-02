@@ -15,7 +15,7 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
         <AddGame :getGames="getGames" :publishers="this.publishers"/>
-        <ItemTable :items="games" :deleteItemById="deleteItemById" group="game"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
@@ -50,7 +50,7 @@ export default {
     return {
       games: [],
       consoles: [],
-      publishers: []
+      publishers: [],
     }
   },
   methods: {

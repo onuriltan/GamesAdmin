@@ -51,6 +51,8 @@ module.exports = function(app){
     publisherRoutes.get('/getAll', publisherController.getAll);
     publisherRoutes.get('/getPublishers', publisherController.getPublishers);
     publisherRoutes.get('/:publishername', publisherController.getPublisher);
+    publisherRoutes.get('/getPublisherById/:id', publisherController.getPublisherById);
+
     publisherRoutes.post('/', publisherController.createPublisher);
     publisherRoutes.delete('/:publishername',  publisherController.deletePublisher);
     publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);

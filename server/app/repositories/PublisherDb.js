@@ -13,6 +13,10 @@ exports.getPublisher = async function (email, title) {
     return Publisher.findOne({email, title}).select('-__v');
 };
 
+exports.getPublisherById = async function (id) {
+    return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
+};
+
 exports.createPublisher = async function (data, email) {
     let {name, location, comment} = data;
     const newPublisher = new Publisher({
