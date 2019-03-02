@@ -46,7 +46,7 @@ class UserService {
     try {
       res = await axios.post(url, data, config)
     } catch (err) {
-      res = err.response.data
+      res = err.response
     }
     return res
   }
@@ -74,7 +74,7 @@ class UserService {
     try {
       res = await axios.post(`${url}/updateEmail`, data, config)
     } catch (err) {
-      res = err.response.data
+      res = err.response
     }
     return res
   }

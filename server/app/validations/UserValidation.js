@@ -7,7 +7,7 @@ exports.validateAddUser = function (req) {
     }
     if (!password) {
         return 'You must enter a password';
-    } else if (password < 6) {
+    } else if (password.length < 6) {
         return 'New password length should be 6';
     }
     if (!role) {
@@ -34,16 +34,16 @@ exports.validateDeleteUser = function (req) {
 exports.validateUpdatePassword = function (req) {
     const {oldPassword, newPassword, repeatPassword} = req.body;
     if (!oldPassword) {
-        return 'You must enter an email address';
+        return 'You must enter the old password';
     }
     if (!newPassword) {
-        return  'You must enter an email address';
-    } else if (newPassword < 6) {
+        return  'You must enter the new password';
+    } else if (newPassword.length < 6) {
         return  'New password length should be 6';
     }
     if (!repeatPassword) {
-        return'You must enter an email address';
-    } else if (repeatPassword < 6) {
+        return'You must enter the repeat password';
+    } else if (repeatPassword.length < 6) {
         return 'Repeat password length should be 6';
     }
     if (newPassword !== repeatPassword) {

@@ -2,9 +2,6 @@
   <div class="profile d-flex justify-content-center align-items-center flex-column">
     <h1>Change Email</h1>
     <p class="text-center mb-5">Use the form below to change your email.</p>
-    <div class="alert alert-danger mb-3" v-if="error !== null">
-      {{error}}
-    </div>
     <form @submit.prevent="changeEmail" style="width: 300px">
       <div class="alert alert-danger mb-3" v-if="error !== null">
         {{error}}
