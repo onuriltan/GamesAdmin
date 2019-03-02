@@ -23,6 +23,7 @@
         <td v-for="publisher in publishers" v-if="group ==='game' && publisher._id === item.publisherId">
             {{publisher.name}}
         </td>
+        <td v-if="group ==='game' && !item.publisherId"></td>
         <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
         <td v-if="group ==='console'">{{item.cpu}}</td>
         <td v-if="group ==='console'">{{item.ram}}</td>
@@ -50,6 +51,9 @@ export default {
   },
   filters: {
     readableDate (date) {
+      if(date === null) {
+        return " "
+      }
       let theDate = new Date(date)
       let month = theDate.getUTCMonth() + 1;
       if (month < 10) {
