@@ -27,19 +27,22 @@ exports.deleteUser = async function (req, res, next) {
 exports.addUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
-        const {email, password} = req.body;
+        const {email, password, role} = req.body;
         if (!email) {
-            return res.status(422).send({error: 'You must enter an email address'});
+            return res.status(400).send({error: 'You must enter an email address'});
         }
         if (!password) {
-            return res.status(422).send({error: 'You must enter a password'});
+            return res.status(400).send({error: 'You must enter a password'});
+        }
+        if (!role) {
+            return res.status(400).send({error: 'You must enter a role'});
         }
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
-            return res.status(422).send({error: 'That email address is already in use'})
+            return res.status(405).send({error: 'That email address is already in use'})
         } else {
-            await userDb.addUser(email, password, 'user');
-            return res.status(201).send({message: 'User added'});
+            await userDb.addUser(email, password, role);
+            return res.status(204).send({message: 'User added'});
         }
     } else {
         return res.sendStatus(403)

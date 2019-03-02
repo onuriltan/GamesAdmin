@@ -8,6 +8,18 @@ const ConsoleSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true
+    },
+    cpu: {
+        type: String
+    },
+    ram: {
+        type: String
+    },
+    year: {
+        type: String
+    },
+    comment: {
+        type: String
     }
 }, {
     timestamps: true

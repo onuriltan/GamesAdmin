@@ -12,7 +12,7 @@ exports.addUser = async function (email, password, role) {
     const newUser = new User({
         email,
         password,
-        "role": role
+        role
     });
     await newUser.save();
     return newUser;

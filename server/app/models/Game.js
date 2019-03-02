@@ -8,6 +8,9 @@ const GameSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true
+    },
+    dateReleased: {
+        type: Date
     }
 }, {
     timestamps: true

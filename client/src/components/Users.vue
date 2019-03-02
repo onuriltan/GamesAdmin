@@ -13,6 +13,12 @@
         <label for="exampleInputPassword1" class="mr-2">Password</label>
         <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password">
       </div>
+      <div class="form-group mr-3">
+        <label for="role">Role</label>
+        <select class="form-control" id="role" v-model="role">
+ü          <option :value="{ role: 'user' }">User</option>
+        </select>
+      </div>
       <button type="submit" class="btn btn-primary">Add User</button>
     </form>
 
@@ -42,11 +48,12 @@ export default {
     return {
       users: [],
       isLoading: false,
-      email: '',
+      email: null,
+      password: null,
+      role: null,
       updatedMessage: null,
       errorMessage: null,
       selectedUser: null,
-      password: '',
       error: null
     }
   },
@@ -92,7 +99,7 @@ export default {
     async addUser () {
       this.isLoading = true
       this.error = null
-      let res = await UserService.addUser({ email: this.email, password: this.password })
+      let res = await UserService.addUser({ email: this.email, password: this.password, role: this.role })
       if (res.error) {
         this.error = res.error
       }
