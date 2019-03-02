@@ -13,10 +13,11 @@ exports.getGame = async function (email, title) {
 };
 
 exports.createGame = async function (data, email) {
-    let { name, dateReleased } = data;
+    let { name, dateReleased, publisherId } = data;
     const newGame = new Game({
         name,
         email,
+        publisherId,
         dateReleased
     });
     await newGame.save();

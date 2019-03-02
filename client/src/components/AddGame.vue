@@ -15,6 +15,12 @@
         <label for="addReleaseDate" class="mr-2">Release Date</label>
         <input type="date" class="form-control" id="addReleaseDate" v-model="data.releaseDate">
       </div>
+      <div class="col">
+        <label for="role">Publisher</label>
+        <select class="form-control" id="role" v-model="data.publisherId">
+          <option v-for="pub in publishers" :value="pub._id">{{pub.name}}</option>
+        </select>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary mt-3">Add Game</button>
   </form>
@@ -25,13 +31,15 @@ import gameService from '../services/GameService'
 export default {
   name: "AddGame",
   props: {
-    getGames: Function
+    getGames: Function,
+    publishers: Array
   },
   data() {
     return {
       data: {
         name: null,
         releaseDate: null,
+        publisherId: null
       },
       error: null,
       message: null

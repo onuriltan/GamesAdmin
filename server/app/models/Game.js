@@ -9,6 +9,9 @@ const GameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    publisherId: {
+        type: String
+    },
     dateReleased: {
         type: Date
     }
