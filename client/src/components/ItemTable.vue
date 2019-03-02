@@ -20,10 +20,12 @@
       <tr v-for="item in items">
         <td>{{item.name}}</td>
         <td>{{item.email}}</td>
-        <td v-for="publisher in publishers" v-if="group ==='game' && publisher._id === item.publisherId">
+        <td v-for="publisher in publishers">
+          <div v-if="group ==='game' && publisher._id === item.publisherId">
             {{publisher.name}}
+          </div>
+          <div v-else></div>
         </td>
-        <td v-if="group ==='game' && !item.publisherId"></td>
         <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
         <td v-if="group ==='console'">{{item.cpu}}</td>
         <td v-if="group ==='console'">{{item.ram}}</td>

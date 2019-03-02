@@ -42,7 +42,7 @@ exports.deleteGameById = async function (req, res, next) {
     if (authData !== null &&  authData.role === "admin") {
         let {email} = authData;
         let id = req.body.id;
-        let error = gameValidation.validatedeleteGame(req);
+        let error = gameValidation.validateDelete(req);
         if(error) {
             return res.status(400).send({error})
         }
