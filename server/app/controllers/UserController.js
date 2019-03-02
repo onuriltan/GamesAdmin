@@ -16,7 +16,10 @@ exports.getUsers = async function (req, res, next) {
 exports.deleteUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
-        userValidation.validateDeleteUser(req, res);
+        let error = await userValidation.validateDeleteUser(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         const { email } = req.body;
         let existingUser = await userDb.getUser(email);
         if (existingUser) {
@@ -36,8 +39,10 @@ exports.addUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
         const {email, password, role, comment} = req.body;
-        userValidation.validateAddUser(req, res);
-        console.log("aömfnasdkjlfsadkjlf")
+        let error = userValidation.validateAddUser(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
             return res.status(403).send({error: 'That email address is already in use'})
@@ -54,7 +59,10 @@ exports.updatePassword = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if(authData !== null && authData.role === "user") {
         await logHelper.createLog(req, authData.email, "user");
-        userValidation.validateUpdatePassword(req, res);
+        let error =  userValidation.validateUpdatePassword(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         const {oldPassword, newPassword} = req.body;
         const existingUser = await userDb.getUser(authData.email);
         let isPasswordCorrect = bcrypt.compareSync(oldPassword, existingUser.password);
@@ -75,7 +83,10 @@ exports.updateEmail = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if(authData !== null && authData.role === "user") {
         await logHelper.createLog(req, authData.email, "user");
-        userValidation.validateUpdateEmail(req, res);
+        let error = userValidation.validateUpdateEmail(req);
+        if(error) {
+            return res.status(400).send({error})
+        }
         const { newEmail } = req.body;
         const existingEmail = await userDb.getUser(newEmail);
         if(existingEmail) {
@@ -98,7 +109,10 @@ exports.updateUser = async function(req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
         await logHelper.createLog(req, authData.email, "admin");
-        userValidation.validateUpdateUser(req, res);
+        let error =  userValidation.validateUpdateUser(req, res);
+        if(error) {
+            return res.status(400).send({error})
+        }
         const {oldEmail, newEmail, newPassword} = req.body;
         if(!oldEmail) {
             return res.status(400).send({error: 'You must enter the old email'});
@@ -122,7 +136,10 @@ exports.deactivateUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res, next);
     if (authData !== null && authData.role === 'admin') {
         await logHelper.createLog(req, authData.email, 'admin');
-        userValidation.validateDeactivateUser(req, res);
+        let error =  userValidation.validateDeactivateUser(req, res);
+        if(error) {
+            return res.status(400).send({error})
+        }
         const {email} = req.body;
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
