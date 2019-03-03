@@ -2,7 +2,7 @@ const Game = require('../models/Game');
 const mongodb = require('mongodb');
 
 exports.getAllPublic = async function () {
-    return Game.find().select('-__v, -userId');
+    return Game.find().select('-__v -_id -userId -createdAt -updatedAt');
 };
 
 exports.getAll = async function () {
@@ -13,7 +13,7 @@ exports.getGamesByUser = async function (userId) {
 };
 
 exports.getByName = async function (name) {
-    return Game.find({name}).select('-__v, -userId');
+    return Game.find({name}).select('-__v -_id -userId -createdAt -updatedAt');
 };
 
 exports.getGameByUserandId = async function (userId, id) {

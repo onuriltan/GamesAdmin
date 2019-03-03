@@ -1,12 +1,12 @@
 const Publisher = require('../models/Publisher');
 const mongodb = require('mongodb');
 
-exports.getAll = async function () {
-    return Publisher.find().select('-__v');
+exports.getAllPublic = async function () {
+    return Publisher.find().select('-__v -_id -userId -createdAt -updatedAt');
 };
 
-exports.getAllPublic = async function () {
-    return Publisher.find().select('-__v, -userId');
+exports.getAll = async function () {
+    return Publisher.find().select('-__v');
 };
 
 exports.getPublishersByUser = async function (userId) {
@@ -14,7 +14,7 @@ exports.getPublishersByUser = async function (userId) {
 };
 
 exports.getByName = async function (name) {
-    return Publisher.find({name}).select('-__v, -userId');
+    return Publisher.find({name}).select('-__v -_id -userId -createdAt -updatedAt');
 };
 
 exports.getPublisherByUserandId = async function (userId, id) {

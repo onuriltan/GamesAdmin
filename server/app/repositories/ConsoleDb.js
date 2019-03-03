@@ -3,7 +3,7 @@ const mongodb = require('mongodb');
 
 
 exports.getAllPublic = async function () {
-    return Console.find().select('-__v, -userId');
+    return Console.find().select('-__v -_id -userId -createdAt -updatedAt');
 };
 
 exports.getAll = async function () {
@@ -11,7 +11,7 @@ exports.getAll = async function () {
 };
 
 exports.getByName = async function (name) {
-    return Console.find({name}).select('-__v, -userId');
+    return Console.find({name}).select('-__v -_id -userId -createdAt -updatedAt');
 };
 
 exports.getConsolesByUser = async function (userId) {
