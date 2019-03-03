@@ -92,12 +92,12 @@ export default {
           if (item.publisherId === publisher._id) {
             theItem = item
             theItem.publisherName = publisher.name
-            this.gameItems.push(theItem);
+            this.gameItems.push(theItem)
             theItem = null
           }
         }
       }
-    },
+    }
   },
   async mounted () {
     await this.getGamesByUser()

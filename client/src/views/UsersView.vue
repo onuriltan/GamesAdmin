@@ -105,8 +105,9 @@ export default {
       this.isLoading = true
       this.error = null
       let res = await UserService.addUser({ email: this.email, password: this.password, role: this.role, comment: this.comment })
-      if (res.error) {
-        this.error = res.error
+      console.log(res)
+      if (res.data.error) {
+        this.error = res.data.error
       }
       await this.getUsers()
       this.isLoading = false

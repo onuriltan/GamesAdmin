@@ -89,7 +89,7 @@ export default {
             theItem.publisherName = publisher.name
           }
         }
-        this.gameItems.push(theItem);
+        this.gameItems.push(theItem)
         theItem = null
       }
     },
@@ -101,7 +101,7 @@ export default {
           if (item.userId === user._id) {
             theItem = item
             theItem.email = user.email
-            this.consoleItems.push(theItem);
+            this.consoleItems.push(theItem)
             theItem = null
           }
         }
@@ -115,7 +115,7 @@ export default {
           if (item.userId === user._id) {
             theItem = item
             theItem.email = user.email
-            this.publisherItems.push(theItem);
+            this.publisherItems.push(theItem)
             theItem = null
           }
         }

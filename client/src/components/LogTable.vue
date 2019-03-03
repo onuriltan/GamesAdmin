@@ -28,7 +28,7 @@ export default {
     logs: Array
   },
   filters: {
-    convertDate(date) {
+    convertDate (date) {
       if (date === null) {
         return ' '
       }
@@ -57,7 +57,7 @@ export default {
       if (seconds < 10) {
         seconds = '0' + seconds
       }
-      return day + '/' + month + '/' + year + ' '+ hours + ':' + minuntes + ':' + seconds
+      return day + '/' + month + '/' + year + ' ' + hours + ':' + minuntes + ':' + seconds
     }
   }
 }

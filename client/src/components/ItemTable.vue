@@ -40,34 +40,34 @@
 </template>
 
 <script>
-  export default {
-    name: 'ItemTable',
-    props: {
-      items: Array,
-      deleteItemById: Function,
-      group: String,
-      isUser: Boolean
-    },
-    filters: {
-      readableDate(date) {
-        if (date === null) {
-          return ' '
-        }
-        let theDate = new Date(date)
-        let month = theDate.getUTCMonth() + 1
-        if (month < 10) {
-          month = '0' + month
-        }
-        let day = theDate.getUTCDate()
-        if (day < 10) {
-          day = '0' + day
-        }
-        let year = theDate.getUTCFullYear()
-        return day + '/' + month + '/' + year
+export default {
+  name: 'ItemTable',
+  props: {
+    items: Array,
+    deleteItemById: Function,
+    group: String,
+    isUser: Boolean
+  },
+  filters: {
+    readableDate (date) {
+      if (date === null) {
+        return ' '
       }
+      let theDate = new Date(date)
+      let month = theDate.getUTCMonth() + 1
+      if (month < 10) {
+        month = '0' + month
+      }
+      let day = theDate.getUTCDate()
+      if (day < 10) {
+        day = '0' + day
+      }
+      let year = theDate.getUTCFullYear()
+      return day + '/' + month + '/' + year
     }
-
   }
+
+}
 </script>
 
 <style scoped>
