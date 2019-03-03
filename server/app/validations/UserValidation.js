@@ -12,8 +12,8 @@ exports.validateAddUser = function (req) {
     }
     if (!role) {
         return 'You must enter a role';
-    } else if (role !== 'user' && role !== 'admin') {
-        return 'Wrong user role';
+    } else if (role !== 'user') {
+        return 'Wrong role';
     }
     if (!comment) {
         return 'You must enter a comment';

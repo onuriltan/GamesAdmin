@@ -20,7 +20,6 @@
           <label for="role">Role</label>
           <select class="form-control" id="role" v-model="role">
             <option value="user">User</option>
-            <option value="admin">Admin</option>
           </select>
         </div>
         <div class="col">

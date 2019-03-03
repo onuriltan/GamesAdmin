@@ -67,13 +67,11 @@ const AuthStore = {
       }
       if (expiration != null && parseInt(expiration) - unixTimeStamp < 0) {
         state.sessionExpired = true
-        setTimeout(() => {
-          state.isAuthenticated = false
-          router.push('/login')
-          state.sessionExpired = false
-          state.userEmail = null
-          state.role = null
-        }, 2000)
+        state.isAuthenticated = false
+        router.push('/login')
+        state.sessionExpired = false
+        state.userEmail = null
+        state.role = null
       }
     },
 
@@ -86,7 +84,7 @@ const AuthStore = {
         state.role = response.data.user.role
         router.push('/dashboard')
       } else {
-        setTimeout(() => { router.push('/login') }, 2000)
+        router.push('/login')
       }
     },
 
