@@ -14,8 +14,8 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <AddGame :getGames="getGames" :publishers="this.publishers"/>
-        <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game"/>
+        <AddGame :getGames="getGames" :publishers="publishers" />
+        <ItemTable :items="gameItems" :deleteItemById="deleteItemById" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
@@ -33,6 +33,7 @@
 import gameService from '../services/GameService'
 import consoleService from '../services/ConsoleService'
 import publisherService from '../services/PublisherService'
+import userService from '../services/UserService'
 import AddGame from '../components/AddGame'
 import AddConsole from '../components/AddConsole'
 import AddPublisher from '../components/AddPublisher'
@@ -51,11 +52,17 @@ export default {
       games: [],
       consoles: [],
       publishers: [],
+      users: [],
+      gameItems: []
     }
   },
   methods: {
+    async getUsers () {
+      this.users = await userService.getUsers()
+    },
     async getGames () {
       this.games = await gameService.getAll()
+      this.prepareGames()
     },
     async getConsoles () {
       this.consoles = await consoleService.getAll()
@@ -63,7 +70,25 @@ export default {
     async getPublishers () {
       this.publishers = await publisherService.getAll()
     },
-
+    prepareGames () {
+      let theItem = null
+      this.gameItems = []
+      for (let item of this.games) {
+        for (let user of this.users) {
+          if (item.userId === user._id) {
+            theItem = item
+            theItem.email = user.email
+          }
+        }
+        for (let publisher of this.publishers) {
+          if (item.publisherId === publisher._id) {
+            theItem.publisherName = publisher.name
+          }
+        }
+        this.gameItems.push(theItem);
+        theItem = null
+      }
+    },
     async deleteItemById (group, id) {
       if (group === 'game') {
         await gameService.deleteGameById(id)
@@ -80,9 +105,11 @@ export default {
     }
   },
   async beforeMount () {
+    await this.getUsers()
     await this.getGames()
     await this.getConsoles()
     await this.getPublishers()
+    await this.prepareGames()
   }
 }
 </script>

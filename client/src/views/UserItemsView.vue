@@ -14,7 +14,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <AddGame :getGames="getGames" :publishers="this.publishers"/>
+        <AddGame :getGames="getGamesByUser" :publishers="this.publishers"/>
         <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
@@ -30,59 +30,59 @@
 </template>
 
 <script>
-  import gameService from '../services/GameService'
-  import consoleService from '../services/ConsoleService'
-  import publisherService from '../services/PublisherService'
-  import AddGame from '../components/AddGame'
-  import AddConsole from '../components/AddConsole'
-  import AddPublisher from '../components/AddPublisher'
-  import ItemTable from '../components/ItemTable'
+import gameService from '../services/GameService'
+import consoleService from '../services/ConsoleService'
+import publisherService from '../services/PublisherService'
+import AddGame from '../components/AddGame'
+import AddConsole from '../components/AddConsole'
+import AddPublisher from '../components/AddPublisher'
+import ItemTable from '../components/ItemTable'
 
-  export default {
-    name: 'UserItemsView',
-    components: {
-      ItemTable,
-      AddGame,
-      AddConsole,
-      AddPublisher
-    },
-    data () {
-      return {
-        games: [],
-        consoles: [],
-        publishers: [],
-      }
-    },
-    methods: {
-      async getGames () {
-        this.games = await gameService.getGames()
-      },
-      async getConsoles () {
-        this.consoles = await consoleService.getConsoles()
-      },
-      async getPublishers () {
-        this.publishers = await publisherService.getPublishers()
-      },
-
-      async deleteItemById (group, id) {
-        if (group === 'game') {
-          await gameService.deleteGameById(id)
-          await this.getGames()
-        }
-        if (group === 'console') {
-          await consoleService.deleteConsoleById(id)
-          await this.getConsoles()
-        }
-        if (group === 'publisher') {
-          await publisherService.deletePublisherById(id)
-          await this.getPublishers()
-        }
-      }
-    },
-    async beforeMount () {
-      await this.getGames()
-      await this.getConsoles()
-      await this.getPublishers()
+export default {
+  name: 'UserItemsView',
+  components: {
+    ItemTable,
+    AddGame,
+    AddConsole,
+    AddPublisher
+  },
+  data () {
+    return {
+      games: [],
+      consoles: [],
+      publishers: []
     }
+  },
+  methods: {
+    async getGamesByUser () {
+      this.games = await gameService.getAllByUser()
+    },
+    async getConsoles () {
+      this.consoles = await consoleService.getConsoles()
+    },
+    async getPublishers () {
+      this.publishers = await publisherService.getPublishers()
+    },
+
+    async deleteItemById (group, id) {
+      if (group === 'game') {
+        await gameService.deleteGameById(id)
+        await this.getAllByUser()
+      }
+      if (group === 'console') {
+        await consoleService.deleteConsoleById(id)
+        await this.getConsoles()
+      }
+      if (group === 'publisher') {
+        await publisherService.deletePublisherById(id)
+        await this.getPublishers()
+      }
+    }
+  },
+  async mounted () {
+    await this.getGamesByUser()
+    await this.getConsoles()
+    await this.getPublishers()
   }
+}
 </script>

@@ -20,12 +20,7 @@
       <tr v-for="item in items">
         <td>{{item.name}}</td>
         <td>{{item.email}}</td>
-        <td v-for="publisher in publishers">
-          <div v-if="group ==='game' && publisher._id === item.publisherId">
-            {{publisher.name}}
-          </div>
-          <div v-else></div>
-        </td>
+        <td v-if="group ==='game'">{{item.publisherName}}</td>
         <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
         <td v-if="group ==='console'">{{item.cpu}}</td>
         <td v-if="group ==='console'">{{item.ram}}</td>
@@ -43,33 +38,35 @@
 </template>
 
 <script>
-export default {
-  name: 'ItemTable',
-  props: {
-    items: Array,
-    deleteItemById: Function,
-    publishers: Array,
-    group: String
-  },
-  filters: {
-    readableDate (date) {
-      if(date === null) {
-        return " "
+  export default {
+    name: 'ItemTable',
+    props: {
+      items: Array,
+      deleteItemById: Function,
+      group: String
+    },
+    filters: {
+      readableDate(date) {
+        if (date === null) {
+          return ' '
+        }
+        let theDate = new Date(date)
+        let month = theDate.getUTCMonth() + 1
+        if (month < 10) {
+          month = '0' + month
+        }
+        let day = theDate.getUTCDate()
+        if (day < 10) {
+          day = '0' + day
+        }
+        let year = theDate.getUTCFullYear()
+        return day + '/' + month + '/' + year
       }
-      let theDate = new Date(date)
-      let month = theDate.getUTCMonth() + 1;
-      if (month < 10) {
-        month = "0" + month;
-      }
-      let day = theDate.getUTCDate();
-      if (day < 10) {
-        day = "0" + day;
-      }
-      let year = theDate.getUTCFullYear();
-      return day + "/" + month + "/" + year;
+    },
+    mounted() {
+      console.log(this.items)
     }
   }
-}
 </script>
 
 <style scoped>

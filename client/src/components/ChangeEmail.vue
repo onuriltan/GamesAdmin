@@ -20,11 +20,11 @@
 <script>
 import userService from '../services/UserService'
 export default {
-  name: "ChangeEmail",
+  name: 'ChangeEmail',
   data () {
     return {
       data: {
-        newEmail: null,
+        newEmail: null
       },
       error: null,
       message: null
@@ -35,10 +35,10 @@ export default {
       this.error = null
       this.message = null
       let res = await userService.updateEmail(this.data)
-      if(res.data.error) {
+      if (res.data.error) {
         this.error = res.data.error
       }
-      if(res.data.message) {
+      if (res.data.message) {
         this.message = res.data.message
       }
     }

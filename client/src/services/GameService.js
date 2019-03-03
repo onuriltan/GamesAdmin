@@ -20,14 +20,14 @@ class GameService {
     })
   }
 
-  static getGames () {
+  static getAllByUser () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}/getGames`, config)
+        const res = await axios.get(`${url}/getAllByUser`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -36,14 +36,14 @@ class GameService {
     })
   }
 
-  static async createGame (data) {
+  static async createGameByUser (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    };
+    }
     let res = null
     try {
-      res = await axios.post(url, data, config)
+      res = await axios.post(`${url}/createGameByUser`, data, config)
     } catch (err) {
       res = err.response
     }
@@ -55,7 +55,7 @@ class GameService {
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.post(`${url}/deleteById`, { id } ,config)
+    return axios.post(`${url}/deleteById`, { id }, config)
   }
 }
 export default GameService

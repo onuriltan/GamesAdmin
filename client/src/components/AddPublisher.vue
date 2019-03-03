@@ -29,11 +29,11 @@
 <script>
 import publisherService from '../services/PublisherService'
 export default {
-  name: "AddPublisher",
+  name: 'AddPublisher',
   props: {
     getPublishers: Function
   },
-  data() {
+  data () {
     return {
       data: {
         name: null,
@@ -45,12 +45,12 @@ export default {
     }
   },
   methods: {
-    async addPublisher() {
+    async addPublisher () {
       this.error = null
       this.message = null
       let res = await publisherService.createPublisher(this.data)
-      if(res.data.error) this.error = res.data.error
-      if(res.data.message) this.message = res.data.message
+      if (res.data.error) this.error = res.data.error
+      if (res.data.message) this.message = res.data.message
       this.getPublishers()
     }
   }

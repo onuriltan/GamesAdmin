@@ -29,12 +29,12 @@
 <script>
 import gameService from '../services/GameService'
 export default {
-  name: "AddGame",
+  name: 'AddGame',
   props: {
     getGames: Function,
     publishers: Array
   },
-  data() {
+  data () {
     return {
       data: {
         name: null,
@@ -46,12 +46,12 @@ export default {
     }
   },
   methods: {
-    async addGame() {
+    async addGame () {
       this.error = null
       this.message = null
-      let res = await gameService.createGame(this.data)
-      if(res.data.error) this.error = res.data.error
-      if(res.data.message) this.message = res.data.message
+      let res = await gameService.createGameByUser(this.data)
+      if (res.data.error) this.error = res.data.error
+      if (res.data.message) this.message = res.data.message
       this.getGames()
     }
   }

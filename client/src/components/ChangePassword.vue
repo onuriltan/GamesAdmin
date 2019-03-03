@@ -24,7 +24,7 @@
 <script>
 import userService from '../services/UserService'
 export default {
-  name: "ChangePassword",
+  name: 'ChangePassword',
   data () {
     return {
       data: {
@@ -39,12 +39,12 @@ export default {
   methods: {
     async chagePassword () {
       this.error = null
-      this.message  = null
+      this.message = null
       let res = await userService.updatePassword(this.data)
-      if(res.data.error) {
+      if (res.data.error) {
         this.error = res.data.error
       }
-      if(res.data.message) {
+      if (res.data.message) {
         this.message = res.data.message
         this.data.oldPassword = null
         this.data.newPassword = null

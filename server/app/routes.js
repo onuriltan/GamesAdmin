@@ -33,8 +33,8 @@ module.exports = function(app){
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
     gameRoutes.get('/getAll', gameController.getAll);
-    gameRoutes.get('/getGames', gameController.getGames);
-    gameRoutes.post('/', gameController.createGame);
+    gameRoutes.get('/getAllByUser', gameController.getAllByUser);
+    gameRoutes.post('/createGameByUser', gameController.createGameByUser);
     gameRoutes.post('/deleteById',  gameController.deleteGameById);
 
     // Console Routes

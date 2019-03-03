@@ -69,7 +69,7 @@ export default {
     resetUser () {
       this.updatedMessage = null
       this.errorMessage = null
-      setTimeout( () => {this.selectedUser = null}, 300);
+      setTimeout(() => { this.selectedUser = null }, 300)
     },
     async getUsers () {
       this.isLoading = true
@@ -82,8 +82,8 @@ export default {
       this.updatedMessage = null
       this.errorMessage = null
       let res = await UserService.updateUser(oldEmail, newEmail, newPassword)
-      if(res.data.message) this.updatedMessage = res.data.message
-      if(res.data.error) this.errorMessage = res.data.error
+      if (res.data.message) this.updatedMessage = res.data.message
+      if (res.data.error) this.errorMessage = res.data.error
       await this.getUsers()
       this.isLoading = false
     },
@@ -104,7 +104,7 @@ export default {
     async addUser () {
       this.isLoading = true
       this.error = null
-      let res = await UserService.addUser({ email: this.email, password: this.password, role: this.role, comment:this.comment })
+      let res = await UserService.addUser({ email: this.email, password: this.password, role: this.role, comment: this.comment })
       if (res.error) {
         this.error = res.error
       }

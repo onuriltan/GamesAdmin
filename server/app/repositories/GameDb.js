@@ -4,7 +4,7 @@ const mongodb = require('mongodb');
 exports.getAll = async function () {
     return Game.find().select('-__v');
 };
-exports.getGames = async function (userId) {
+exports.getGamesByUser = async function (userId) {
     return Game.find({userId}).select('-__v');
 };
 

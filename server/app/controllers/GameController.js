@@ -5,20 +5,25 @@ const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
 
 exports.getAll = async function (req, res, next) {
-    let games = await gameDb.getAll();
-    res.json(games);
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let games = await gameDb.getAll();
+        res.json(games);
+    } else {
+        return res.sendStatus(403);
+    }
 };
 
-exports.getGames = async function (req, res, next) {
+exports.getAllByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
         let user = await userDb.getUser(email);
-        if(user) {
-            let games = await gameDb.getGames(user.id);
+        if (user) {
+            let games = await gameDb.getGamesByUser(user.id);
             await logHelper.createLog(req, email, "crud");
             return res.json(games);
-        }else {
+        } else {
             res.sendStatus(403);
         }
     } else {
@@ -26,20 +31,20 @@ exports.getGames = async function (req, res, next) {
     }
 };
 
-exports.createGame = async function (req, res, next) {
+exports.createGameByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
         let error = gameValidation.validateCreate(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
         let user = await userDb.getUser(email);
-        if(user) {
+        if (user) {
             let newGame = await gameDb.createGame(req.body, user.id);
-            await logHelper.createLog(req,email,"crud");
-            return res.status(200).send({message: newGame.name+' added'});
-        }else {
+            await logHelper.createLog(req, email, "crud");
+            return res.status(200).send({message: newGame.name + ' added'});
+        } else {
             return res.sendStatus(403);
         }
     } else {
@@ -50,34 +55,33 @@ exports.createGame = async function (req, res, next) {
 
 exports.deleteGameById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null &&  authData.role === "admin") {
+    if (authData !== null && authData.role === "admin") {
         let {email} = authData;
         let id = req.body.id;
         let error = gameValidation.validateDelete(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
         let deletedGame = await gameDb.deleteGameById(id);
-        await logHelper.createLog(req,email, "crud");
+        await logHelper.createLog(req, email, "crud");
         return res.sendStatus(200);
     }
-    if (authData !== null &&  authData.role === "user") {
+    if (authData !== null && authData.role === "user") {
         let {email} = authData;
         let id = req.body.id;
         let error = gameValidation.validateDelete(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
         let hasGameWithEmail = await gameDb.getGameByEmailandId(email, id);
-        if(hasGameWithEmail) {
+        if (hasGameWithEmail) {
             await gameDb.deleteGameById(id);
-            await logHelper.createLog(req,email, "crud");
+            await logHelper.createLog(req, email, "crud");
             return res.sendStatus(200);
         } else {
             return res.sendStatus(200);
         }
-    }
-    else {
+    } else {
         return res.sendStatus(403);
     }
 };

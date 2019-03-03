@@ -10,10 +10,12 @@ const GameSchema = new mongoose.Schema({
         required: true
     },
     publisherId: {
-        type: String
+        type: String,
+        required: true
     },
     dateReleased: {
-        type: Date
+        type: Date,
+        required: true
     }
 }, {
     timestamps: true

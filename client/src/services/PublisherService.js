@@ -56,7 +56,7 @@ class PublisherService {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    };
+    }
     let res = null
     try {
       res = await axios.post(url, data, config)
@@ -79,7 +79,7 @@ class PublisherService {
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.post(`${url}/deleteById`, { id } ,config)
+    return axios.post(`${url}/deleteById`, { id }, config)
   }
 }
 export default PublisherService

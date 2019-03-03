@@ -21,7 +21,7 @@
 import ChangePassword from '../components/ChangePassword'
 import ChangeEmail from '../components/ChangeEmail'
 export default {
-  name: "ProfileView",
+  name: 'ProfileView',
   components: {
     ChangePassword,
     ChangeEmail
