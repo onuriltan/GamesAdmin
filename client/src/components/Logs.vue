@@ -57,10 +57,10 @@ export default {
       this.gameLogs = await LogService.getLogsByType('game')
     },
     async getConsoleLogs () {
-      this.gameLogs = await LogService.getLogsByType('console')
+      this.consoleLogs = await LogService.getLogsByType('console')
     },
     async getPublisherLogs () {
-      this.gameLogs = await LogService.getLogsByType('publisher')
+      this.publisherLogs = await LogService.getLogsByType('publisher')
     },
     async getCrudLogs () {
       this.crudLogs = await LogService.getLogsByType('crud')
