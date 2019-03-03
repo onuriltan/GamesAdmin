@@ -4,13 +4,13 @@ const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
 
-exports.getAll = async function (req, res, next) {
+exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let games = await gameDb.getAll();
-        res.json(games);
+        let items = await gameDb.getAll();
+        res.json(items);
     } else {
-        return res.sendStatus(403);
+        res.sendStatus(403);
     }
 };
 

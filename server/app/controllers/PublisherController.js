@@ -5,9 +5,14 @@ const logHelper = require('../helpers/LogHelper');
 const publisherValidation = require('../validations/PublisherValidation');
 
 
-exports.getAll = async function (req, res, next) {
-    let publishers = await publisherDb.getAll();
-    res.json(publishers);
+exports.getAllByAdmin = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let items = await publisherDb.getAll();
+        res.json(items);
+    } else {
+        res.sendStatus(403);
+    }
 };
 
 exports.getAllByUser = async function (req, res, next) {
@@ -32,7 +37,7 @@ exports.createByUser = async function (req, res, next) {
     if (authData !== null) {
         let {email} = authData;
         let error = publisherValidation.validateCreate(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
         let user = await userDb.getUser(email);
@@ -70,7 +75,7 @@ exports.deleteById = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let ownGame = await publisherDb.getPublisherByUserandId(user._id, itemId);
-            if(ownGame) {
+            if (ownGame) {
                 let deletedItem = await publisherDb.deletePublisherById(itemId);
                 await logHelper.createLog(req, email, "crud");
                 return res.status(200).send({message: deletedItem.name + ' deleted'});

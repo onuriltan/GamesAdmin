@@ -4,9 +4,14 @@ const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const consoleValidation = require('../validations/ConsoleValidation');
 
-exports.getAll = async function (req, res, next) {
-    let consoles = await consoleDb.getAll();
-    res.json(consoles);
+exports.getAllByAdmin = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let items = await consoleDb.getAll();
+        res.json(items);
+    } else {
+        res.sendStatus(403);
+    }
 };
 
 exports.getAllByUser = async function (req, res, next) {

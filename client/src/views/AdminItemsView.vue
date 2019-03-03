@@ -63,15 +63,15 @@ export default {
       this.users = await userService.getUsers()
     },
     async getGames () {
-      this.games = await gameService.getAll()
+      this.games = await gameService.getAllByAdmin()
       this.prepareGames()
     },
     async getConsoles () {
-      this.consoles = await consoleService.getAll()
+      this.consoles = await consoleService.getAllByAdmin()
       this.prepareConsoles()
     },
     async getPublishers () {
-      this.publishers = await publisherService.getAll()
+      this.publishers = await publisherService.getAllByAdmin()
       this.preparePublishers()
     },
     prepareGames () {
