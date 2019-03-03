@@ -1,6 +1,10 @@
 const Game = require('../models/Game');
 const mongodb = require('mongodb');
 
+exports.getAllPublic = async function () {
+    return Game.find().select('-__v, -userId');
+};
+
 exports.getAll = async function () {
     return Game.find().select('-__v');
 };

@@ -4,14 +4,18 @@ const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const publisherValidation = require('../validations/PublisherValidation');
 
+exports.getAll = async function (req, res, next) {
+    let items = await publisherDb.getAllPublic();
+    return res.json(items);
+};
 
 exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let items = await publisherDb.getAll();
-        res.json(items);
+        return res.json(items);
     } else {
-        res.sendStatus(403);
+        return res.sendStatus(403);
     }
 };
 

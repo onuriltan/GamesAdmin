@@ -5,6 +5,10 @@ exports.getAll = async function () {
     return Publisher.find().select('-__v');
 };
 
+exports.getAllPublic = async function () {
+    return Publisher.find().select('-__v, -userId');
+};
+
 exports.getPublishersByUser = async function (userId) {
     return Publisher.find({userId}).select('-__v');
 };
