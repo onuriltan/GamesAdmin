@@ -1,5 +1,5 @@
 <template>
-  <div class="logs-container container">
+  <div class="logs-container container mb-5">
     <h1 class="text-center mb-5">List of Logs</h1>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" @click="getGameLogs">

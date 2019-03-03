@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center text-center aligh-items-center h-100 p-3 mx-auto flex-column" style="min-height: 80vh">
+  <div class="container d-flex justify-content-center text-center aligh-items-center h-100 p-3 mx-auto flex-column mb-5" style="min-height: 80vh">
 
     <main role="main" class="inner cover">
       <h1 class="cover-heading">Welcome to your dashboard</h1>

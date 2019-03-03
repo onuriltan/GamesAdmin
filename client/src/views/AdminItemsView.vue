@@ -1,5 +1,5 @@
 <template>
-  <div class="items-container container mt-5">
+  <div class="items-container container mt-5 mb-5">
     <h1 class="text-center mb-5">List of Items</h1>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">

@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="margin-top: 50px">
+  <div class="container mt-5 mb-5">
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#change-email" role="tab" aria-controls="change-email" aria-selected="true">Change Email</a>
