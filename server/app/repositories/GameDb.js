@@ -12,6 +12,10 @@ exports.getGamesByUser = async function (userId) {
     return Game.find({userId}).select('-__v');
 };
 
+exports.getByName = async function (name) {
+    return Game.find({name}).select('-__v, -userId');
+};
+
 exports.getGameByUserandId = async function (userId, id) {
     return Game.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };

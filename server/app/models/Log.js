@@ -10,8 +10,7 @@ const LogSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: String,
-        required: true
+        type: String
     },
     count: {
         type: Number,

@@ -36,6 +36,14 @@ exports.getAllByUser = async function (req, res, next) {
     }
 };
 
+exports.getByName = async function (req, res, next) {
+    let items = await consoleDb.getByName(req.params.name);
+    if(items === null || items === undefined || items.length === 0) {
+        await logHelper.createLog(req, '', "console");
+    }
+    return res.json(items);
+};
+
 exports.createByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {

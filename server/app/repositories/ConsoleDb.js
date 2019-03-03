@@ -10,6 +10,10 @@ exports.getAll = async function () {
     return Console.find().select('-__v');
 };
 
+exports.getByName = async function (name) {
+    return Console.find({name}).select('-__v, -userId');
+};
+
 exports.getConsolesByUser = async function (userId) {
     return Console.find({userId}).select('-__v');
 };

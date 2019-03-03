@@ -13,6 +13,10 @@ exports.getPublishersByUser = async function (userId) {
     return Publisher.find({userId}).select('-__v');
 };
 
+exports.getByName = async function (name) {
+    return Publisher.find({name}).select('-__v, -userId');
+};
+
 exports.getPublisherByUserandId = async function (userId, id) {
     return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
