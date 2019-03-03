@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="user in users">
+      <tr v-for="user in users" :class="{'disabled' : !user.active}">
         <td>{{user.email}}</td>
         <td>{{user.role}}</td>
         <td>{{user.comment}}</td>
@@ -38,6 +38,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.disabled {
+  background-color: darkgrey;
+}
 </style>
