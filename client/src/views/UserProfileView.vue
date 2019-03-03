@@ -25,6 +25,9 @@ export default {
   components: {
     ChangePassword,
     ChangeEmail
+  },
+  async mounted () {
+    await this.$store.dispatch("checkIsAuthenticated")
   }
 }
 </script>

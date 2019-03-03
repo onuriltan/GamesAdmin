@@ -112,7 +112,8 @@ export default {
       this.isLoading = false
     }
   },
-  mounted () {
+  async mounted () {
+    await this.$store.dispatch("checkIsAuthenticated")
     this.getUsers()
   }
 }

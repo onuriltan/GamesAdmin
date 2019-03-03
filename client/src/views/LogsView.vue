@@ -8,6 +8,9 @@ export default {
   name: 'LogsView',
   components: {
     Logs
+  },
+  async mounted () {
+    await this.$store.dispatch("checkIsAuthenticated")
   }
 }
 </script>

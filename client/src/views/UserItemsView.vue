@@ -100,6 +100,7 @@ export default {
     }
   },
   async mounted () {
+    await this.$store.dispatch("checkIsAuthenticated")
     await this.getGamesByUser()
     await this.getConsoles()
     await this.getPublishers()
