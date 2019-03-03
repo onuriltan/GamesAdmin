@@ -1,5 +1,5 @@
 exports.validateCreate = function (req) {
-    let { name, dateReleased, publisherId } = req.body;
+    let { name, dateReleased, publisherId, consoleId } = req.body;
     if (!name) {
         return 'You must enter a game name';
     }
@@ -10,6 +10,9 @@ exports.validateCreate = function (req) {
     }
     if (!publisherId) {
         return 'You must enter a publisher';
+    }
+    if (!consoleId) {
+        return 'You must enter a console';
     }
     return null;
 };

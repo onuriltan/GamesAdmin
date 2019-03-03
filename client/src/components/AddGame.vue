@@ -15,10 +15,18 @@
         <label for="addReleaseDate" class="mr-2">Release Date</label>
         <input type="date" class="form-control" id="addReleaseDate" v-model="data.dateReleased">
       </div>
+    </div>
+    <div class="form-row mt-3">
       <div class="col">
-        <label for="role">Publisher</label>
-        <select class="form-control" id="role" v-model="data.publisherId">
+        <label for="roles">Publisher</label>
+        <select class="form-control" id="roles" v-model="data.publisherId">
           <option v-for="pub in publishers" :value="pub._id">{{pub.name}}</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="consoles">Console</label>
+        <select class="form-control" id="consoles" v-model="data.consoleId">
+          <option v-for="console in consoles" :value="console._id">{{console.name}}</option>
         </select>
       </div>
     </div>
@@ -28,25 +36,28 @@
 
 <script>
 import gameService from '../services/GameService'
+
 export default {
   name: 'AddGame',
   props: {
     getGames: Function,
-    publishers: Array
+    publishers: Array,
+    consoles: Array
   },
-  data () {
+  data() {
     return {
       data: {
         name: null,
         dateReleased: null,
-        publisherId: null
+        publisherId: null,
+        consoleId: null
       },
       error: null,
       message: null
     }
   },
   methods: {
-    async addGame () {
+    async addGame() {
       this.error = null
       this.message = null
       let res = await gameService.createByUser(this.data)

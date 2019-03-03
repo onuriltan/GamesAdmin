@@ -14,7 +14,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <AddGame :getGames="getGames" :publishers="publishers" />
+        <AddGame :getGames="getGames" :publishers="publishers" :consoles="consoles"/>
         <ItemTable :items="gameItems" :deleteItemById="deleteItemById" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">

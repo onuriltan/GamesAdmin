@@ -9,6 +9,10 @@ const GameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    consoleId: {
+        type: String,
+        required: true
+    },
     publisherId: {
         type: String,
         required: true

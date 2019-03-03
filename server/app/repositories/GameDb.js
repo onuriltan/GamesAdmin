@@ -21,10 +21,11 @@ exports.getGameByUserandId = async function (userId, id) {
 };
 
 exports.createGame = async function (data, userId) {
-    let { name, dateReleased, publisherId } = data;
+    let { name, dateReleased, publisherId, consoleId } = data;
     const newGame = new Game({
         name,
         userId,
+        consoleId,
         publisherId,
         dateReleased
     });
