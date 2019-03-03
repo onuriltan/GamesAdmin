@@ -2,7 +2,9 @@
   <div class="login mb-5">
     <div class="login-container container">
       <form class="login-container__form" @submit.prevent="login">
-
+        <div class="alert alert-danger mb-3" v-if="error !== null">
+          {{error}}
+        </div>
         <h2 class="text-center pb-3">Login</h2>
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
