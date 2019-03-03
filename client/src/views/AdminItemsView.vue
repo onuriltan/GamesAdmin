@@ -19,11 +19,11 @@
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
-        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console"/>
+        <ItemTable :items="consoleItems" :deleteItemById="deleteItemById" group="console"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
-        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher"/>
+        <ItemTable :items="publisherItems" :deleteItemById="deleteItemById" group="publisher"/>
       </div>
     </div>
   </div>
@@ -53,7 +53,9 @@ export default {
       consoles: [],
       publishers: [],
       users: [],
-      gameItems: []
+      gameItems: [],
+      consoleItems: [],
+      publisherItems: []
     }
   },
   methods: {
@@ -66,9 +68,11 @@ export default {
     },
     async getConsoles () {
       this.consoles = await consoleService.getAll()
+      this.prepareConsoles()
     },
     async getPublishers () {
       this.publishers = await publisherService.getAll()
+      this.preparePublishers()
     },
     prepareGames () {
       let theItem = null
@@ -89,6 +93,35 @@ export default {
         theItem = null
       }
     },
+    prepareConsoles () {
+      let theItem = null
+      this.consoleItems = []
+      for (let item of this.consoles) {
+        for (let user of this.users) {
+          if (item.userId === user._id) {
+            theItem = item
+            theItem.email = user.email
+            this.consoleItems.push(theItem);
+            theItem = null
+          }
+        }
+      }
+    },
+    preparePublishers () {
+      let theItem = null
+      this.publisherItems = []
+      for (let item of this.publishers) {
+        for (let user of this.users) {
+          if (item.userId === user._id) {
+            theItem = item
+            theItem.email = user.email
+            this.publisherItems.push(theItem);
+            theItem = null
+          }
+        }
+      }
+    },
+
     async deleteItemById (group, id) {
       if (group === 'game') {
         await gameService.deleteGameById(id)
@@ -110,6 +143,8 @@ export default {
     await this.getConsoles()
     await this.getPublishers()
     await this.prepareGames()
+    await this.prepareConsoles()
+    await this.preparePublishers()
   }
 }
 </script>

@@ -24,10 +24,6 @@ exports.createGame = async function (data, userId) {
     return newGame;
 };
 
-exports.deleteGame = async function (email, name) {
-    return await Game.deleteOne({name: name, email: email}).select('-__v');
-};
-
 exports.deleteGameById = async function (id) {
     return await Game.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
 };

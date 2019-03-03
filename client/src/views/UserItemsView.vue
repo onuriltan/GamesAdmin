@@ -58,10 +58,10 @@ export default {
       this.games = await gameService.getAllByUser()
     },
     async getConsoles () {
-      this.consoles = await consoleService.getConsoles()
+      this.consoles = await consoleService.getAllByUser()
     },
     async getPublishers () {
-      this.publishers = await publisherService.getPublishers()
+      this.publishers = await publisherService.getAllByUser()
     },
 
     async deleteItemById (group, id) {

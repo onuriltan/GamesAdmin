@@ -20,14 +20,14 @@ class PublisherService {
     })
   }
 
-  static getPublishers () {
+  static getAllByUser () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}/getPublishers`, config)
+        const res = await axios.get(`${url}/getAllByUser`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -36,42 +36,18 @@ class PublisherService {
     })
   }
 
-  static getPublisherById (id) {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    }
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios.get(`${url}/getPublisherById/${id}`, config)
-        const data = res.data
-        resolve(data)
-      } catch (e) {
-        reject(e)
-      }
-    })
-  }
-
-  static async createPublisher (data) {
+  static async createByUser (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(url, data, config)
+      res = await axios.post(`${url}/createByUser`, data, config)
     } catch (err) {
       res = err.response
     }
     return res
-  }
-
-  static deletePublisher (name) {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    }
-    return axios.delete(`${url}/${name}`, config)
   }
 
   static deletePublisherById (id) {

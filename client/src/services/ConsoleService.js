@@ -20,14 +20,14 @@ class ConsoleService {
     })
   }
 
-  static getConsoles () {
+  static getAllByUser () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(`${url}/getConsoles`, config)
+        const res = await axios.get(`${url}/getAllByUser`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -36,14 +36,14 @@ class ConsoleService {
     })
   }
 
-  static async createConsole (data) {
+  static async createByUser (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(url, data, config)
+      res = await axios.post(`${url}/createByUser`, data, config)
     } catch (err) {
       res = err.response
     }

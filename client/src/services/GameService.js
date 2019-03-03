@@ -36,14 +36,14 @@ class GameService {
     })
   }
 
-  static async createGameByUser (data) {
+  static async createByUser (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/createGameByUser`, data, config)
+      res = await axios.post(`${url}/createByUser`, data, config)
     } catch (err) {
       res = err.response
     }

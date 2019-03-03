@@ -63,9 +63,10 @@
         return day + '/' + month + '/' + year
       }
     },
-    mounted() {
-      console.log(this.items)
+    beforeMount() {
+      console.log(this.$props)
     }
+
   }
 </script>
 

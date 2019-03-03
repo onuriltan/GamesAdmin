@@ -31,7 +31,7 @@ exports.getAllByUser = async function (req, res, next) {
     }
 };
 
-exports.createGameByUser = async function (req, res, next) {
+exports.createByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
@@ -53,7 +53,7 @@ exports.createGameByUser = async function (req, res, next) {
 };
 
 
-exports.deleteGameById = async function (req, res, next) {
+exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === "admin") {
         let {email} = authData;
