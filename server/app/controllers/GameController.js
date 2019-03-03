@@ -1,72 +1,91 @@
 const gameDb = require('../repositories/GameDb');
+const userDb = require('../repositories/UserDb');
 const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
 
 exports.getAll = async function (req, res, next) {
-    let games = await gameDb.getAll();
-    res.json(games);
-};
-
-exports.getGames = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let {email} = authData;
-        let games = await gameDb.getGames(email);
-        await logHelper.createLog(req, email, "crud");
+        let games = await gameDb.getAll();
         res.json(games);
     } else {
-        res.sendStatus(403);
+        return res.sendStatus(403);
     }
 };
 
-exports.createGame = async function (req, res, next) {
+exports.getAllByUser = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        let user = await userDb.getUser(email);
+        if (user) {
+            let games = await gameDb.getGamesByUser(user.id);
+            await logHelper.createLog(req, email, "crud");
+            return res.json(games);
+        } else {
+            res.sendStatus(403);
+        }
+    } else {
+        return res.sendStatus(403);
+    }
+};
+
+exports.createByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
         let error = gameValidation.validateCreate(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
-        let newGame = await gameDb.createGame(req.body, email);
-        await logHelper.createLog(req,email,"crud");
-        return res.status(200).send({message: newGame.name+' added'});
+        let user = await userDb.getUser(email);
+        if (user) {
+            let newGame = await gameDb.createGame(req.body, user.id);
+            await logHelper.createLog(req, email, "crud");
+            return res.status(200).send({message: newGame.name + ' added'});
+        } else {
+            return res.sendStatus(403);
+        }
     } else {
         res.sendStatus(403);
     }
 };
 
 
-exports.deleteGameById = async function (req, res, next) {
+exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null &&  authData.role === "admin") {
+    let {email} = authData;
+    let itemId = req.body.id;
+    if (authData !== null && authData.role === "admin") {
         let {email} = authData;
-        let id = req.body.id;
         let error = gameValidation.validateDelete(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
-        let deletedGame = await gameDb.deleteGameById(id);
-        await logHelper.createLog(req,email, "crud");
+        let deletedGame = await gameDb.deleteGameById(itemId);
+        await logHelper.createLog(req, email, "crud");
         return res.sendStatus(200);
     }
-    if (authData !== null &&  authData.role === "user") {
-        let {email} = authData;
-        let id = req.body.id;
+    if (authData !== null && authData.role === "user") {
         let error = gameValidation.validateDelete(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
-        let hasGameWithEmail = await gameDb.getGameByEmailandId(email, id);
-        if(hasGameWithEmail) {
-            await gameDb.deleteGameById(id);
-            await logHelper.createLog(req,email, "crud");
-            return res.sendStatus(200);
+        let user = await userDb.getUser(email);
+        if (user) {
+            let ownGame = await gameDb.getGameByUserandId(user._id, itemId);
+            if(ownGame) {
+                let deletedItem = await gameDb.deleteGameById(itemId);
+                await logHelper.createLog(req, email, "crud");
+                return res.status(200).send({message: deletedItem.name + ' deleted'});
+            } else {
+                return res.sendStatus(403);
+            }
         } else {
-            return res.sendStatus(200);
+            return res.sendStatus(403);
         }
-    }
-    else {
+    } else {
         return res.sendStatus(403);
     }
 };

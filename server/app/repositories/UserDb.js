@@ -5,7 +5,11 @@ exports.getUser = async function (email) {
 };
 
 exports.getUsersByRole = async function (role) {
-    return User.find( { "role" : role}).select('-__v');
+    return User.find( { "role" : role}).select('-__v, -password');
+};
+
+exports.getAll = async function () {
+    return User.find().select('-__v, -password');
 };
 
 exports.addUser = async function (email, password, role, comment) {

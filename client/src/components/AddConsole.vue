@@ -39,30 +39,30 @@
 <script>
 import consoleService from '../services/ConsoleService'
 export default {
-  name: "AddConsole",
+  name: 'AddConsole',
   props: {
     getConsoles: Function
   },
-  data() {
+  data () {
     return {
       data: {
         name: null,
         cpu: null,
         ram: null,
         year: null,
-        comment: null,
+        comment: null
       },
       error: null,
       message: null
     }
   },
   methods: {
-    async addConsole() {
+    async addConsole () {
       this.error = null
       this.message = null
-      let res = await consoleService.createConsole(this.data)
-      if(res.data.error) this.error = res.data.error
-      if(res.data.message) this.message = res.data.message
+      let res = await consoleService.createByUser(this.data)
+      if (res.data.error) this.error = res.data.error
+      if (res.data.message) this.message = res.data.message
       this.getConsoles()
     }
   }

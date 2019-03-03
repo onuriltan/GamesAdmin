@@ -5,15 +5,17 @@ const GameSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
+    userId: {
         type: String,
         required: true
     },
     publisherId: {
-        type: String
+        type: String,
+        required: true
     },
     dateReleased: {
-        type: Date
+        type: Date,
+        required: true
     }
 }, {
     timestamps: true

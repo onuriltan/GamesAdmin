@@ -1,4 +1,5 @@
 const consoleDb = require('../repositories/ConsoleDb');
+const userDb = require('../repositories/UserDb');
 const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const consoleValidation = require('../validations/ConsoleValidation');
@@ -8,34 +9,24 @@ exports.getAll = async function (req, res, next) {
     res.json(consoles);
 };
 
-exports.getConsoles = async function (req, res, next) {
+exports.getAllByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
-        await logHelper.createLog(req, email, "crud");
-        let consoles = await consoleDb.getConsoles(email);
-        res.json(consoles);
-    } else {
-        res.sendStatus(403);
-    }
-};
-
-exports.getConsole = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let name = req.params.consolename;
-        let {email} = authData;
-        let console = await consoleDb.getConsole(email, name);
-        if(console === null) {
-            await logHelper.createLog(req+" not found", email, "console");
+        let user = await userDb.getUser(email);
+        if (user) {
+            let items = await consoleDb.getConsolesByUser(user.id);
+            await logHelper.createLog(req, email, "crud");
+            return res.json(items);
+        } else {
+            res.sendStatus(403);
         }
-        res.json(console);
     } else {
-        res.sendStatus(403);
+        return res.sendStatus(403);
     }
 };
 
-exports.createConsole = async function (req, res, next) {
+exports.createByUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
@@ -43,43 +34,52 @@ exports.createConsole = async function (req, res, next) {
         if(error) {
             return res.status(400).send({error})
         }
-        let newConsole = await consoleDb.createConsole(req.body, email);
-        await logHelper.createLog(req, email, "crud");
-        return res.status(200).send({message: newConsole.name+' added'});
+        let user = await userDb.getUser(email);
+        if (user) {
+            let newItem = await consoleDb.createConsole(req.body, user.id);
+            await logHelper.createLog(req, email, "crud");
+            return res.status(200).send({message: newItem.name + ' added'});
+        } else {
+            return res.sendStatus(403);
+        }
     } else {
         return res.sendStatus(403);
     }
 };
 
-exports.deleteConsoleById = async function (req, res, next) {
+exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
+    let {email} = authData;
+    let itemId = req.body.id;
     if (authData !== null && authData.role === "admin") {
         let {email} = authData;
         let error = consoleValidation.validateDelete(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
-        let id = req.body.id;
-        let deletedConsole = await consoleDb.deleteConsoleById(id);
+        let deletedItem = await consoleDb.deleteConsoleById(itemId);
         await logHelper.createLog(req, email, "crud");
-        res.sendStatus(200);
+        return res.status(200).send({message: deletedItem.name + ' deleted'});
     }
-    if (authData !== null &&  authData.role === "user") {
-        let {email} = authData;
-        let id = req.body.id;
+    if (authData !== null && authData.role === "user") {
         let error = consoleValidation.validateDelete(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
-        let hasConsoleWithEmail = await consoleDb.getConsoleByEmailandId(email, id);
-        if(hasConsoleWithEmail) {
-            await consoleDb.deleteConsoleById(id);
-            await logHelper.createLog(req,email, "crud");
-            res.sendStatus(200);
+        let user = await userDb.getUser(email);
+        if (user) {
+            let ownGame = await consoleDb.getConsoleByUserandId(user._id, itemId);
+            if(ownGame) {
+                let deletedItem = await consoleDb.deleteConsoleById(itemId);
+                await logHelper.createLog(req, email, "crud");
+                return res.status(200).send({message: deletedItem.name + ' deleted'});
+            } else {
+                return res.sendStatus(403);
+            }
         } else {
-            res.sendStatus(200);
+            return res.sendStatus(403);
         }
-    }else {
-        res.sendStatus(403);
+    } else {
+        return res.sendStatus(403);
     }
 };

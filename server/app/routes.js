@@ -33,28 +33,23 @@ module.exports = function(app){
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
     gameRoutes.get('/getAll', gameController.getAll);
-    gameRoutes.get('/getGames', gameController.getGames);
-    gameRoutes.post('/', gameController.createGame);
-    gameRoutes.post('/deleteById',  gameController.deleteGameById);
+    gameRoutes.get('/getAllByUser', gameController.getAllByUser);
+    gameRoutes.post('/createByUser', gameController.createByUser);
+    gameRoutes.post('/deleteById',  gameController.deleteById);
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
     consoleRoutes.get('/getAll', consoleController.getAll);
-    consoleRoutes.get('/getConsoles', consoleController.getConsoles);
-    consoleRoutes.get('/:consolename', consoleController.getConsole);
-    consoleRoutes.post('/', consoleController.createConsole);
-    consoleRoutes.post('/deleteById',  consoleController.deleteConsoleById);
+    consoleRoutes.get('/getAllByUser', consoleController.getAllByUser);
+    consoleRoutes.post('/createByUser', consoleController.createByUser);
+    consoleRoutes.post('/deleteById',  consoleController.deleteById);
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
     publisherRoutes.get('/getAll', publisherController.getAll);
-    publisherRoutes.get('/getPublishers', publisherController.getPublishers);
-    publisherRoutes.get('/:publishername', publisherController.getPublisher);
-    publisherRoutes.get('/getPublisherById/:id', publisherController.getPublisherById);
-    publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);
-
-    publisherRoutes.post('/', publisherController.createPublisher);
-    publisherRoutes.post('/deleteById',  publisherController.deletePublisherById);
+    publisherRoutes.get('/getAllByUser', publisherController.getAllByUser);
+    publisherRoutes.post('/deleteById',  publisherController.deleteById);
+    publisherRoutes.post('/createByUser', publisherController.createByUser);
 
     // Log Routes
     apiRoutes.use('/log', logRoutes);

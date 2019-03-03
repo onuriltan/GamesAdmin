@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 const state = {
   isAuthenticated: false,
   sessionExpired: false,
+  userEmail: null,
   role: null
 }
 
@@ -53,6 +54,7 @@ const AuthStore = {
       window.localStorage.removeItem('token')
       state.isAuthenticated = false
       state.sessionExpired = false
+      state.userEmail = null
       state.role = null
     },
 
@@ -69,6 +71,7 @@ const AuthStore = {
           state.isAuthenticated = false
           router.push('/login')
           state.sessionExpired = false
+          state.userEmail = null
           state.role = null
         }, 2000)
       }
@@ -79,6 +82,7 @@ const AuthStore = {
         window.localStorage.setItem('token', response.data.token)
         state.isAuthenticated = true
         state.sessionExpired = false
+        state.userEmail = response.data.user.email
         state.role = response.data.user.role
         router.push('/dashboard')
       } else {

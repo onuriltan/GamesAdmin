@@ -86,7 +86,7 @@ class UserService {
     }
     let res = null
     try {
-      res = await axios.post(`${url}/update`, {oldEmail, newEmail, newPassword}, config)
+      res = await axios.post(`${url}/update`, { oldEmail, newEmail, newPassword }, config)
     } catch (err) {
       res = err.response
     }

@@ -5,27 +5,19 @@ exports.getAll = async function () {
     return Publisher.find().select('-__v');
 };
 
-exports.getPublishers = async function (email) {
-    return Publisher.find({email}).select('-__v');
+exports.getPublishersByUser = async function (userId) {
+    return Publisher.find({userId}).select('-__v');
 };
 
-exports.getPublisher = async function (email, name) {
-    return Publisher.findOne({email, name}).select('-__v');
+exports.getPublisherByUserandId = async function (userId, id) {
+    return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
-exports.getPublisherById = async function (id) {
-    return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
-};
-
-exports.getPublisherByEmailandId = async function (email, id) {
-    return Publisher.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
-};
-
-exports.createPublisher = async function (data, email) {
+exports.createPublisher = async function (data, userId) {
     let {name, location, comment} = data;
     const newPublisher = new Publisher({
         name,
-        email,
+        userId,
         location,
         comment
     });

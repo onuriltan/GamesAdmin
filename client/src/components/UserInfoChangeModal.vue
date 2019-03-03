@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: "UserInfoChangeModal",
+  name: 'UserInfoChangeModal',
   props: {
     user: Object,
     resetUser: Function,
@@ -48,7 +48,7 @@ export default {
     updatedMessage: String,
     errorMessage: String
   },
-  data() {
+  data () {
     return {
       newEmail: this.user.email,
       newPassword: ''

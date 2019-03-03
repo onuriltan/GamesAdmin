@@ -5,15 +5,17 @@ const PublisherSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
+    userId: {
         type: String,
         required: true
     },
     location: {
-        type: String
+        type: String,
+        required: true
     },
     comment: {
-        type: String
+        type: String,
+        required: true
     }
 }, {
     timestamps: true

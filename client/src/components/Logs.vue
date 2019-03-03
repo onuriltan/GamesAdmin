@@ -64,7 +64,6 @@ export default {
     },
     async getCrudLogs () {
       this.crudLogs = await LogService.getLogsByType('crud')
-
     }
   },
   mounted () {
