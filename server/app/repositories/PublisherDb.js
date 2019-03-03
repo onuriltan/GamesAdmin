@@ -2,23 +2,26 @@ const Publisher = require('../models/Publisher');
 const mongodb = require('mongodb');
 
 exports.getAllPublic = async function () {
-    return Publisher.find().select('-__v -_id -userId -createdAt -updatedAt');
+    return Publisher.find().select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
 
 exports.getAll = async function () {
-    return Publisher.find().select('-__v');
+    return Publisher.find().select('-__v').lean().exec();
 };
 
+exports.getById = async function (id) {
+    return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
+};
 exports.getPublishersByUser = async function (userId) {
-    return Publisher.find({userId}).select('-__v');
+    return Publisher.find({userId}).select('-__v').lean().exec();
 };
 
 exports.getByName = async function (name) {
-    return Publisher.find({name}).select('-__v -_id -userId -createdAt -updatedAt');
+    return Publisher.find({name}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
 
 exports.getPublisherByUserandId = async function (userId, id) {
-    return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
+    return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
 
 exports.createPublisher = async function (data, userId) {
@@ -34,9 +37,9 @@ exports.createPublisher = async function (data, userId) {
 };
 
 exports.deletePublisher = async function (email, name) {
-    await Publisher.deleteOne({name: name, email: email}).select('-__v');
+    await Publisher.deleteOne({name: name, email: email}).select('-__v').lean().exec();
 };
 
 exports.deletePublisherById = async function (id) {
-    return await Publisher.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
+    return await Publisher.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };

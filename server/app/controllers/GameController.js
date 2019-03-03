@@ -1,4 +1,6 @@
 const gameDb = require('../repositories/GameDb');
+const consoleDb = require('../repositories/ConsoleDb');
+const publisherDb = require('../repositories/PublisherDb');
 const userDb = require('../repositories/UserDb');
 const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
@@ -6,14 +8,32 @@ const gameValidation = require('../validations/GameValidation');
 
 exports.getAll = async function (req, res, next) {
     let items = await gameDb.getAllPublic();
-    return res.json(items);
+    let theItems = [];
+    for (item of items) {
+        let consolee = await consoleDb.getById(item.consoleId);
+        let publisher = await publisherDb.getById(item.publisherId);
+        item.console = consolee;
+        item.publisher = publisher;
+        theItems.push(item)
+    }
+    return res.json(theItems);
 };
 
 exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let items = await gameDb.getAll();
-        res.json(items);
+        let theItems = [];
+        for (item of items) {
+            let consolee = await consoleDb.getById(item.consoleId);
+            let publisher = await publisherDb.getById(item.publisherId);
+            let user = await userDb.getById(item.userId);
+            item.user = user;
+            item.console = consolee;
+            item.publisher = publisher;
+            theItems.push(item)
+        }
+        res.json(theItems);
     } else {
         res.sendStatus(403);
     }
@@ -25,9 +45,17 @@ exports.getAllByUser = async function (req, res, next) {
         let {email} = authData;
         let user = await userDb.getUser(email);
         if (user) {
-            let games = await gameDb.getGamesByUser(user.id);
+            let items = await gameDb.getGamesByUser(user.id);
+            let theItems = [];
+            for (item of items) {
+                let consolee = await consoleDb.getById(item.consoleId);
+                let publisher = await publisherDb.getById(item.publisherId);
+                item.console = consolee;
+                item.publisher = publisher;
+                theItems.push(item)
+            }
             await logHelper.createLog(req, email, "crud");
-            return res.json(games);
+            return res.json(theItems);
         } else {
             res.sendStatus(403);
         }
@@ -38,10 +66,18 @@ exports.getAllByUser = async function (req, res, next) {
 
 exports.getByName = async function (req, res, next) {
     let items = await gameDb.getByName(req.params.name);
+    let theItems = [];
+    for (item of items) {
+        let consolee = await consoleDb.getById(item.consoleId);
+        let publisher = await publisherDb.getById(item.publisherId);
+        item.console = consolee;
+        item.publisher = publisher;
+        theItems.push(item)
+    }
     if(items === null || items === undefined || items.length === 0) {
         await logHelper.createLog(req, '', "game");
     }
-    return res.json(items);
+    return res.json(theItems);
 };
 
 exports.createByUser = async function (req, res, next) {

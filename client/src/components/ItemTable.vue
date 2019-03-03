@@ -6,6 +6,7 @@
         <th scope="col">Item name</th>
         <th scope="col" v-if="!isUser">Added By</th>
         <th scope="col" v-if="group ==='game'">Publisher</th>
+        <th scope="col" v-if="group ==='game'">Console</th>
         <th scope="col" v-if="group ==='game'">Release Date</th>
         <th scope="col" v-if="group ==='console'">CPU</th>
         <th scope="col" v-if="group ==='console'">RAM</th>
@@ -17,12 +18,13 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="item in items">
+      <tr v-for="item in items" v-if="items.length > 0">
         <td>{{item.name}}</td>
-        <td v-if="!isUser">
-         {{item.email}}
+        <td v-if="!isUser && item.user">
+         {{item.user.email}}
         </td>
-        <td v-if="group ==='game'">{{item.publisherName}}</td>
+        <td v-if="group ==='game' && item.publisher">{{item.publisher.name}}</td>
+        <td v-if="group ==='game' && item.console">{{item.console.name}}</td>
         <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
         <td v-if="group ==='console'">{{item.cpu}}</td>
         <td v-if="group ==='console'">{{item.ram}}</td>
@@ -65,6 +67,9 @@ export default {
       let year = theDate.getUTCFullYear()
       return day + '/' + month + '/' + year
     }
+  },
+  mounted() {
+    console.log(this.$props)
   }
 
 }

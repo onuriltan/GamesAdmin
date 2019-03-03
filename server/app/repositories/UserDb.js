@@ -1,15 +1,20 @@
 const User = require('../models/User');
+const mongodb = require('mongodb');
 
 exports.getUser = async function (email) {
     return User.findOne({email}).select('-__v');
 };
 
 exports.getUsersByRole = async function (role) {
-    return User.find( { "role" : role}).select('-__v, -password');
+    return User.find( { "role" : role}).select('-__v -password');
 };
 
 exports.getAll = async function () {
     return User.find().select('-__v, -password');
+};
+
+exports.getById = async function (id) {
+    return User.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v -_id -password -createdAt -updatedAt').lean().exec();
 };
 
 exports.addUser = async function (email, password, role, comment) {

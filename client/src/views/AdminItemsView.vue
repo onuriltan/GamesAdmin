@@ -15,15 +15,15 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
         <AddGame :getGames="getGames" :publishers="publishers" :consoles="consoles"/>
-        <ItemTable :items="gameItems" :deleteItemById="deleteItemById" group="game"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
-        <ItemTable :items="consoleItems" :deleteItemById="deleteItemById" group="console"/>
+        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
-        <ItemTable :items="publisherItems" :deleteItemById="deleteItemById" group="publisher"/>
+        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher"/>
       </div>
     </div>
   </div>
@@ -51,77 +51,19 @@ export default {
     return {
       games: [],
       consoles: [],
-      publishers: [],
-      users: [],
-      gameItems: [],
-      consoleItems: [],
-      publisherItems: []
+      publishers: []
     }
   },
   methods: {
-    async getUsers () {
-      this.users = await userService.getUsers()
-    },
     async getGames () {
       this.games = await gameService.getAllByAdmin()
-      this.prepareGames()
     },
     async getConsoles () {
       this.consoles = await consoleService.getAllByAdmin()
-      this.prepareConsoles()
     },
     async getPublishers () {
       this.publishers = await publisherService.getAllByAdmin()
-      this.preparePublishers()
     },
-    prepareGames () {
-      let theItem = null
-      this.gameItems = []
-      for (let item of this.games) {
-        for (let user of this.users) {
-          if (item.userId === user._id) {
-            theItem = item
-            theItem.email = user.email
-          }
-        }
-        for (let publisher of this.publishers) {
-          if (item.publisherId === publisher._id) {
-            theItem.publisherName = publisher.name
-          }
-        }
-        this.gameItems.push(theItem)
-        theItem = null
-      }
-    },
-    prepareConsoles () {
-      let theItem = null
-      this.consoleItems = []
-      for (let item of this.consoles) {
-        for (let user of this.users) {
-          if (item.userId === user._id) {
-            theItem = item
-            theItem.email = user.email
-            this.consoleItems.push(theItem)
-            theItem = null
-          }
-        }
-      }
-    },
-    preparePublishers () {
-      let theItem = null
-      this.publisherItems = []
-      for (let item of this.publishers) {
-        for (let user of this.users) {
-          if (item.userId === user._id) {
-            theItem = item
-            theItem.email = user.email
-            this.publisherItems.push(theItem)
-            theItem = null
-          }
-        }
-      }
-    },
-
     async deleteItemById (group, id) {
       if (group === 'game') {
         await gameService.deleteGameById(id)
@@ -139,13 +81,10 @@ export default {
   },
   async beforeMount () {
     await this.$store.dispatch("checkIsAuthenticated")
-    await this.getUsers()
     await this.getGames()
     await this.getConsoles()
     await this.getPublishers()
-    await this.prepareGames()
-    await this.prepareConsoles()
-    await this.preparePublishers()
+    console.log(this.games)
   }
 }
 </script>
