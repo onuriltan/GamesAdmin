@@ -4,7 +4,7 @@
       <thead>
       <tr>
         <th scope="col">Item name</th>
-        <th scope="col">Added By</th>
+        <th scope="col" v-if="!isUser">Added By</th>
         <th scope="col" v-if="group ==='game'">Publisher</th>
         <th scope="col" v-if="group ==='game'">Release Date</th>
         <th scope="col" v-if="group ==='console'">CPU</th>
@@ -19,9 +19,8 @@
       <tbody>
       <tr v-for="item in items">
         <td>{{item.name}}</td>
-        <td>
-          <p v-if="item.email">{{item.email}}</p>
-          <p v-else>{{userEmail}}</p>
+        <td v-if="!isUser">
+         {{item.email}}
         </td>
         <td v-if="group ==='game'">{{item.publisherName}}</td>
         <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
@@ -47,7 +46,7 @@
       items: Array,
       deleteItemById: Function,
       group: String,
-      userEmail: String
+      isUser: Boolean
     },
     filters: {
       readableDate(date) {

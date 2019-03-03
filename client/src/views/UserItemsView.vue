@@ -15,15 +15,15 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
         <AddGame :getGames="getGamesByUser" :publishers="this.publishers"/>
-        <ItemTable :items="gameItems" :deleteItemById="deleteItemById" :publishers="publishers" group="game" :userEmail="userEmail"/>
+        <ItemTable :items="gameItems" :deleteItemById="deleteItemById" :publishers="publishers" group="game" :isUser="isUser"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
-        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console" :userEmail="userEmail"/>
+        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console" :isUser="isUser"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
-        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher" :userEmail="userEmail"/>
+        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher" :isUser="isUser"/>
       </div>
     </div>
   </div>
@@ -47,8 +47,8 @@ export default {
     AddPublisher
   },
   computed: {
-    userEmail () {
-      return this.$store.state.AuthStore.userEmail
+    isUser () {
+      return this.$store.state.AuthStore.role === 'user'
     }
   },
   data () {
