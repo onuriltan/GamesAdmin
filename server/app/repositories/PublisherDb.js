@@ -9,8 +9,8 @@ exports.getPublishersByUser = async function (userId) {
     return Publisher.find({userId}).select('-__v');
 };
 
-exports.getPublisherByEmailandId = async function (email, id) {
-    return Publisher.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
+exports.getPublisherByUserandId = async function (userId, id) {
+    return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.createPublisher = async function (data, userId) {

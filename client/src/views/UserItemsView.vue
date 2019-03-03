@@ -15,15 +15,15 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
         <AddGame :getGames="getGamesByUser" :publishers="this.publishers"/>
-        <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game"/>
+        <ItemTable :items="gameItems" :deleteItemById="deleteItemById" :publishers="publishers" group="game" :userEmail="userEmail"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
-        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console"/>
+        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console" :userEmail="userEmail"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
-        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher"/>
+        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher" :userEmail="userEmail"/>
       </div>
     </div>
   </div>
@@ -46,16 +46,23 @@ export default {
     AddConsole,
     AddPublisher
   },
+  computed: {
+    userEmail () {
+      return this.$store.state.AuthStore.userEmail
+    }
+  },
   data () {
     return {
       games: [],
       consoles: [],
-      publishers: []
+      publishers: [],
+      gameItems: []
     }
   },
   methods: {
     async getGamesByUser () {
       this.games = await gameService.getAllByUser()
+      this.prepareGames()
     },
     async getConsoles () {
       this.consoles = await consoleService.getAllByUser()
@@ -63,11 +70,10 @@ export default {
     async getPublishers () {
       this.publishers = await publisherService.getAllByUser()
     },
-
     async deleteItemById (group, id) {
       if (group === 'game') {
         await gameService.deleteGameById(id)
-        await this.getAllByUser()
+        await this.getGamesByUser()
       }
       if (group === 'console') {
         await consoleService.deleteConsoleById(id)
@@ -77,12 +83,27 @@ export default {
         await publisherService.deletePublisherById(id)
         await this.getPublishers()
       }
-    }
+    },
+    prepareGames () {
+      let theItem = null
+      this.gameItems = []
+      for (let item of this.games) {
+        for (let publisher of this.publishers) {
+          if (item.publisherId === publisher._id) {
+            theItem = item
+            theItem.publisherName = publisher.name
+            this.gameItems.push(theItem);
+            theItem = null
+          }
+        }
+      }
+    },
   },
   async mounted () {
     await this.getGamesByUser()
     await this.getConsoles()
     await this.getPublishers()
+    this.prepareGames()
   }
 }
 </script>

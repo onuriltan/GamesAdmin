@@ -8,8 +8,8 @@ exports.getGamesByUser = async function (userId) {
     return Game.find({userId}).select('-__v');
 };
 
-exports.getGameByEmailandId = async function (email, id) {
-    return Game.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
+exports.getGameByUserandId = async function (userId, id) {
+    return Game.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.createGame = async function (data, userId) {

@@ -9,8 +9,8 @@ exports.getConsolesByUser = async function (userId) {
     return Console.find({userId}).select('-__v');
 };
 
-exports.getConsoleByEmailandId = async function (email, id) {
-    return Console.findOne({email, _id:  new mongodb.ObjectID(id)}).select('-__v');
+exports.getConsoleByUserandId = async function (userId, id) {
+    return Console.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.createConsole = async function (data, userId) {

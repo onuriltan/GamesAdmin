@@ -19,7 +19,10 @@
       <tbody>
       <tr v-for="item in items">
         <td>{{item.name}}</td>
-        <td>{{item.email}}</td>
+        <td>
+          <p v-if="item.email">{{item.email}}</p>
+          <p v-else>{{userEmail}}</p>
+        </td>
         <td v-if="group ==='game'">{{item.publisherName}}</td>
         <td v-if="group ==='game'">{{item.dateReleased | readableDate}}</td>
         <td v-if="group ==='console'">{{item.cpu}}</td>
@@ -43,7 +46,8 @@
     props: {
       items: Array,
       deleteItemById: Function,
-      group: String
+      group: String,
+      userEmail: String
     },
     filters: {
       readableDate(date) {

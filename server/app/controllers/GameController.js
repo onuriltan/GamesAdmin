@@ -55,31 +55,35 @@ exports.createByUser = async function (req, res, next) {
 
 exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
+    let {email} = authData;
+    let itemId = req.body.id;
     if (authData !== null && authData.role === "admin") {
         let {email} = authData;
-        let id = req.body.id;
         let error = gameValidation.validateDelete(req);
         if (error) {
             return res.status(400).send({error})
         }
-        let deletedGame = await gameDb.deleteGameById(id);
+        let deletedGame = await gameDb.deleteGameById(itemId);
         await logHelper.createLog(req, email, "crud");
         return res.sendStatus(200);
     }
     if (authData !== null && authData.role === "user") {
-        let {email} = authData;
-        let id = req.body.id;
         let error = gameValidation.validateDelete(req);
         if (error) {
             return res.status(400).send({error})
         }
-        let hasGameWithEmail = await gameDb.getGameByEmailandId(email, id);
-        if (hasGameWithEmail) {
-            await gameDb.deleteGameById(id);
-            await logHelper.createLog(req, email, "crud");
-            return res.sendStatus(200);
+        let user = await userDb.getUser(email);
+        if (user) {
+            let ownGame = await gameDb.getGameByUserandId(user._id, itemId);
+            if(ownGame) {
+                let deletedItem = await gameDb.deleteGameById(itemId);
+                await logHelper.createLog(req, email, "crud");
+                return res.status(200).send({message: deletedItem.name + ' deleted'});
+            } else {
+                return res.sendStatus(403);
+            }
         } else {
-            return res.sendStatus(200);
+            return res.sendStatus(403);
         }
     } else {
         return res.sendStatus(403);
