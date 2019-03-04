@@ -26,7 +26,7 @@ export default {
     ChangePassword,
     ChangeEmail
   },
-  async mounted () {
+  async beforeMount () {
     await this.$store.dispatch("checkIsAuthenticated")
   }
 }

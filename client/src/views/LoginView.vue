@@ -8,7 +8,7 @@ export default {
   components: {
     Login
   },
-  async mounted () {
+  async beforeMount () {
     await this.$store.dispatch("checkIsAuthenticated")
   }
 }

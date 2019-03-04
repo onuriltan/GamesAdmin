@@ -13,7 +13,7 @@
 <script>
 export default {
   name: 'DashboardView',
-  async mounted () {
+  async beforeMount () {
     await this.$store.dispatch("checkIsAuthenticated")
   }
 }

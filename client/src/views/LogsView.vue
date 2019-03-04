@@ -9,7 +9,7 @@ export default {
   components: {
     Logs
   },
-  async mounted () {
+  async beforeMount () {
     await this.$store.dispatch("checkIsAuthenticated")
   }
 }

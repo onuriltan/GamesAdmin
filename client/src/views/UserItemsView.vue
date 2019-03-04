@@ -84,7 +84,7 @@ export default {
       }
     }
   },
-  async mounted () {
+  async beforeMount () {
     await this.$store.dispatch("checkIsAuthenticated")
     await this.getGames()
     await this.getConsoles()
