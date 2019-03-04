@@ -123,7 +123,7 @@ exports.updateByUser = async function (req, res, next) {
             if (item) {
                 if (name) item.name = name;
                 if (location) item.location = location;
-                if (comment) item.ram = comment;
+                if (comment) item.comment = comment;
                 item.save();
                 await logHelper.createLog(oldName + ' publisher updated.', email, "publisher-crud");
                 return res.status(200).send({message: oldName + ' updated'});
@@ -147,7 +147,7 @@ exports.updateByAdmin = async function (req, res, next) {
         if (item) {
             if (name) item.name = name;
             if (location) item.location = location;
-            if (comment) item.ram = comment;
+            if (comment) item.comment = comment;
             item.save();
             await logHelper.createLog(oldName + ' publisher updated.', email, "publisher-crud");
             return res.status(200).send({message: oldName + ' updated'});

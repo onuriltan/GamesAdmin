@@ -36,6 +36,12 @@
           <button v-if="group==='game'" type="button" class="btn btn-success btn-sm mr-3"
                   @click="setItemtoUpdate(item)" data-toggle="modal" data-target="#gameUpdateModal">Update
           </button>
+          <button v-if="group==='console'" type="button" class="btn btn-success btn-sm mr-3"
+                  @click="setItemtoUpdate(item)" data-toggle="modal" data-target="#consoleUpdateModal">Update
+          </button>
+          <button v-if="group==='publisher'" type="button" class="btn btn-success btn-sm mr-3"
+                  @click="setItemtoUpdate(item)" data-toggle="modal" data-target="#publisherUpdateModal">Update
+          </button>
 
           <button type="button" class="btn btn-danger btn-sm" @click="deleteItemById(group,item._id)">Delete</button>
         </td>

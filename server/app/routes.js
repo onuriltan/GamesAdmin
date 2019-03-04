@@ -48,8 +48,8 @@ module.exports = function(app){
     consoleRoutes.get('/getAllByAdmin', consoleController.getAllByAdmin);
     consoleRoutes.get('/getAllByUser', consoleController.getAllByUser);
     consoleRoutes.post('/createByUser', consoleController.createByUser);
-    consoleRoutes.post('/updateByAdmin', gameController.updateByAdmin);
-    consoleRoutes.post('/updateByUser', gameController.updateByUser);
+    consoleRoutes.post('/updateByAdmin', consoleController.updateByAdmin);
+    consoleRoutes.post('/updateByUser', consoleController.updateByUser);
     consoleRoutes.post('/deleteById',  consoleController.deleteById);
 
     // Publisher Routes
@@ -59,8 +59,8 @@ module.exports = function(app){
     publisherRoutes.get('/getAllByAdmin', publisherController.getAllByAdmin);
     publisherRoutes.get('/getAllByUser', publisherController.getAllByUser);
     publisherRoutes.post('/deleteById',  publisherController.deleteById);
-    publisherRoutes.post('/updateByAdmin', gameController.updateByAdmin);
-    publisherRoutes.post('/updateByUser', gameController.updateByUser);
+    publisherRoutes.post('/updateByAdmin', publisherController.updateByAdmin);
+    publisherRoutes.post('/updateByUser', publisherController.updateByUser);
     publisherRoutes.post('/createByUser', publisherController.createByUser);
 
     // Log Routes

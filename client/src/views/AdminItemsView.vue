@@ -22,10 +22,14 @@
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
         <ItemTable :items="consoles" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="console"/>
+        <UpdateConsoleModal v-if="itemToUpdate" :updateItem="updateConsole" :itemToUpdate="itemToUpdate"
+                         :resetItem="resetItem" />
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
         <ItemTable :items="publishers" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="publisher"/>
+        <UpdatePublisherModal v-if="itemToUpdate" :updateItem="updatePublisher" :itemToUpdate="itemToUpdate"
+                            :resetItem="resetItem" />
       </div>
     </div>
   </div>
@@ -40,6 +44,8 @@ import AddConsole from '../components/AddConsole'
 import AddPublisher from '../components/AddPublisher'
 import ItemTable from '../components/ItemTable'
 import UpdateGameModal from '../components/UpdateGameModal'
+import UpdateConsoleModal from '../components/UpdateConsoleModal'
+import UpdatePublisherModal from '../components/UpdatePublisherModal'
 
 export default {
   name: 'AdminItemsView',
@@ -48,7 +54,9 @@ export default {
     AddGame,
     AddConsole,
     AddPublisher,
-    UpdateGameModal
+    UpdateGameModal,
+    UpdateConsoleModal,
+    UpdatePublisherModal
   },
   data () {
     return {
@@ -79,6 +87,25 @@ export default {
       if(res.data.message) {
         await this.getGames()
         $('#gameUpdateModal').modal('toggle')
+        this.itemToUpdate = null
+      }
+    },
+    async updateConsole(data) {
+      let res = await consoleService.updateByAdmin(data)
+      if(res.data.message) {
+        await this.getGames()
+        await this.getConsoles()
+        $('#consoleUpdateModal').modal('toggle')
+        this.itemToUpdate = null
+      }
+    },
+    async updatePublisher(data) {
+      let res = await publisherService.updateByAdmin(data)
+      if(res.data.message) {
+        await this.getGames()
+        await this.getPublishers()
+        $('#publisherUpdateModal').modal('toggle')
+        this.itemToUpdate = null
       }
     },
     async deleteItemById (group, id) {
