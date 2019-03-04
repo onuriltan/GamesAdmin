@@ -30,6 +30,17 @@
         <LogTable :logs="publisherNotFoundLogs" category="publisher-notfound"/>
       </div>
       <div class="tab-pane fade show active" id="crud" role="tabpanel" aria-labelledby="contact-tab">
+        <form @submit.prevent="deleteLogsByCategory" class="d-flex justify-content-start align-items-end mt-5 mb-5">
+          <div class="form-group mx-sm-3 mb-2 mr-2">
+            <label for="category" class="mr-3">Category</label>
+            <select class="form-control" id="category" v-model="deleteCategory" style="width: 200px">
+              <option value="game-crud">Game</option>
+              <option value="console-crud">Console</option>
+              <option value="publisher-crud">Publisher</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-danger mb-2">Delete Category</button>
+        </form>
         <LogTable :logs="crudLogs" category="crud"/>
       </div>
     </div>
@@ -49,7 +60,8 @@ export default {
       gameNotFoundLogs: [],
       consoleNotFoundLogs: [],
       publisherNotFoundLogs: [],
-      crudLogs: []
+      crudLogs: [],
+      deleteCategory: ''
     }
   },
   methods: {
@@ -64,6 +76,10 @@ export default {
     },
     async getCrudLogs () {
       this.crudLogs = await LogService.getCrudLogs()
+    },
+    async deleteLogsByCategory () {
+      await LogService.deleteByCategory(this.deleteCategory)
+      this.getCrudLogs()
     }
   },
   mounted () {

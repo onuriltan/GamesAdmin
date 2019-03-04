@@ -22,3 +22,7 @@ exports.getCrudLogs = function () {
 exports.findLogsByPathandEmail = function (message, email) {
     return Log.findOne({message, email}).select('-__v').sort( { count: -1 })
 };
+
+exports.deleteByCategory = async function (type) {
+    await Log.deleteMany({type});
+};

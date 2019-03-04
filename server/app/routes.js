@@ -61,6 +61,7 @@ module.exports = function(app){
     apiRoutes.use('/log', logRoutes);
     logRoutes.get('/getLogs/:type', logController.getLogsByType);
     logRoutes.get('/getCrudLogs', logController.getCrudLogs);
+    logRoutes.delete('/deleteByCategory/:category', logController.deleteLogsByCategory);
 
     // Base route
     app.use('/api', apiRoutes);
