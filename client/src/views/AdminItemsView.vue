@@ -15,17 +15,18 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
         <AddGame :getGames="getGames" :publishers="publishers" :consoles="consoles"/>
-        <ItemTable :items="games" :deleteItemById="deleteItemById" group="game"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="game"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
-        <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console"/>
+        <ItemTable :items="consoles" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="console"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
-        <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher"/>
+        <ItemTable :items="publishers" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="publisher"/>
       </div>
     </div>
+    <UpdateItemModal />
   </div>
 </template>
 
@@ -33,11 +34,11 @@
 import gameService from '../services/GameService'
 import consoleService from '../services/ConsoleService'
 import publisherService from '../services/PublisherService'
-import userService from '../services/UserService'
 import AddGame from '../components/AddGame'
 import AddConsole from '../components/AddConsole'
 import AddPublisher from '../components/AddPublisher'
 import ItemTable from '../components/ItemTable'
+import UpdateItemModal from '../components/UpdateItemModal'
 
 export default {
   name: 'AdminItemsView',
@@ -45,16 +46,21 @@ export default {
     ItemTable,
     AddGame,
     AddConsole,
-    AddPublisher
+    AddPublisher,
+    UpdateItemModal
   },
   data () {
     return {
       games: [],
       consoles: [],
-      publishers: []
+      publishers: [],
+      itemToUpdate: null
     }
   },
   methods: {
+    setItemtoUpdate (item) {
+      this.itemToUpdate = item
+    },
     async getGames () {
       this.games = await gameService.getAllByAdmin()
     },

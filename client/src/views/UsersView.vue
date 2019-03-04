@@ -35,19 +35,19 @@
 
     <UserTable :users="users" :deleteUser="deleteUser" :deactivateUser="deactivateUser" :setUser="setUser"/>
 
-    <UserInfoChangeModal v-if="selectedUser" :user="selectedUser" :resetUser="resetUser"
+    <UpdateUserModal v-if="selectedUser" :user="selectedUser" :resetUser="resetUser"
                          :updateUser="updateUser" :updatedMessage="updatedMessage" :errorMessage="errorMessage"/>
   </div>
 </template>
 
 <script>
 import UserService from '../services/UserService'
-import UserInfoChangeModal from '../components/UserInfoChangeModal'
+import UpdateUserModal from '../components/UpdateUserModal'
 import UserTable from '../components/UserTable'
 export default {
   name: 'UsersView',
   components: {
-    UserInfoChangeModal,
+    UpdateUserModal,
     UserTable
   },
   data () {

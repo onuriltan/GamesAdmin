@@ -57,5 +57,33 @@ class PublisherService {
     }
     return axios.post(`${url}/deleteById`, { id }, config)
   }
+
+  static async editByUser (data) {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    let res = null
+    try {
+      res = await axios.post(`${url}/editByUser`, data, config)
+    } catch (err) {
+      res = err.response
+    }
+    return res
+  }
+
+  static async editByAdmin (data) {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    let res = null
+    try {
+      res = await axios.post(`${url}/editByAdmin`, data, config)
+    } catch (err) {
+      res = err.response
+    }
+    return res
+  }
 }
 export default PublisherService

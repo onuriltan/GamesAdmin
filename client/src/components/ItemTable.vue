@@ -33,7 +33,10 @@
         <td v-if="group ==='publisher'">{{item.location}}</td>
         <td v-if="group ==='publisher'">{{item.comment}}</td>
         <td>
-          <button type="button" class="btn btn-danger" @click="deleteItemById(group,item._id)">Delete</button>
+          <button type="button" class="btn btn-success btn-sm mr-3"
+                  @click="setItemToUpdate(item)" data-toggle="modal" data-target="#itemUpdateModal">Update</button>
+
+          <button type="button" class="btn btn-danger btn-sm" @click="deleteItemById(group,item._id)">Delete</button>
         </td>
       </tr>
       </tbody>
@@ -48,7 +51,8 @@ export default {
     items: Array,
     deleteItemById: Function,
     group: String,
-    isUser: Boolean
+    isUser: Boolean,
+    setItemToUpdate: Function
   },
   filters: {
     readableDate (date) {
