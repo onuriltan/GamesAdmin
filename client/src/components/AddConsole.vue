@@ -1,11 +1,17 @@
 <template>
   <form @submit.prevent="addConsole" class="mb-5 mt-5">
-    <div style="height: 70px">
-      <div class="alert alert-danger" v-if="error">
+    <div style="height: 60px">
+      <div v-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
         {{error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-      <div class="alert alert-success" v-if="message">
+      <div v-if="message" class="alert alert-success alert-dismissible fade show" role="alert">
         {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
     </div>
     <div class="form-row">

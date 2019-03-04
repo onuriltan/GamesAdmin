@@ -2,8 +2,11 @@
   <div class="items-list container mt-5 mb-5">
     <h1 class="text-center mb-5">List of Users</h1>
     <form @submit.prevent="addUser" class="form justify-content-center  mb-5">
-      <div class="alert alert-danger mb-3" v-if="error !== null">
+      <div v-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
         {{error}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="form-row">
         <div class="col">
