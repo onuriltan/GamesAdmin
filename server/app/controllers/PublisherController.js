@@ -43,7 +43,7 @@ exports.getAllByUser = async function (req, res, next) {
 exports.getByName = async function (req, res, next) {
     let items = await publisherDb.getByName(req.params.name);
     if(items === null || items === undefined || items.length === 0) {
-        await logHelper.createLog(req.params.name + ' not found.', '', "publisher-notfound");
+        await logHelper.createLog(req.params.name + ' publisher not found.', '', "publisher-notfound");
     }
     return res.json(items);
 };
@@ -59,7 +59,7 @@ exports.createByUser = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let newItem = await publisherDb.createPublisher(req.body, user.id);
-            await logHelper.createLog(newItem.name + ' created.', email, "publisher-crud");
+            await logHelper.createLog(newItem.name + ' publisher created.', email, "publisher-crud");
             return res.status(200).send({message: newItem.name + ' added'});
         } else {
             return res.sendStatus(403);
@@ -82,7 +82,7 @@ exports.deleteById = async function (req, res, next) {
         let existingItem = await publisherDb.getById(itemId);
         if(existingItem) {
             await publisherDb.deletePublisherById(itemId);
-            await logHelper.createLog(existingItem.name + ' deleted.', email, "publisher-crud");
+            await logHelper.createLog(existingItem.name + ' publisher deleted.', email, "publisher-crud");
             return res.sendStatus(200);
         }else {
             return res.status(404).send({error: "Console not found"});
@@ -98,7 +98,7 @@ exports.deleteById = async function (req, res, next) {
             let ownItem = await publisherDb.getPublisherByUserandId(user._id, itemId);
             if (ownItem) {
                 await publisherDb.deletePublisherById(itemId);
-                await logHelper.createLog(ownItem.name + ' deleted.', email, "publisher-crud");
+                await logHelper.createLog(ownItem.name + ' publisher deleted.', email, "publisher-crud");
                 return res.status(200).send({message: ownItem.name + ' deleted'});
             } else {
                 return res.sendStatus(403);

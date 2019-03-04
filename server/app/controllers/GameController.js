@@ -71,7 +71,7 @@ exports.getByName = async function (req, res, next) {
         item.publisher = publisher;
     }
     if(items === null || items === undefined || items.length === 0) {
-        await logHelper.createLog(req.params.name + ' not found.', '', "game-notfound");
+        await logHelper.createLog(req.params.name + ' game not found.', '', "game-notfound");
     }
     return res.json(items);
 };
@@ -87,7 +87,7 @@ exports.createByUser = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let newItem = await gameDb.createGame(req.body, user.id);
-            await logHelper.createLog(newItem.name + ' created.', email, "game-crud");
+            await logHelper.createLog(newItem.name + ' game created.', email, "game-crud");
             return res.status(200).send({message: newItem.name + ' added'});
         } else {
             return res.sendStatus(403);
@@ -111,7 +111,7 @@ exports.deleteById = async function (req, res, next) {
         let existingItem = await gameDb.findById(itemId);
         if(existingItem) {
             await gameDb.deleteGameById(itemId);
-            await logHelper.createLog(existingItem.name + ' deleted.', email, "game-crud");
+            await logHelper.createLog(existingItem.name + ' game deleted.', email, "game-crud");
             return res.sendStatus(200);
         }else {
             return res.status(404).send({error: "Game not found"});
@@ -127,7 +127,7 @@ exports.deleteById = async function (req, res, next) {
             let ownItem = await gameDb.getGameByUserandId(user._id, itemId);
             if(ownItem) {
                 await gameDb.deleteGameById(itemId);
-                await logHelper.createLog(ownItem.name + ' deleted.', email, "game-crud");
+                await logHelper.createLog(ownItem.name + ' game deleted.', email, "game-crud");
                 return res.status(200).send({message: ownItem.name + ' deleted'});
             } else {
                 return res.sendStatus(403);

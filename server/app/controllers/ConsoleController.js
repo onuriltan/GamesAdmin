@@ -43,7 +43,7 @@ exports.getAllByUser = async function (req, res, next) {
 exports.getByName = async function (req, res, next) {
     let items = await consoleDb.getByName(req.params.name);
     if(items === null || items === undefined || items.length === 0) {
-        await logHelper.createLog(req.params.name + ' not found.', '', "console-notfound");
+        await logHelper.createLog(req.params.name + ' console not found.', '', "console-notfound");
     }
     return res.json(items);
 };
@@ -59,7 +59,7 @@ exports.createByUser = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let newItem = await consoleDb.createConsole(req.body, user.id);
-            await logHelper.createLog(newItem.name + ' created.', email, "console-crud");
+            await logHelper.createLog(newItem.name + ' console created.', email, "console-crud");
             return res.status(200).send({message: newItem.name + ' added'});
         } else {
             return res.sendStatus(403);
@@ -82,7 +82,7 @@ exports.deleteById = async function (req, res, next) {
         let existingItem = await consoleDb.getById(itemId);
         if(existingItem) {
             await consoleDb.deleteConsoleById(itemId);
-            await logHelper.createLog(existingItem.name + ' deleted.', email, "console-crud");
+            await logHelper.createLog(existingItem.name + ' console deleted.', email, "console-crud");
             return res.sendStatus(200);
         }else {
             return res.status(404).send({error: "Console not found"});
@@ -98,7 +98,7 @@ exports.deleteById = async function (req, res, next) {
             let ownItem = await consoleDb.getConsoleByUserandId(user._id, itemId);
             if(ownItem) {
                 await consoleDb.deleteConsoleById(itemId);
-                await logHelper.createLog(ownItem.name + ' deleted.', email, "console-crud");
+                await logHelper.createLog(ownItem.name + ' console deleted.', email, "console-crud");
                 return res.status(200).send({message: ownItem.name + ' deleted'});
             } else {
                 return res.sendStatus(403);
