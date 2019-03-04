@@ -66,7 +66,7 @@ const AuthStore = {
         expiration = jwtDecode(token).exp
       }
       if (expiration != null && parseInt(expiration) - unixTimeStamp < 0) {
-        window.localStorage.deleteItem('token')
+        window.localStorage.removeItem('token')
         state.sessionExpired = true
         state.isAuthenticated = false
         router.push('/login')
