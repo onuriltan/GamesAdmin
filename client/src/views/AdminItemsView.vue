@@ -84,7 +84,6 @@ export default {
     await this.getGames()
     await this.getConsoles()
     await this.getPublishers()
-    console.log(this.games)
   }
 }
 </script>

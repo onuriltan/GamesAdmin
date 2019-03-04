@@ -67,9 +67,6 @@ export default {
       let year = theDate.getUTCFullYear()
       return day + '/' + month + '/' + year
     }
-  },
-  mounted() {
-    console.log(this.$props)
   }
 
 }
