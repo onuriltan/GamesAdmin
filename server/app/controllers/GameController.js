@@ -28,6 +28,7 @@ exports.getAllByAdmin = async function (req, res, next) {
             let consolee = await consoleDb.getById(item.consoleId);
             let publisher = await publisherDb.getById(item.publisherId);
             let user = await userDb.getById(item.userId);
+            delete item.userId;
             item.user = user;
             item.console = consolee;
             item.publisher = publisher;
