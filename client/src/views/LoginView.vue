@@ -9,7 +9,7 @@ export default {
     Login
   },
   async beforeMount () {
-    await this.$store.dispatch("checkIsAuthenticated")
+    await this.$store.dispatch('checkIsAuthenticated')
   }
 }
 </script>

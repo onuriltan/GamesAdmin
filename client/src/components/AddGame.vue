@@ -52,7 +52,7 @@ export default {
     publishers: Array,
     consoles: Array
   },
-  data() {
+  data () {
     return {
       data: {
         name: null,
@@ -65,7 +65,7 @@ export default {
     }
   },
   methods: {
-    async addGame() {
+    async addGame () {
       this.error = null
       this.message = null
       let res = await gameService.createByUser(this.data)

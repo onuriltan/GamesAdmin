@@ -118,7 +118,7 @@ export default {
     }
   },
   async beforeMount () {
-    await this.$store.dispatch("checkIsAuthenticated")
+    await this.$store.dispatch('checkIsAuthenticated')
     this.getUsers()
   }
 }

@@ -59,7 +59,7 @@ export default {
     return {
       newEmail: this.user.email,
       newPassword: '',
-      newRole:this.user.role,
+      newRole: this.user.role,
       newComment: this.user.comment
     }
   }

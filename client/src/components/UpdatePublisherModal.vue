@@ -40,26 +40,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'UpdatePublisherModal',
-    props: {
-      itemToUpdate: Object,
-      resetItem: Function,
-      updateItem: Function,
-      updatedMessage: String,
-      errorMessage: String
-    },
-    data () {
-      return {
-        data: {
-          oldName: this.itemToUpdate.name,
-          name: this.itemToUpdate.name,
-          location: this.itemToUpdate.location,
-          comment:this.itemToUpdate.comment,
-        }
+export default {
+  name: 'UpdatePublisherModal',
+  props: {
+    itemToUpdate: Object,
+    resetItem: Function,
+    updateItem: Function,
+    updatedMessage: String,
+    errorMessage: String
+  },
+  data () {
+    return {
+      data: {
+        oldName: this.itemToUpdate.name,
+        name: this.itemToUpdate.name,
+        location: this.itemToUpdate.location,
+        comment: this.itemToUpdate.comment
       }
     }
   }
+}
 </script>
 
 <style scoped lang="scss">

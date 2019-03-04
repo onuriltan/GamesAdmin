@@ -82,26 +82,26 @@ export default {
     async getPublishers () {
       this.publishers = await publisherService.getAllByAdmin()
     },
-    async updateGame(data) {
+    async updateGame (data) {
       let res = await gameService.updateByAdmin(data)
-      if(res.data.message) {
+      if (res.data.message) {
         await this.getGames()
         $('#gameUpdateModal').modal('toggle')
         this.itemToUpdate = null
       }
     },
-    async updateConsole(data) {
+    async updateConsole (data) {
       let res = await consoleService.updateByAdmin(data)
-      if(res.data.message) {
+      if (res.data.message) {
         await this.getGames()
         await this.getConsoles()
         $('#consoleUpdateModal').modal('toggle')
         this.itemToUpdate = null
       }
     },
-    async updatePublisher(data) {
+    async updatePublisher (data) {
       let res = await publisherService.updateByAdmin(data)
-      if(res.data.message) {
+      if (res.data.message) {
         await this.getGames()
         await this.getPublishers()
         $('#publisherUpdateModal').modal('toggle')
@@ -124,7 +124,7 @@ export default {
     }
   },
   async beforeMount () {
-    await this.$store.dispatch("checkIsAuthenticated")
+    await this.$store.dispatch('checkIsAuthenticated')
     await this.getGames()
     await this.getConsoles()
     await this.getPublishers()

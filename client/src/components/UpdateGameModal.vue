@@ -48,29 +48,32 @@
 </template>
 
 <script>
-  export default {
-    name: 'UserInfoChangeModal',
-    props: {
-      itemToUpdate: Object,
-      resetItem: Function,
-      updateItem: Function,
-      publishers: Array,
-      consoles: Array,
-      updatedMessage: String,
-      errorMessage: String
-    },
-    data () {
-      return {
-        data: {
-          oldName: this.itemToUpdate.name,
-          name: this.itemToUpdate.name,
-          dateReleased: this.itemToUpdate.dateReleased,
-          publisherId:this.itemToUpdate.publisherId,
-          consoleId: this.itemToUpdate.consoleId
-        }
+export default {
+  name: 'UserInfoChangeModal',
+  props: {
+    itemToUpdate: Object,
+    resetItem: Function,
+    updateItem: Function,
+    publishers: Array,
+    consoles: Array,
+    updatedMessage: String,
+    errorMessage: String
+  },
+  data () {
+    return {
+      data: {
+        oldName: this.itemToUpdate.name,
+        name: this.itemToUpdate.name,
+        dateReleased: this.itemToUpdate.dateReleased,
+        publisherId: this.itemToUpdate.publisherId,
+        consoleId: this.itemToUpdate.consoleId
       }
     }
+  },
+  mounted () {
+    console.log(this.itemToUpdate)
   }
+}
 </script>
 
 <style scoped lang="scss">

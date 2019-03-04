@@ -63,7 +63,7 @@ export default {
     setItemtoUpdate: Function
   },
   filters: {
-    readableDate(date) {
+    readableDate (date) {
       if (date === null) {
         return ' '
       }
