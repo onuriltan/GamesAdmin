@@ -8,22 +8,19 @@ const gameValidation = require('../validations/GameValidation');
 
 exports.getAll = async function (req, res, next) {
     let items = await gameDb.getAllPublic();
-    let theItems = [];
     for (item of items) {
         let consolee = await consoleDb.getById(item.consoleId);
         let publisher = await publisherDb.getById(item.publisherId);
         item.console = consolee;
         item.publisher = publisher;
-        theItems.push(item)
     }
-    return res.json(theItems);
+    return res.json(items);
 };
 
 exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let items = await gameDb.getAll();
-        let theItems = [];
         for (item of items) {
             let consolee = await consoleDb.getById(item.consoleId);
             let publisher = await publisherDb.getById(item.publisherId);
@@ -32,9 +29,8 @@ exports.getAllByAdmin = async function (req, res, next) {
             item.user = user;
             item.console = consolee;
             item.publisher = publisher;
-            theItems.push(item)
         }
-        res.json(theItems);
+        res.json(items);
     } else {
         res.sendStatus(403);
     }
@@ -47,16 +43,14 @@ exports.getAllByUser = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let items = await gameDb.getGamesByUser(user.id);
-            let theItems = [];
             for (item of items) {
                 let consolee = await consoleDb.getById(item.consoleId);
                 let publisher = await publisherDb.getById(item.publisherId);
                 item.console = consolee;
                 item.publisher = publisher;
-                theItems.push(item)
             }
             await logHelper.createLog(req, email, "crud");
-            return res.json(theItems);
+            return res.json(items);
         } else {
             res.sendStatus(403);
         }
@@ -67,18 +61,16 @@ exports.getAllByUser = async function (req, res, next) {
 
 exports.getByName = async function (req, res, next) {
     let items = await gameDb.getByName(req.params.name);
-    let theItems = [];
     for (item of items) {
         let consolee = await consoleDb.getById(item.consoleId);
         let publisher = await publisherDb.getById(item.publisherId);
         item.console = consolee;
         item.publisher = publisher;
-        theItems.push(item)
     }
     if(items === null || items === undefined || items.length === 0) {
         await logHelper.createLog(req, '', "game");
     }
-    return res.json(theItems);
+    return res.json(items);
 };
 
 exports.createByUser = async function (req, res, next) {

@@ -13,6 +13,11 @@ exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let items = await publisherDb.getAll();
+        for (item of items) {
+            let user = await userDb.getById(item.userId);
+            delete item.userId;
+            item.user = user;
+        }
         return res.json(items);
     } else {
         return res.sendStatus(403);
