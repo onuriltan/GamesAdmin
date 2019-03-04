@@ -11,6 +11,8 @@ exports.getAll = async function (req, res, next) {
     for (item of items) {
         let consolee = await consoleDb.getById(item.consoleId);
         let publisher = await publisherDb.getById(item.publisherId);
+        delete item.consoleId;
+        delete item.publisherId;
         item.console = consolee;
         item.publisher = publisher;
     }
@@ -46,6 +48,8 @@ exports.getAllByUser = async function (req, res, next) {
             for (item of items) {
                 let consolee = await consoleDb.getById(item.consoleId);
                 let publisher = await publisherDb.getById(item.publisherId);
+                delete item.consoleId;
+                delete item.publisherId;
                 item.console = consolee;
                 item.publisher = publisher;
             }

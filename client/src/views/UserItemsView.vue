@@ -14,8 +14,8 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <AddGame :getGames="getGamesByUser" :publishers="this.publishers"/>
-        <ItemTable :items="gameItems" :deleteItemById="deleteItemById" :publishers="publishers" group="game" :isUser="isUser"/>
+        <AddGame :getGames="getGamesByUser" :publishers="publishers" :consoles="consoles"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game" :isUser="isUser"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
@@ -62,7 +62,6 @@ export default {
   methods: {
     async getGamesByUser () {
       this.games = await gameService.getAllByUser()
-      this.prepareGames()
     },
     async getConsoles () {
       this.consoles = await consoleService.getAllByUser()
@@ -83,20 +82,6 @@ export default {
         await publisherService.deletePublisherById(id)
         await this.getPublishers()
       }
-    },
-    prepareGames () {
-      let theItem = null
-      this.gameItems = []
-      for (let item of this.games) {
-        for (let publisher of this.publishers) {
-          if (item.publisherId === publisher._id) {
-            theItem = item
-            theItem.publisherName = publisher.name
-            this.gameItems.push(theItem)
-            theItem = null
-          }
-        }
-      }
     }
   },
   async mounted () {
@@ -104,7 +89,6 @@ export default {
     await this.getGamesByUser()
     await this.getConsoles()
     await this.getPublishers()
-    this.prepareGames()
   }
 }
 </script>
