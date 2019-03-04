@@ -58,9 +58,6 @@
           comment:this.itemToUpdate.comment,
         }
       }
-    },
-    mounted() {
-      console.log(this.itemToUpdate)
     }
   }
 </script>
