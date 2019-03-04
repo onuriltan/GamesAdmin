@@ -14,7 +14,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <AddGame :getGames="getGamesByUser" :publishers="publishers" :consoles="consoles"/>
+        <AddGame :getGames="getGames" :publishers="publishers" :consoles="consoles"/>
         <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game" :isUser="isUser"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
@@ -60,7 +60,7 @@ export default {
     }
   },
   methods: {
-    async getGamesByUser () {
+    async getGames () {
       this.games = await gameService.getAllByUser()
     },
     async getConsoles () {
@@ -72,7 +72,7 @@ export default {
     async deleteItemById (group, id) {
       if (group === 'game') {
         await gameService.deleteGameById(id)
-        await this.getGamesByUser()
+        await this.getGames()
       }
       if (group === 'console') {
         await consoleService.deleteConsoleById(id)
@@ -86,7 +86,7 @@ export default {
   },
   async mounted () {
     await this.$store.dispatch("checkIsAuthenticated")
-    await this.getGamesByUser()
+    await this.getGames()
     await this.getConsoles()
     await this.getPublishers()
   }
