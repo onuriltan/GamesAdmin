@@ -11,7 +11,7 @@ exports.getAll = async function (req, res, next) {
 
 exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
+    if (authData !== null && authData.role === "admin") {
         let items = await consoleDb.getAll();
         for (item of items) {
             let user = await userDb.getById(item.userId);
@@ -79,9 +79,14 @@ exports.deleteById = async function (req, res, next) {
         if (error) {
             return res.status(400).send({error})
         }
-        let deletedItem = await consoleDb.deleteConsoleById(itemId);
-        await logHelper.createLog(deletedItem.name + ' deleted.', email, "console-crud");
-        return res.status(200).send({message: deletedItem.name + ' deleted'});
+        let existingItem = await consoleDb.getById(itemId);
+        if(existingItem) {
+            await consoleDb.deleteConsoleById(itemId);
+            await logHelper.createLog(existingItem.name + ' deleted.', email, "console-crud");
+            return res.sendStatus(200);
+        }else {
+            return res.status(404).send({error: "Console not found"});
+        }
     }
     if (authData !== null && authData.role === "user") {
         let error = consoleValidation.validateDelete(req);
@@ -92,9 +97,9 @@ exports.deleteById = async function (req, res, next) {
         if (user) {
             let ownItem = await consoleDb.getConsoleByUserandId(user._id, itemId);
             if(ownItem) {
-                let deletedItem = await consoleDb.deleteConsoleById(itemId);
-                await logHelper.createLog(deletedItem.name + ' deleted.', email, "console-crud");
-                return res.status(200).send({message: deletedItem.name + ' deleted'});
+                await consoleDb.deleteConsoleById(itemId);
+                await logHelper.createLog(ownItem.name + ' deleted.', email, "console-crud");
+                return res.status(200).send({message: ownItem.name + ' deleted'});
             } else {
                 return res.sendStatus(403);
             }

@@ -10,8 +10,13 @@ exports.createLog = function (message, type, email, count) {
     log.save();
 };
 
-exports.findLogsByApi = function (type) {
+exports.findLogsByType = function (type) {
     return Log.find({type}).select('-__v').sort( { count: -1 }) // -1 means descending sort
+};
+
+exports.getCrudLogs = function () {
+    let regex = new RegExp("crud", "i");
+    return Log.find({"type": {$regex: regex}}).select('-__v').sort( { count: -1 }) // -1 means descending sort
 };
 
 exports.findLogsByPathandEmail = function (message, email) {

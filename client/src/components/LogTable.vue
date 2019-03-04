@@ -4,7 +4,8 @@
       <thead>
       <tr>
         <th scope="col">Message</th>
-        <th scope="col">User</th>
+        <th scope="col" v-if="category === 'crud'">User</th>
+        <th scope="col" v-if="category === 'crud'">Category</th>
         <th scope="col">Last Time</th>
         <th scope="col">Count</th>
       </tr>
@@ -12,7 +13,8 @@
       <tbody>
       <tr v-for="log in logs">
         <td>{{log.message}}</td>
-        <td>{{log.email}}</td>
+        <td v-if="category === 'crud'">{{log.email}}</td>
+        <td v-if="category === 'crud'">{{log.type}}</td>
         <td>{{log.updatedAt | convertDate()}}</td>
         <td>{{log.count}}</td>
       </tr>
@@ -25,7 +27,8 @@
 export default {
   name: 'LogTable',
   props: {
-    logs: Array
+    logs: Array,
+    category: String
   },
   filters: {
     convertDate (date) {

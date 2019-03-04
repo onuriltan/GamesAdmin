@@ -144,7 +144,6 @@ exports.deactivateUser = async function (req, res, next) {
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
             let deactivatedUser = await userDb.deactivateUser(existingUser);
-            console.log(deactivatedUser.name + " deactivated")
             return res.status(201).send({message: 'User deactivated'})
         } else {
             return res.status(400).send({error: 'User not found'})

@@ -60,6 +60,7 @@ module.exports = function(app){
     // Log Routes
     apiRoutes.use('/log', logRoutes);
     logRoutes.get('/getLogs/:type', logController.getLogsByType);
+    logRoutes.get('/getCrudLogs', logController.getCrudLogs);
 
     // Base route
     app.use('/api', apiRoutes);

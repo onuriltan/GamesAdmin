@@ -21,6 +21,10 @@ exports.getByName = async function (name) {
     return Publisher.find({"name": {$regex: regex}}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
 
+exports.findById = async function (id) {
+    return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
+};
+
 exports.getPublisherByUserandId = async function (userId, id) {
     return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };

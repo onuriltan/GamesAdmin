@@ -21,16 +21,16 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <LogTable :logs="gameNotFoundLogs" />
+        <LogTable :logs="gameNotFoundLogs" category="game-notfound"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
-       <LogTable :logs="consoleNotFoundLogs" />
+       <LogTable :logs="consoleNotFoundLogs" category="category-notfound"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
-        <LogTable :logs="publisherNotFoundLogs" />
+        <LogTable :logs="publisherNotFoundLogs" category="publisher-notfound"/>
       </div>
       <div class="tab-pane fade show active" id="crud" role="tabpanel" aria-labelledby="contact-tab">
-        <LogTable :logs="crudLogs" />
+        <LogTable :logs="crudLogs" category="crud"/>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@ export default {
       this.publisherNotFoundLogs = await LogService.getLogsByType('publisher-notfound')
     },
     async getCrudLogs () {
-      this.crudLogs = await LogService.getLogsByType('crud')
+      this.crudLogs = await LogService.getCrudLogs()
     }
   },
   mounted () {

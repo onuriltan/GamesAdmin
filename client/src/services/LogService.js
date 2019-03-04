@@ -20,6 +20,22 @@ class LogService {
       }
     })
   }
+
+  static getCrudLogs () {
+    Store.dispatch('checkIsAuthenticated')
+    let config = {
+      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
+    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        const res = await axios.get(`${url}/getCrudLogs`, config)
+        const data = res.data
+        resolve(data)
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
 }
 
 export default LogService
