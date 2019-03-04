@@ -13,7 +13,9 @@ exports.getGamesByUser = async function (userId) {
 };
 
 exports.getByName = async function (name) {
-    return Game.find({name}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
+    let regex = new RegExp(`${name}`, "i");
+    return Game.find({"name": {$regex: regex}}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
+
 };
 
 exports.getGameByUserandId = async function (userId, id) {

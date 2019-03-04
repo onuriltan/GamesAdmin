@@ -15,7 +15,8 @@ exports.getById = async function (id) {
 };
 
 exports.getByName = async function (name) {
-    return Console.find({name}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
+    let regex = new RegExp(`${name}`, "i");
+    return Console.find({"name": {$regex: regex}}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
 
 exports.getConsolesByUser = async function (userId) {
