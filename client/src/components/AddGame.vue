@@ -26,8 +26,8 @@
     </div>
     <div class="form-row mt-3">
       <div class="col">
-        <label for="roles">Publisher</label>
-        <select class="form-control" id="roles" v-model="data.publisherId">
+        <label for="publishers">Publisher</label>
+        <select class="form-control" id="publishers" v-model="data.publisherId">
           <option v-for="pub in publishers" :value="pub._id">{{pub.name}}</option>
         </select>
       </div>

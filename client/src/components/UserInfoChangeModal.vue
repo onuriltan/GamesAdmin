@@ -12,9 +12,6 @@
           </div>
           <div class="modal-body">
             <form>
-              <div class="alert alert-success" v-if="updatedMessage">
-                {{updatedMessage}}
-              </div>
               <div class="alert alert-danger" v-if="errorMessage">
                 {{errorMessage}}
               </div>
@@ -26,11 +23,21 @@
                 <label for="password" class="col-form-label">Password:</label>
                 <input v-if="user" type="password" class="form-control" id="password" v-model="newPassword">
               </div>
+              <div class="form-group">
+                <label for="role">Role</label>
+                <select class="form-control" id="role" v-model="newRole">
+                  <option value="user">User</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="123" class="col-form-label">Comment:</label>
+                <input v-if="user" type="text" class="form-control" id="123" v-model="newComment">
+              </div>
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="resetUser">Close</button>
-            <button type="button" class="btn btn-success" @click="updateUser(user.email, newEmail, newPassword)">Update</button>
+            <button type="button" class="btn btn-success" @click="updateUser(user.email, newEmail, newPassword, newRole, newComment)">Update</button>
           </div>
         </div>
       </div>
@@ -51,7 +58,9 @@ export default {
   data () {
     return {
       newEmail: this.user.email,
-      newPassword: ''
+      newPassword: '',
+      newRole:this.user.role,
+      newComment: this.user.comment
     }
   }
 }

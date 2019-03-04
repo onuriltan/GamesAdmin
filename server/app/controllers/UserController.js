@@ -108,12 +108,11 @@ exports.updateEmail = async function (req, res, next) {
 exports.updateUser = async function(req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
-        await logHelper.createLog(req, authData.email, "admin");
         let error =  userValidation.validateUpdateUser(req, res);
         if(error) {
             return res.status(400).send({error})
         }
-        const {oldEmail, newEmail, newPassword} = req.body;
+        const {oldEmail, newEmail, newPassword, newRole, newComment} = req.body;
         if(!oldEmail) {
             return res.status(400).send({error: 'You must enter the old email'});
         }
@@ -123,7 +122,11 @@ exports.updateUser = async function(req, res, next) {
         }
         if(newEmail) existingUser.email = newEmail;
         if(newPassword) existingUser.password = newPassword;
+        if(newRole) existingUser.role = newRole;
+        if(newComment) existingUser.comment = newComment;
         existingUser.save();
+        await logHelper.createLog(existingUser.name + ' updated.', authData.email, "admin");
+
         return res.status(200).send({message: 'User updated'});
     }
     else {

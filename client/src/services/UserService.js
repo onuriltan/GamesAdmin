@@ -79,14 +79,14 @@ class UserService {
     return res
   }
 
-  static async updateUser (oldEmail, newEmail, newPassword) {
+  static async updateUser (oldEmail, newEmail, newPassword, newRole, newComment) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/update`, { oldEmail, newEmail, newPassword }, config)
+      res = await axios.post(`${url}/update`, { oldEmail, newEmail, newPassword, newRole, newComment }, config)
     } catch (err) {
       res = err.response
     }

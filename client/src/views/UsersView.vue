@@ -10,12 +10,12 @@
       </div>
       <div class="form-row">
         <div class="col">
-          <label for="exampleInputEmail1" class="mr-2">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" v-model="email">
+          <label for="email" class="mr-2">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" v-model="email">
         </div>
         <div class="col">
-          <label for="exampleInputPassword1" class="mr-2">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" v-model="password">
+          <label for="password" class="mr-2">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password" v-model="password">
         </div>
       </div>
       <div class="form-row mt-3">
@@ -78,13 +78,16 @@ export default {
       this.users = await UserService.getUsers()
       this.isLoading = false
     },
-    async updateUser (oldEmail, newEmail, newPassword) {
+    async updateUser (oldEmail, newEmail, newPassword, newRole, newComment) {
       this.isLoading = true
       this.error = null
       this.updatedMessage = null
       this.errorMessage = null
-      let res = await UserService.updateUser(oldEmail, newEmail, newPassword)
-      if (res.data.message) this.updatedMessage = res.data.message
+      let res = await UserService.updateUser(oldEmail, newEmail, newPassword, newRole, newComment)
+      if (res.data.message) {
+        this.updatedMessage = res.data.message
+        $('#userInfoChaneModal').modal('toggle')
+      }
       if (res.data.error) this.errorMessage = res.data.error
       await this.getUsers()
       this.isLoading = false
