@@ -110,3 +110,51 @@ exports.deleteById = async function (req, res, next) {
         return res.sendStatus(403);
     }
 };
+
+
+exports.updateByUser = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null) {
+        let {email} = authData;
+        let user = await userDb.getUser(email);
+        if (user) {
+            let { oldName, name, location, comment } = req.body;
+            let item = await publisherDb.getByExactName(oldName);
+            if (item) {
+                if (name) item.name = name;
+                if (location) item.location = location;
+                if (comment) item.ram = comment;
+                item.save();
+                await logHelper.createLog(oldName + ' publisher updated.', email, "publisher-crud");
+                return res.status(200).send({message: oldName + ' updated'});
+            } else {
+                return res.status(404).send({message: oldName + ' not found'});
+            }
+        } else {
+            return res.sendStatus(403);
+        }
+    } else {
+        res.sendStatus(403);
+    }
+};
+
+exports.updateByAdmin = async function (req, res, next) {
+    const authData = await jwtHelper.decodeToken(req, res);
+    if (authData !== null && authData.role === "admin") {
+        let {email} = authData;
+        let { oldName, name, location, comment } = req.body;
+        let item = await publisherDb.getByExactName(oldName);
+        if (item) {
+            if (name) item.name = name;
+            if (location) item.location = location;
+            if (comment) item.ram = comment;
+            item.save();
+            await logHelper.createLog(oldName + ' publisher updated.', email, "publisher-crud");
+            return res.status(200).send({message: oldName + ' updated'});
+        } else {
+            return res.status(404).send({message: oldName + ' not found'});
+        }
+    } else {
+        res.sendStatus(403);
+    }
+};

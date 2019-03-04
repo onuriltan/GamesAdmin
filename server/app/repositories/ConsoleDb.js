@@ -19,6 +19,10 @@ exports.getByName = async function (name) {
     return Console.find({"name": {$regex: regex}}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
 
+exports.getByExactName = async function (name) {
+    return Console.findOne({name});
+};
+
 exports.getConsolesByUser = async function (userId) {
     return Console.find({userId}).select('-__v').lean().exec();
 };
