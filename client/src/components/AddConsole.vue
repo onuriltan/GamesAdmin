@@ -1,10 +1,12 @@
 <template>
   <form @submit.prevent="addConsole" class="mb-5 mt-5">
-    <div class="alert alert-danger" v-if="error">
-      {{error}}
-    </div>
-    <div class="alert alert-success" v-if="message">
-      {{message}}
+    <div style="height: 70px">
+      <div class="alert alert-danger" v-if="error">
+        {{error}}
+      </div>
+      <div class="alert alert-success" v-if="message">
+        {{message}}
+      </div>
     </div>
     <div class="form-row">
       <div class="col">

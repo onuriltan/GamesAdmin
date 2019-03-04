@@ -1,18 +1,18 @@
 exports.validateCreate = function (req) {
     let { name, dateReleased, publisherId, consoleId } = req.body;
     if (!name) {
-        return 'You must enter a game name';
+        return 'You must enter the game name';
     }
     if (!dateReleased) {
-        return 'You must a release date';
+        return 'You must enter the release date';
     }else if (!dateReleased instanceof Date) {
-        return 'You must a release date in date format';
+        return 'You must enter the release date in date format';
     }
     if (!publisherId) {
-        return 'You must enter a publisher';
+        return 'You must enter the publisher';
     }
     if (!consoleId) {
-        return 'You must enter a console';
+        return 'You must enter the console';
     }
     return null;
 };

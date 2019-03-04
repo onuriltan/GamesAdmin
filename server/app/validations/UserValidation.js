@@ -1,22 +1,22 @@
 exports.validateAddUser = function (req) {
     const {email, password, role, comment} = req.body;
     if (!email) {
-        return 'You must enter an email address';
+        return 'You must enter the email address';
     } else if (!validEmail(email)) {
         return 'Email is not valid';
     }
     if (!password) {
-        return 'You must enter a password';
+        return 'You must enter the password';
     } else if (password.length < 6) {
         return 'New password length should be 6';
     }
     if (!role) {
-        return 'You must enter a role';
+        return 'You must enter the role';
     } else if (role !== 'user') {
         return 'Wrong role';
     }
     if (!comment) {
-        return 'You must enter a comment';
+        return 'You must enter the comment';
     }
     return null;
 };
@@ -24,7 +24,7 @@ exports.validateAddUser = function (req) {
 exports.validateDeleteUser = function (req) {
     const {email} = req.body;
     if (!email) {
-        return 'You must enter an email address';
+        return 'You must enter the email address';
     } else if (!validEmail(email)) {
         return 'Email is not valid';
     }
