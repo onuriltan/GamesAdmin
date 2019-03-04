@@ -21,7 +21,7 @@
       <tr v-for="item in items" v-if="items.length > 0">
         <td>{{item.name}}</td>
         <td v-if="!isUser && item.user">
-         {{item.user.email}}
+          {{item.user.email}}
         </td>
         <td v-if="group ==='game' && item.publisher">{{item.publisher.name}}</td>
         <td v-if="group ==='game' && item.console">{{item.console.name}}</td>
@@ -33,8 +33,9 @@
         <td v-if="group ==='publisher'">{{item.location}}</td>
         <td v-if="group ==='publisher'">{{item.comment}}</td>
         <td>
-          <button type="button" class="btn btn-success btn-sm mr-3"
-                  @click="setItemToUpdate(item)" data-toggle="modal" data-target="#itemUpdateModal">Update</button>
+          <button v-if="group==='game'" type="button" class="btn btn-success btn-sm mr-3"
+                  @click="setItemtoUpdate(item)" data-toggle="modal" data-target="#gameUpdateModal">Update
+          </button>
 
           <button type="button" class="btn btn-danger btn-sm" @click="deleteItemById(group,item._id)">Delete</button>
         </td>
@@ -45,6 +46,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'ItemTable',
   props: {
@@ -52,10 +54,10 @@ export default {
     deleteItemById: Function,
     group: String,
     isUser: Boolean,
-    setItemToUpdate: Function
+    setItemtoUpdate: Function
   },
   filters: {
-    readableDate (date) {
+    readableDate(date) {
       if (date === null) {
         return ' '
       }
@@ -72,7 +74,6 @@ export default {
       return day + '/' + month + '/' + year
     }
   }
-
 }
 </script>
 

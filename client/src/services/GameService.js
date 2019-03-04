@@ -58,28 +58,28 @@ class GameService {
     return axios.post(`${url}/deleteById`, { id }, config)
   }
 
-  static async editByUser (data) {
+  static async updateByUser (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/editByUser`, data, config)
+      res = await axios.post(`${url}/updateByUser`, data, config)
     } catch (err) {
       res = err.response
     }
     return res
   }
 
-  static async editByAdmin (data) {
+  static async updateByAdmin (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/editByAdmin`, data, config)
+      res = await axios.post(`${url}/updateByAdmin`, data, config)
     } catch (err) {
       res = err.response
     }

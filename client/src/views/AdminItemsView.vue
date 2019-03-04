@@ -15,7 +15,9 @@
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active" id="game" role="tabpanel" aria-labelledby="game-tab">
         <AddGame :getGames="getGames" :publishers="publishers" :consoles="consoles"/>
-        <ItemTable :items="games" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="game"/>
+        <ItemTable :items="games" :deleteItemById="deleteItemById" group="game" :setItemtoUpdate="setItemtoUpdate"/>
+        <UpdateGameModal v-if="itemToUpdate" :updateItem="updateGame" :itemToUpdate="itemToUpdate"
+                          :resetItem="resetItem" :publishers="publishers" :consoles="consoles"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
@@ -26,7 +28,6 @@
         <ItemTable :items="publishers" :deleteItemById="deleteItemById" :setItemtoUpdate="setItemtoUpdate" group="publisher"/>
       </div>
     </div>
-    <UpdateItemModal />
   </div>
 </template>
 
@@ -38,7 +39,7 @@ import AddGame from '../components/AddGame'
 import AddConsole from '../components/AddConsole'
 import AddPublisher from '../components/AddPublisher'
 import ItemTable from '../components/ItemTable'
-import UpdateItemModal from '../components/UpdateItemModal'
+import UpdateGameModal from '../components/UpdateGameModal'
 
 export default {
   name: 'AdminItemsView',
@@ -47,7 +48,7 @@ export default {
     AddGame,
     AddConsole,
     AddPublisher,
-    UpdateItemModal
+    UpdateGameModal
   },
   data () {
     return {
@@ -61,6 +62,9 @@ export default {
     setItemtoUpdate (item) {
       this.itemToUpdate = item
     },
+    resetItem () {
+      this.itemToUpdate = null
+    },
     async getGames () {
       this.games = await gameService.getAllByAdmin()
     },
@@ -69,6 +73,13 @@ export default {
     },
     async getPublishers () {
       this.publishers = await publisherService.getAllByAdmin()
+    },
+    async updateGame(data) {
+      let res = await gameService.updateByAdmin(data)
+      if(res.data.message) {
+        await this.getGames()
+        $('#gameUpdateModal').modal('toggle')
+      }
     },
     async deleteItemById (group, id) {
       if (group === 'game') {
