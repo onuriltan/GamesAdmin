@@ -145,6 +145,10 @@ exports.updateByUser = async function (req, res, next) {
         let {email} = authData;
         let user = await userDb.getUser(email);
         if (user) {
+            let error = gameValidation.validateUpdate(req);
+            if (error) {
+                return res.status(400).send({error})
+            }
             let {oldName, name, consoleId, publisherId, dateReleased} = req.body;
             let item = await gameDb.getByExactName(oldName);
             if (item) {
@@ -169,6 +173,10 @@ exports.updateByUser = async function (req, res, next) {
 exports.updateByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === "admin") {
+        let error = gameValidation.validateUpdate(req);
+        if (error) {
+            return res.status(400).send({error})
+        }
         let {email} = authData;
         let {oldName, name, consoleId, publisherId, dateReleased} = req.body;
         let item = await gameDb.getByExactName(oldName);

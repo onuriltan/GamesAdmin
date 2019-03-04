@@ -25,3 +25,14 @@ exports.validateDelete = function (req) {
     }
     return null;
 };
+
+exports.validateUpdate = function (req) {
+    let { oldName, name } = req.body;
+    if (!oldName) {
+        return 'You must enter the old name of the item';
+    }
+    if (!name) {
+        return 'You must enter the new name of the item';
+    }
+    return null;
+};
