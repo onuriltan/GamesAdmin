@@ -1,8 +1,8 @@
 const Log = require('../models/Log');
 
-exports.createLog = function (path, type, email, count) {
+exports.createLog = function (message, type, email, count) {
     const log = new Log({
-        path,
+        message,
         type,
         email,
         count
@@ -14,6 +14,6 @@ exports.findLogsByApi = function (type) {
     return Log.find({type}).select('-__v').sort( { count: -1 }) // -1 means descending sort
 };
 
-exports.findLogsByPathandEmail = function (path, email) {
-    return Log.findOne({path, email}).select('-__v').sort( { count: -1 })
+exports.findLogsByPathandEmail = function (message, email) {
+    return Log.findOne({message, email}).select('-__v').sort( { count: -1 })
 };

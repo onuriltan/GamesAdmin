@@ -31,7 +31,6 @@ exports.getAllByUser = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let items = await consoleDb.getConsolesByUser(user.id);
-            await logHelper.createLog(req, email, "crud");
             return res.json(items);
         } else {
             res.sendStatus(403);
@@ -44,7 +43,7 @@ exports.getAllByUser = async function (req, res, next) {
 exports.getByName = async function (req, res, next) {
     let items = await consoleDb.getByName(req.params.name);
     if(items === null || items === undefined || items.length === 0) {
-        await logHelper.createLog(req, '', "console");
+        await logHelper.createLog(req.params.name + ' not found.', '', "console-notfound");
     }
     return res.json(items);
 };
@@ -60,7 +59,7 @@ exports.createByUser = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let newItem = await consoleDb.createConsole(req.body, user.id);
-            await logHelper.createLog(req, email, "crud");
+            await logHelper.createLog(newItem.name + ' created.', email, "console-crud");
             return res.status(200).send({message: newItem.name + ' added'});
         } else {
             return res.sendStatus(403);
@@ -81,7 +80,7 @@ exports.deleteById = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let deletedItem = await consoleDb.deleteConsoleById(itemId);
-        await logHelper.createLog(req, email, "crud");
+        await logHelper.createLog(deletedItem.name + ' deleted.', email, "console-crud");
         return res.status(200).send({message: deletedItem.name + ' deleted'});
     }
     if (authData !== null && authData.role === "user") {
@@ -91,10 +90,10 @@ exports.deleteById = async function (req, res, next) {
         }
         let user = await userDb.getUser(email);
         if (user) {
-            let ownGame = await consoleDb.getConsoleByUserandId(user._id, itemId);
-            if(ownGame) {
+            let ownItem = await consoleDb.getConsoleByUserandId(user._id, itemId);
+            if(ownItem) {
                 let deletedItem = await consoleDb.deleteConsoleById(itemId);
-                await logHelper.createLog(req, email, "crud");
+                await logHelper.createLog(deletedItem.name + ' deleted.', email, "console-crud");
                 return res.status(200).send({message: deletedItem.name + ' deleted'});
             } else {
                 return res.sendStatus(403);

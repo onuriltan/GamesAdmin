@@ -3,7 +3,7 @@
     <table class="table table-bordered">
       <thead>
       <tr>
-        <th scope="col">Path</th>
+        <th scope="col">Message</th>
         <th scope="col">User</th>
         <th scope="col">Last Time</th>
         <th scope="col">Count</th>
@@ -11,7 +11,7 @@
       </thead>
       <tbody>
       <tr v-for="log in logs">
-        <td>{{log.path}}</td>
+        <td>{{log.message}}</td>
         <td>{{log.email}}</td>
         <td>{{log.updatedAt | convertDate()}}</td>
         <td>{{log.count}}</td>

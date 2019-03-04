@@ -4,6 +4,7 @@ import Store from '../store/index'
 const url = process.env.VUE_APP_LOGS_URL
 
 class LogService {
+
   static getLogsByType (type) {
     Store.dispatch('checkIsAuthenticated')
     let config = {

@@ -1,11 +1,11 @@
 const logDb = require('../repositories/LogDb')
 
-exports.createLog = async function createLog(req, email, type) {
-    let existingLog = await logDb.findLogsByPathandEmail(req.originalUrl, email);
+exports.createLog = async function createLog(message, email, type) {
+    let existingLog = await logDb.findLogsByPathandEmail(message, email);
     if(existingLog) {
         existingLog.count = existingLog.count +1;
         existingLog.save();
     }else {
-        logDb.createLog(req.originalUrl, type, email, 1);
+        logDb.createLog(message, type, email, 1);
     }
 };

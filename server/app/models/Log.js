@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const LogSchema = new mongoose.Schema({
-    path: {
+    message: {
         type: String,
         required: true
     },

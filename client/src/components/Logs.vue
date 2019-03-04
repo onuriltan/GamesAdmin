@@ -21,13 +21,13 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade" id="game" role="tabpanel" aria-labelledby="game-tab">
-        <LogTable :logs="gameLogs" />
+        <LogTable :logs="gameNotFoundLogs" />
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
-       <LogTable :logs="consoleLogs" />
+       <LogTable :logs="consoleNotFoundLogs" />
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
-        <LogTable :logs="publisherLogs" />
+        <LogTable :logs="publisherNotFoundLogs" />
       </div>
       <div class="tab-pane fade show active" id="crud" role="tabpanel" aria-labelledby="contact-tab">
         <LogTable :logs="crudLogs" />
@@ -46,21 +46,21 @@ export default {
   },
   data () {
     return {
-      gameLogs: [],
-      consoleLogs: [],
-      publisherLogs: [],
+      gameNotFoundLogs: [],
+      consoleNotFoundLogs: [],
+      publisherNotFoundLogs: [],
       crudLogs: []
     }
   },
   methods: {
     async getGameLogs () {
-      this.gameLogs = await LogService.getLogsByType('game')
+      this.gameNotFoundLogs = await LogService.getLogsByType('game-notfound')
     },
     async getConsoleLogs () {
-      this.consoleLogs = await LogService.getLogsByType('console')
+      this.consoleNotFoundLogs = await LogService.getLogsByType('console-notfound')
     },
     async getPublisherLogs () {
-      this.publisherLogs = await LogService.getLogsByType('publisher')
+      this.publisherNotFoundLogs = await LogService.getLogsByType('publisher-notfound')
     },
     async getCrudLogs () {
       this.crudLogs = await LogService.getLogsByType('crud')
