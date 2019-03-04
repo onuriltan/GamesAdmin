@@ -19,7 +19,7 @@ exports.getByName = async function (name) {
 };
 
 exports.getById = async function (id) {
-    return Console.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
+    return Game.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
 
 exports.getGameByUserandId = async function (userId, id) {
