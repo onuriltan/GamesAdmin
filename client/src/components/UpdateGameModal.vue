@@ -69,9 +69,6 @@ export default {
         consoleId: this.itemToUpdate.consoleId
       }
     }
-  },
-  mounted () {
-    console.log(this.itemToUpdate)
   }
 }
 </script>
