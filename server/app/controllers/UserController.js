@@ -7,7 +7,7 @@ const userValidation = require('../validations/UserValidation');
 exports.getUsers = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null && authData.role === 'admin') {
-        let users = await userDb.getAll();
+        let users = await userDb.getUsersByRole('user');
         return res.json(users);
     } else {
         return res.sendStatus(403)
