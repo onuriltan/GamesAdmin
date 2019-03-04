@@ -11,9 +11,9 @@ exports.createLog = function (path, type, email, count) {
 };
 
 exports.findLogsByApi = function (type) {
-    return Log.find({type}).select('-__v')
+    return Log.find({type}).select('-__v').sort( { count: -1 }) // -1 means descending sort
 };
 
 exports.findLogsByPathandEmail = function (path, email) {
-    return Log.findOne({path, email}).select('-__v')
+    return Log.findOne({path, email}).select('-__v').sort( { count: -1 })
 };
