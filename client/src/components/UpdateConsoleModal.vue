@@ -16,6 +16,10 @@
                 {{errorMessage}}
               </div>
               <div class="form-group">
+                <label for="name" class="col-form-label">Name</label>
+                <input v-if="itemToUpdate" type="text" class="form-control" id="name" v-model="data.name">
+              </div>
+              <div class="form-group">
                 <label for="cpu" class="col-form-label">CPU</label>
                 <input v-if="itemToUpdate" type="text" class="form-control" id="cpu" v-model="data.cpu">
               </div>

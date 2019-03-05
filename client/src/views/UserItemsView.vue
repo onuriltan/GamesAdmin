@@ -21,18 +21,18 @@
         <ItemTable :items="games" :deleteItemById="deleteItemById" :publishers="publishers" group="game"
                    :isUser="isUser" :setItemtoUpdate="setItemtoUpdate"/>
         <UpdateGameModal v-if="itemToUpdate" :updateItem="updateGame" :itemToUpdate="itemToUpdate"
-                         :resetItem="resetItem" :publishers="publishers" :consoles="consoles"/>
+                         :resetItem="resetItem" :publishers="publishers" :consoles="consoles" :errorMessage="gameUpdateError"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
         <AddConsole :getConsoles="getConsoles"/>
         <ItemTable :items="consoles" :deleteItemById="deleteItemById" group="console" :isUser="isUser" :setItemtoUpdate="setItemtoUpdate"/>
-        <UpdateConsoleModal v-if="itemToUpdate" :updateItem="updateConsole" :itemToUpdate="itemToUpdate"
+        <UpdateConsoleModal v-if="itemToUpdate" :updateItem="updateConsole" :itemToUpdate="itemToUpdate" :errorMessage="consoleUpdateError"
                             :resetItem="resetItem" />
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
         <AddPublisher :getPublishers="getPublishers"/>
         <ItemTable :items="publishers" :deleteItemById="deleteItemById" group="publisher" :isUser="isUser" :setItemtoUpdate="setItemtoUpdate"/>
-        <UpdatePublisherModal v-if="itemToUpdate" :updateItem="updatePublisher" :itemToUpdate="itemToUpdate"
+        <UpdatePublisherModal v-if="itemToUpdate" :updateItem="updatePublisher" :itemToUpdate="itemToUpdate" :errorMessage="publisherUpdateError"
                               :resetItem="resetItem" />
       </div>
     </div>
@@ -73,7 +73,10 @@ export default {
       consoles: [],
       publishers: [],
       gameItems: [],
-      itemToUpdate: null
+      itemToUpdate: null,
+      gameUpdateError: null,
+      consoleUpdateError: null,
+      publisherUpdateError: null,
     }
   },
   methods: {
@@ -82,6 +85,9 @@ export default {
     },
     resetItem () {
       this.itemToUpdate = null
+      this.gameUpdateError = null
+      this.consoleUpdateError = null
+      this.publisherUpdateError = null
     },
     async getGames () {
       this.games = await gameService.getAllByUser()
@@ -96,8 +102,12 @@ export default {
       let res = await gameService.updateByUser(data)
       if (res.data.message) {
         await this.getGames()
+        this.gameUpdateError = null
         $('#gameUpdateModal').modal('toggle')
         this.itemToUpdate = null
+      }
+      if(res.data.error) {
+        this.gameUpdateError = res.data.error
       }
     },
     async updateConsole (data) {
@@ -105,8 +115,12 @@ export default {
       if (res.data.message) {
         await this.getGames()
         await this.getConsoles()
+        this.consoleUpdateError = null
         $('#consoleUpdateModal').modal('toggle')
         this.itemToUpdate = null
+      }
+      if(res.data.error) {
+        this.consoleUpdateError = res.data.error
       }
     },
     async updatePublisher (data) {
@@ -114,8 +128,12 @@ export default {
       if (res.data.message) {
         await this.getGames()
         await this.getPublishers()
+        this.publisherUpdateError = null
         $('#publisherUpdateModal').modal('toggle')
         this.itemToUpdate = null
+      }
+      if(res.data.error) {
+        this.publisherUpdateError = res.data.error
       }
     },
     async deleteItemById (group, id) {
