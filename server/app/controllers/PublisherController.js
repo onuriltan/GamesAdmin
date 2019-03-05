@@ -5,10 +5,16 @@ const logHelper = require('../helpers/LogHelper');
 const publisherValidation = require('../validations/PublisherValidation');
 
 
-exports.getAllByAdmin = async function (req, res, next) {
+exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === "admin") {
-        let items = await publisherDb.getAll();
+    if (authData !== null) {
+        let items = [];
+        if(authData.role === "admin") {
+            items = await publisherDb.getAll();
+        }if(authData.role === "user") {
+            let user = await userDb.getUser(authData.email);
+            items = await publisherDb.getPublishersByUser(user.id);
+        }
         for (item of items) {
             let user = await userDb.getById(item.userId);
             delete item.userId;
@@ -20,21 +26,6 @@ exports.getAllByAdmin = async function (req, res, next) {
     }
 };
 
-exports.getAllByUser = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let {email} = authData;
-        let user = await userDb.getUser(email);
-        if (user) {
-            let items = await publisherDb.getPublishersByUser(user.id);
-            return res.json(items);
-        } else {
-            res.sendStatus(403);
-        }
-    } else {
-        return res.sendStatus(403);
-    }
-};
 
 exports.getByName = async function (req, res, next) {
     let items = await publisherDb.getByName(req.params.name);
@@ -44,7 +35,7 @@ exports.getByName = async function (req, res, next) {
     return res.json(items);
 };
 
-exports.createByUser = async function (req, res, next) {
+exports.create = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
@@ -107,53 +98,28 @@ exports.deleteById = async function (req, res, next) {
     }
 };
 
-
-exports.updateByUser = async function (req, res, next) {
+exports.update = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let {email} = authData;
-        let user = await userDb.getUser(email);
-        if (user) {
-            let error = publisherValidation.validateUpdate(req);
-            if (error) {
-                return res.status(400).send({error})
-            }
-            let {oldName, name, location, comment} = req.body;
-            let item = await publisherDb.getByExactName(oldName);
-            if (item) {
-                if (name) item.name = name;
-                if (location) item.location = location;
-                if (comment) item.comment = comment;
-                item.save();
-                await logHelper.createLog(oldName + ' publisher updated.', email, "publisher-crud");
-                return res.status(200).send({message: oldName + ' updated'});
-            } else {
-                return res.status(404).send({message: oldName + ' not found'});
-            }
-        } else {
-            return res.sendStatus(403);
-        }
-    } else {
-        res.sendStatus(403);
-    }
-};
-
-exports.updateByAdmin = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === "admin") {
         let error = publisherValidation.validateUpdate(req);
         if (error) {
             return res.status(400).send({error})
         }
-        let {email} = authData;
         let {oldName, name, location, comment} = req.body;
-        let item = await publisherDb.getByExactName(oldName);
+        let item = null;
+        if(authData.role === "admin") {
+            item = await publisherDb.getByExactName(oldName);
+        }
+        if(authData.role === "user") {
+            let user = await userDb.getUser(authData.email);
+            item = await publisherDb.getByNameandUser(oldName, user.id);
+        }
         if (item) {
             if (name) item.name = name;
             if (location) item.location = location;
             if (comment) item.comment = comment;
             item.save();
-            await logHelper.createLog(oldName + ' publisher updated.', email, "publisher-crud");
+            await logHelper.createLog(oldName + ' publisher updated.', authData.email, "publisher-crud");
             return res.status(200).send({message: oldName + ' updated'});
         } else {
             return res.status(404).send({message: oldName + ' not found'});

@@ -7,10 +7,16 @@ const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
 
 
-exports.getAllByAdmin = async function (req, res, next) {
+exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === "admin") {
-        let items = await gameDb.getAll();
+    if (authData !== null) {
+        let items = [];
+        if(authData.role === "admin") {
+            items = await gameDb.getAll();
+        }if(authData.role === "user") {
+            let user = await userDb.getUser(authData.email);
+            items = await gameDb.getGamesByUser(user.id);
+        }
         for (item of items) {
             let consolee = await consoleDb.getById(item.consoleId);
             let publisher = await publisherDb.getById(item.publisherId);
@@ -23,28 +29,6 @@ exports.getAllByAdmin = async function (req, res, next) {
         res.json(items);
     } else {
         res.sendStatus(403);
-    }
-};
-
-exports.getAllByUser = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let {email} = authData;
-        let user = await userDb.getUser(email);
-        if (user) {
-            let items = await gameDb.getGamesByUser(user.id);
-            for (item of items) {
-                let consolee = await consoleDb.getById(item.consoleId);
-                let publisher = await publisherDb.getById(item.publisherId);
-                item.console = consolee;
-                item.publisher = publisher;
-            }
-            return res.json(items);
-        } else {
-            res.sendStatus(403);
-        }
-    } else {
-        return res.sendStatus(403);
     }
 };
 
@@ -62,7 +46,7 @@ exports.getByName = async function (req, res, next) {
     return res.json(items);
 };
 
-exports.createByUser = async function (req, res, next) {
+exports.create = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;
@@ -126,55 +110,29 @@ exports.deleteById = async function (req, res, next) {
     }
 };
 
-
-exports.updateByUser = async function (req, res, next) {
+exports.update = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let {email} = authData;
-        let user = await userDb.getUser(email);
-        if (user) {
-            let error = gameValidation.validateUpdate(req);
-            if (error) {
-                return res.status(400).send({error})
-            }
-            let {oldName, name, consoleId, publisherId, dateReleased} = req.body;
-            let item = await gameDb.getByExactName(oldName);
-            if (item) {
-                if (name) item.name = name;
-                if (consoleId) item.consoleId = consoleId;
-                if (publisherId) item.publisherId = publisherId;
-                if (dateReleased) item.dateReleased = dateReleased;
-                item.save();
-                await logHelper.createLog(oldName + ' game updated.', email, "game-crud");
-                return res.status(200).send({message: oldName + ' updated'});
-            } else {
-                return res.status(404).send({message: oldName + ' not found'});
-            }
-        } else {
-            return res.sendStatus(403);
-        }
-    } else {
-        res.sendStatus(403);
-    }
-};
-
-exports.updateByAdmin = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === "admin") {
         let error = gameValidation.validateUpdate(req);
         if (error) {
             return res.status(400).send({error})
         }
-        let {email} = authData;
         let {oldName, name, consoleId, publisherId, dateReleased} = req.body;
-        let item = await gameDb.getByExactName(oldName);
+        let item = null;
+        if(authData.role === "admin") {
+            item = await gameDb.getByExactName(oldName);
+        }
+        if(authData.role === "user") {
+            let user = await userDb.getUser(authData.email);
+            item = await gameDb.getByNameandUser(oldName, user.id);
+        }
         if (item) {
             if (name) item.name = name;
             if (consoleId) item.consoleId = consoleId;
             if (publisherId) item.publisherId = publisherId;
             if (dateReleased) item.dateReleased = dateReleased;
             item.save();
-            await logHelper.createLog(oldName + ' game updated.', email, "game-crud");
+            await logHelper.createLog(oldName + ' game updated.', authData.email, "game-crud");
             return res.status(200).send({message: oldName + ' updated'});
         } else {
             return res.status(404).send({message: oldName + ' not found'});

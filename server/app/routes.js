@@ -23,8 +23,8 @@ module.exports = function (app) {
 
     // User Routes
     apiRoutes.use('/user', userRoutes);
-    userRoutes.get('/getUsers', userController.getUsers);
     userRoutes.post('/', userController.addUser);
+    userRoutes.get('/getUsers', userController.getUsers);
     userRoutes.post('/delete', userController.deleteUser);
     userRoutes.put('/deactivate', userController.deactivateUser);
     userRoutes.post('/update', userController.updateUser);
@@ -33,30 +33,24 @@ module.exports = function (app) {
 
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
-    gameRoutes.get('/getAllByAdmin', gameController.getAllByAdmin);
-    gameRoutes.get('/getAllByUser', gameController.getAllByUser);
-    gameRoutes.post('/createByUser', gameController.createByUser);
-    gameRoutes.post('/updateByAdmin', gameController.updateByAdmin);
-    gameRoutes.post('/updateByUser', gameController.updateByUser);
+    gameRoutes.get('/getAll', gameController.getAll);
+    gameRoutes.post('/update', gameController.update);
     gameRoutes.post('/deleteById', gameController.deleteById);
+    gameRoutes.post('/create', gameController.create);
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
-    consoleRoutes.get('/getAllByAdmin', consoleController.getAllByAdmin);
-    consoleRoutes.get('/getAllByUser', consoleController.getAllByUser);
-    consoleRoutes.post('/createByUser', consoleController.createByUser);
-    consoleRoutes.post('/updateByAdmin', consoleController.updateByAdmin);
-    consoleRoutes.post('/updateByUser', consoleController.updateByUser);
+    consoleRoutes.get('/getAll', consoleController.getAll);
+    consoleRoutes.post('/update', consoleController.update);
     consoleRoutes.post('/deleteById', consoleController.deleteById);
+    consoleRoutes.post('/create', consoleController.create);
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
-    publisherRoutes.get('/getAllByAdmin', publisherController.getAllByAdmin);
-    publisherRoutes.get('/getAllByUser', publisherController.getAllByUser);
+    publisherRoutes.get('/getAll', publisherController.getAll);
     publisherRoutes.post('/deleteById', publisherController.deleteById);
-    publisherRoutes.post('/updateByAdmin', publisherController.updateByAdmin);
-    publisherRoutes.post('/updateByUser', publisherController.updateByUser);
-    publisherRoutes.post('/createByUser', publisherController.createByUser);
+    publisherRoutes.post('/update', publisherController.update);
+    publisherRoutes.post('/create', publisherController.create);
 
     // Log Routes
     apiRoutes.use('/log', logRoutes);

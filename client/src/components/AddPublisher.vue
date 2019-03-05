@@ -56,7 +56,7 @@ export default {
     async addPublisher () {
       this.error = null
       this.message = null
-      let res = await publisherService.createByUser(this.data)
+      let res = await publisherService.create(this.data)
       if (res.data.error) this.error = res.data.error
       if (res.data.message) this.message = res.data.message
       this.getPublishers()

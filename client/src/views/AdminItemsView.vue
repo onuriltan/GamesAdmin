@@ -80,16 +80,16 @@ export default {
       this.publisherUpdateError = null
     },
     async getGames () {
-      this.games = await gameService.getAllByAdmin()
+      this.games = await gameService.getAll()
     },
     async getConsoles () {
-      this.consoles = await consoleService.getAllByAdmin()
+      this.consoles = await consoleService.getAll()
     },
     async getPublishers () {
-      this.publishers = await publisherService.getAllByAdmin()
+      this.publishers = await publisherService.getAll()
     },
     async updateGame (data) {
-      let res = await gameService.updateByAdmin(data)
+      let res = await gameService.update(data)
       if (res.data.message) {
         await this.getGames()
         this.gameUpdateError = null
@@ -101,7 +101,7 @@ export default {
       }
     },
     async updateConsole (data) {
-      let res = await consoleService.updateByAdmin(data)
+      let res = await consoleService.update(data)
       if (res.data.message) {
         await this.getGames()
         await this.getConsoles()
@@ -114,7 +114,7 @@ export default {
       }
     },
     async updatePublisher (data) {
-      let res = await publisherService.updateByAdmin(data)
+      let res = await publisherService.update(data)
       if (res.data.message) {
         await this.getGames()
         await this.getPublishers()

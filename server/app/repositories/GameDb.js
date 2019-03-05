@@ -17,6 +17,10 @@ exports.getByExactName = async function (name) {
     return Game.findOne({name});
 };
 
+exports.getByNameandUser = async function (name, userId) {
+    return Game.findOne({name, userId});
+};
+
 exports.getById = async function (id) {
     return Game.findOne({_id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };

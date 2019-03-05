@@ -4,14 +4,15 @@ import Store from '../store/index'
 const url = process.env.VUE_APP_PUBLISHERS_URL
 
 class PublisherService {
-  static getAllByAdmin () {
+
+  static getAll () {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(url + '/getAllByAdmin', config)
+        const res = await axios.get(`${url}/getAll`, config)
         const data = res.data
         resolve(data)
       } catch (e) {
@@ -20,30 +21,14 @@ class PublisherService {
     })
   }
 
-  static getAllByUser () {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    }
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios.get(`${url}/getAllByUser`, config)
-        const data = res.data
-        resolve(data)
-      } catch (e) {
-        reject(e)
-      }
-    })
-  }
-
-  static async createByUser (data) {
+  static async create (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/createByUser`, data, config)
+      res = await axios.post(`${url}/create`, data, config)
     } catch (err) {
       res = err.response
     }
@@ -58,28 +43,14 @@ class PublisherService {
     return axios.post(`${url}/deleteById`, { id }, config)
   }
 
-  static async updateByUser (data) {
+  static async update (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/updateByUser`, data, config)
-    } catch (err) {
-      res = err.response
-    }
-    return res
-  }
-
-  static async updateByAdmin (data) {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    }
-    let res = null
-    try {
-      res = await axios.post(`${url}/updateByAdmin`, data, config)
+      res = await axios.post(`${url}/update`, data, config)
     } catch (err) {
       res = err.response
     }

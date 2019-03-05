@@ -13,6 +13,10 @@ exports.getPublishersByUser = async function (userId) {
     return Publisher.find({userId}).select('-__v').lean().exec();
 };
 
+exports.getByNameandUser = async function (name, userId) {
+    return Publisher.findOne({name, userId});
+};
+
 exports.getByName = async function (name) {
     let regex = new RegExp(`${name}`, "i");
     return Publisher.find({"name": {$regex: regex}}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();

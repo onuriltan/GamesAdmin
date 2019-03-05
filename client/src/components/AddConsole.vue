@@ -68,7 +68,7 @@ export default {
     async addConsole () {
       this.error = null
       this.message = null
-      let res = await consoleService.createByUser(this.data)
+      let res = await consoleService.create(this.data)
       if (res.data.error) this.error = res.data.error
       if (res.data.message) this.message = res.data.message
       this.getConsoles()
