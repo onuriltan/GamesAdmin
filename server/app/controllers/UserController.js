@@ -58,7 +58,6 @@ exports.addUser = async function (req, res, next) {
 exports.updatePassword = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if(authData !== null && authData.role === "user") {
-        await logHelper.createLog(req, authData.email, "user");
         let error =  userValidation.validateUpdatePassword(req);
         if(error) {
             return res.status(400).send({error})
@@ -69,6 +68,7 @@ exports.updatePassword = async function (req, res, next) {
         if(isPasswordCorrect) {
                 existingUser.password = newPassword;
                 existingUser.save()
+                 await logHelper.createLog(existingUser.email+ "'s password updated", authData.email, "user");
                 return res.status(200).send({message: 'Password updated'});
         }else {
             return res.status(403).send({error: 'Old password is not correct'});
@@ -82,7 +82,6 @@ exports.updatePassword = async function (req, res, next) {
 exports.updateEmail = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if(authData !== null && authData.role === "user") {
-        await logHelper.createLog(req, authData.email, "user");
         let error = userValidation.validateUpdateEmail(req);
         if(error) {
             return res.status(400).send({error})
@@ -96,6 +95,7 @@ exports.updateEmail = async function (req, res, next) {
         if(existingUser) {
             existingUser.email = newEmail;
             existingUser.save();
+            await logHelper.createLog(existingUser.email+ "'s email updated", authData.email, "user");
             return res.status(200).send({message: 'Email updated'});
         }else {
             return res.status(404).send({message: 'User not found'});
@@ -138,7 +138,6 @@ exports.updateUser = async function(req, res, next) {
 exports.deactivateUser = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res, next);
     if (authData !== null && authData.role === 'admin') {
-        await logHelper.createLog(req, authData.email, 'admin');
         let error =  userValidation.validateDeactivateUser(req, res);
         if(error) {
             return res.status(400).send({error})
@@ -147,6 +146,7 @@ exports.deactivateUser = async function (req, res, next) {
         const existingUser = await userDb.getUser(email);
         if (existingUser) {
             let deactivatedUser = await userDb.deactivateUser(existingUser);
+            await logHelper.createLog(deactivatedUser.email+ " deactivated", authData.email, "user");
             return res.status(201).send({message: 'User deactivated'})
         } else {
             return res.status(400).send({error: 'User not found'})
