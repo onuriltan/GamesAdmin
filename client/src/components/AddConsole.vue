@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="addConsole" class="mb-5 mt-5">
+  <form @submit.prevent="addConsole" class="mb-5 mt-2">
     <div style="height: 60px">
       <div v-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
         {{error}}
