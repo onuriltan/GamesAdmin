@@ -31,6 +31,6 @@ exports.createGame = async function (data, userId) {
     return newGame;
 };
 
-exports.deleteGameById = async function (id) {
+exports.deleteById = async function (id) {
     return await Game.deleteOne({_id: new mongodb.ObjectID(id)}).select('-__v');
 };

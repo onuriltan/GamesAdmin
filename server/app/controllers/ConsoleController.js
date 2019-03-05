@@ -60,7 +60,7 @@ exports.delete = async function (req, res, next) {
         }
         let existingItem = await consoleDb.getById(itemId);
         if (existingItem) {
-            await consoleDb.deleteConsoleById(itemId);
+            await consoleDb.deleteById(itemId);
             await logHelper.createLog(existingItem.name + ' console deleted.', email, "console-crud");
             return res.sendStatus(200);
         } else {

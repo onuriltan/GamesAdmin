@@ -73,7 +73,7 @@ exports.delete = async function (req, res, next) {
         }
         let existingItem = await gameDb.getById(itemId);
         if (existingItem) {
-            await gameDb.deleteGameById(itemId);
+            await gameDb.deleteById(itemId);
             await logHelper.createLog(existingItem.name + ' game deleted.', email, "game-crud");
             return res.sendStatus(200);
         } else {

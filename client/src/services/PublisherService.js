@@ -35,7 +35,7 @@ class PublisherService {
     return res
   }
 
-  static deletePublisherById (id) {
+  static deleteById (id) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }

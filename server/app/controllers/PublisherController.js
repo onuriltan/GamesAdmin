@@ -61,7 +61,7 @@ exports.delete = async function (req, res, next) {
         }
         let existingItem = await publisherDb.getById(itemId);
         if (existingItem) {
-            await publisherDb.deletePublisherById(itemId);
+            await publisherDb.deleteById(itemId);
             await logHelper.createLog(existingItem.name + ' publisher deleted.', email, "publisher-crud");
             return res.sendStatus(200);
         } else {

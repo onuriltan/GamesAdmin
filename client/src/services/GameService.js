@@ -35,7 +35,7 @@ class GameService {
     return res
   }
 
-  static deleteGameById (id) {
+  static deleteById (id) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }

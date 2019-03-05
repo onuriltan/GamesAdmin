@@ -128,15 +128,15 @@ export default {
     },
     async deleteItemById (group, id) {
       if (group === 'game') {
-        await gameService.deleteGameById(id)
+        await gameService.deleteById(id)
         await this.getGames()
       }
       if (group === 'console') {
-        await consoleService.deleteConsoleById(id)
+        await consoleService.deleteById(id)
         await this.getConsoles()
       }
       if (group === 'publisher') {
-        await publisherService.deletePublisherById(id)
+        await publisherService.deleteById(id)
         await this.getPublishers()
       }
     }

@@ -32,6 +32,6 @@ exports.createConsole = async function (data, userId) {
     return newConsole;
 };
 
-exports.deleteConsoleById = async function (id) {
+exports.deleteById = async function (id) {
     return await Console.deleteOne({_id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };

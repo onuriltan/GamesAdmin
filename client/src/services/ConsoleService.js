@@ -35,7 +35,7 @@ class ConsoleService {
     return res
   }
 
-  static deleteConsoleById (id) {
+  static deleteById (id) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }

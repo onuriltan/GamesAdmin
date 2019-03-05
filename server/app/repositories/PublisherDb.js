@@ -30,6 +30,6 @@ exports.createPublisher = async function (data, userId) {
     return newPublisher;
 };
 
-exports.deletePublisherById = async function (id) {
+exports.deleteById = async function (id) {
     return await Publisher.deleteOne({_id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
