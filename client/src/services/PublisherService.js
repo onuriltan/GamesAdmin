@@ -21,14 +21,14 @@ class PublisherService {
     })
   }
 
-  static async createByUser (data) {
+  static async create (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/createByUser`, data, config)
+      res = await axios.post(`${url}/create`, data, config)
     } catch (err) {
       res = err.response
     }

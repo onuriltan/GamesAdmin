@@ -46,7 +46,7 @@ exports.getByName = async function (req, res, next) {
     return res.json(items);
 };
 
-exports.createByUser = async function (req, res, next) {
+exports.create = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
         let {email} = authData;

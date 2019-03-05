@@ -34,23 +34,23 @@ module.exports = function (app) {
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
     gameRoutes.get('/getAll', gameController.getAll);
-    gameRoutes.post('/createByUser', gameController.createByUser);
     gameRoutes.post('/update', gameController.update);
     gameRoutes.post('/deleteById', gameController.deleteById);
+    gameRoutes.post('/create', gameController.create);
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
     consoleRoutes.get('/getAll', consoleController.getAll);
-    consoleRoutes.post('/createByUser', consoleController.createByUser);
     consoleRoutes.post('/update', consoleController.update);
     consoleRoutes.post('/deleteById', consoleController.deleteById);
+    consoleRoutes.post('/create', consoleController.create);
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
     publisherRoutes.get('/getAll', publisherController.getAll);
     publisherRoutes.post('/deleteById', publisherController.deleteById);
     publisherRoutes.post('/update', publisherController.update);
-    publisherRoutes.post('/createByUser', publisherController.createByUser);
+    publisherRoutes.post('/create', publisherController.create);
 
     // Log Routes
     apiRoutes.use('/log', logRoutes);
