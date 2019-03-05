@@ -15,6 +15,7 @@ module.exports = function(app){
     let publisherRoutes = express.Router();
     let userRoutes = express.Router();
     let logRoutes = express.Router();
+    let v1Routes = express.Router();
 
     // Auth Routes
     apiRoutes.use('/auth', authRoutes);
@@ -32,7 +33,6 @@ module.exports = function(app){
 
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
-    gameRoutes.get('/getByName/:name', gameController.getByName);
     gameRoutes.get('/getAllByAdmin', gameController.getAllByAdmin);
     gameRoutes.get('/getAllByUser', gameController.getAllByUser);
     gameRoutes.post('/createByUser', gameController.createByUser);
@@ -42,7 +42,6 @@ module.exports = function(app){
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
-    consoleRoutes.get('/getByName/:name', consoleController.getByName);
     consoleRoutes.get('/getAllByAdmin', consoleController.getAllByAdmin);
     consoleRoutes.get('/getAllByUser', consoleController.getAllByUser);
     consoleRoutes.post('/createByUser', consoleController.createByUser);
@@ -52,7 +51,6 @@ module.exports = function(app){
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
-    publisherRoutes.get('/getByName/:name', publisherController.getByName);
     publisherRoutes.get('/getAllByAdmin', publisherController.getAllByAdmin);
     publisherRoutes.get('/getAllByUser', publisherController.getAllByUser);
     publisherRoutes.post('/deleteById',  publisherController.deleteById);
@@ -65,6 +63,13 @@ module.exports = function(app){
     logRoutes.get('/getLogs/:type', logController.getLogsByType);
     logRoutes.get('/getCrudLogs', logController.getCrudLogs);
     logRoutes.delete('/deleteByCategory/:category', logController.deleteLogsByCategory);
+
+
+    // v1 Routes
+    apiRoutes.use('/v1', v1Routes);
+    v1Routes.get('/games/getByName/:name', gameController.getByName);
+    v1Routes.get('/consoles/getByName/:name', consoleController.getByName);
+    v1Routes.get('/publishers/getByName/:name', publisherController.getByName);
 
     // Base route
     app.use('/api', apiRoutes);
