@@ -26,22 +26,21 @@ give parameters as;
 Also you need to create .env.development and .env.production files in the client folder to justify backend url's and social app id's on development and production, for example in .env.development;
 
 ##### Vue Developemnt Environment
-VUE_APP_AUTH_URL=http://localhost:5000/api/auth
-VUE_APP_GAMES_URL=http://localhost:5000/api/game
-VUE_APP_CONSOLES_URL=http://localhost:5000/api/console
-VUE_APP_PUBLISHERS_URL=http://localhost:5000/api/publisher
-VUE_APP_USERS_URL=http://localhost:5000/api/user
-VUE_APP_LOGS_URL=http://localhost:5000/api/log
+* VUE_APP_AUTH_URL=http://localhost:5000/api/auth 
+* VUE_APP_GAMES_URL=http://localhost:5000/api/game 
+* VUE_APP_CONSOLES_URL=http://localhost:5000/api/console 
+* VUE_APP_PUBLISHERS_URL=http://localhost:5000/api/publisher 
+* VUE_APP_USERS_URL=http://localhost:5000/api/user 
+* VUE_APP_LOGS_URL=http://localhost:5000/api/log 
 
 ##### Vue Developemnt Environment
 "Your production API URL's like above"
 
 ### Development
-To run Node.js server, go to root folder and run `npm run dev`.
-
-To run the Vue CLI client, go to client folder and run `npm run serve`.
+1. To run Node.js server, go to root folder and run `npm run dev`
+2. To run the Vue CLI client, go to client folder and run `npm run serve`
 
 ### Production
 To run the Node.js server with public distribution folder, 
 1. Go to client folder and run `npm run build` to create dist folder. It will create a folder called public inside server folder
-2. Go to root folder and run `npm run start` .
+2. Go to root folder and run `npm run start`
