@@ -6,18 +6,6 @@ const jwtHelper = require('../helpers/JwtHelper');
 const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
 
-exports.getAll = async function (req, res, next) {
-    let items = await gameDb.getAllPublic();
-    for (item of items) {
-        let consolee = await consoleDb.getById(item.consoleId);
-        let publisher = await publisherDb.getById(item.publisherId);
-        delete item.consoleId;
-        delete item.publisherId;
-        item.console = consolee;
-        item.publisher = publisher;
-    }
-    return res.json(items);
-};
 
 exports.getAllByAdmin = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);

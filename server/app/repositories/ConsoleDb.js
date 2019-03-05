@@ -2,10 +2,6 @@ const Console = require('../models/Console');
 const mongodb = require('mongodb');
 
 
-exports.getAllPublic = async function () {
-    return Console.find().select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
-};
-
 exports.getAll = async function () {
     return Console.find().select('-__v').lean().exec();
 };

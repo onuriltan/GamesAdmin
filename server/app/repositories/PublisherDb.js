@@ -1,9 +1,6 @@
 const Publisher = require('../models/Publisher');
 const mongodb = require('mongodb');
 
-exports.getAllPublic = async function () {
-    return Publisher.find().select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
-};
 
 exports.getAll = async function () {
     return Publisher.find().select('-__v').lean().exec();

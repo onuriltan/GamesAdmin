@@ -40,104 +40,104 @@
 </template>
 
 <script>
-  import gameService from '../services/GameService'
-  import consoleService from '../services/ConsoleService'
-  import publisherService from '../services/PublisherService'
-  import AddGame from '../components/AddGame'
-  import AddConsole from '../components/AddConsole'
-  import AddPublisher from '../components/AddPublisher'
-  import ItemTable from '../components/ItemTable'
-  import UpdateGameModal from '../components/UpdateGameModal'
-  import UpdateConsoleModal from '../components/UpdateConsoleModal'
-  import UpdatePublisherModal from '../components/UpdatePublisherModal'
+import gameService from '../services/GameService'
+import consoleService from '../services/ConsoleService'
+import publisherService from '../services/PublisherService'
+import AddGame from '../components/AddGame'
+import AddConsole from '../components/AddConsole'
+import AddPublisher from '../components/AddPublisher'
+import ItemTable from '../components/ItemTable'
+import UpdateGameModal from '../components/UpdateGameModal'
+import UpdateConsoleModal from '../components/UpdateConsoleModal'
+import UpdatePublisherModal from '../components/UpdatePublisherModal'
 
-  export default {
-    name: 'UserItemsView',
-    components: {
-      ItemTable,
-      AddGame,
-      AddConsole,
-      AddPublisher,
-      UpdateGameModal,
-      UpdateConsoleModal,
-      UpdatePublisherModal
-    },
-    computed: {
-      isUser() {
-        return this.$store.state.AuthStore.role === 'user'
-      }
-    },
-    data() {
-      return {
-        games: [],
-        consoles: [],
-        publishers: [],
-        gameItems: [],
-        itemToUpdate: null
-      }
-    },
-    methods: {
-      setItemtoUpdate(item) {
-        this.itemToUpdate = item
-      },
-      resetItem() {
-        this.itemToUpdate = null
-      },
-      async getGames() {
-        this.games = await gameService.getAllByUser()
-      },
-      async getConsoles() {
-        this.consoles = await consoleService.getAllByUser()
-      },
-      async getPublishers() {
-        this.publishers = await publisherService.getAllByUser()
-      },
-      async updateGame(data) {
-        let res = await gameService.updateByUser(data)
-        if (res.data.message) {
-          await this.getGames()
-          $('#gameUpdateModal').modal('toggle')
-          this.itemToUpdate = null
-        }
-      },
-      async updateConsole(data) {
-        let res = await consoleService.updateByUser(data)
-        if (res.data.message) {
-          await this.getGames()
-          await this.getConsoles()
-          $('#consoleUpdateModal').modal('toggle')
-          this.itemToUpdate = null
-        }
-      },
-      async updatePublisher(data) {
-        let res = await publisherService.updateByUser(data)
-        if (res.data.message) {
-          await this.getGames()
-          await this.getPublishers()
-          $('#publisherUpdateModal').modal('toggle')
-          this.itemToUpdate = null
-        }
-      },
-      async deleteItemById(group, id) {
-        if (group === 'game') {
-          await gameService.deleteGameById(id)
-          await this.getGames()
-        }
-        if (group === 'console') {
-          await consoleService.deleteConsoleById(id)
-          await this.getConsoles()
-        }
-        if (group === 'publisher') {
-          await publisherService.deletePublisherById(id)
-          await this.getPublishers()
-        }
-      }
-    },
-    async beforeMount() {
-      await this.$store.dispatch("checkIsAuthenticated")
-      await this.getGames()
-      await this.getConsoles()
-      await this.getPublishers()
+export default {
+  name: 'UserItemsView',
+  components: {
+    ItemTable,
+    AddGame,
+    AddConsole,
+    AddPublisher,
+    UpdateGameModal,
+    UpdateConsoleModal,
+    UpdatePublisherModal
+  },
+  computed: {
+    isUser () {
+      return this.$store.state.AuthStore.role === 'user'
     }
+  },
+  data () {
+    return {
+      games: [],
+      consoles: [],
+      publishers: [],
+      gameItems: [],
+      itemToUpdate: null
+    }
+  },
+  methods: {
+    setItemtoUpdate (item) {
+      this.itemToUpdate = item
+    },
+    resetItem () {
+      this.itemToUpdate = null
+    },
+    async getGames () {
+      this.games = await gameService.getAllByUser()
+    },
+    async getConsoles () {
+      this.consoles = await consoleService.getAllByUser()
+    },
+    async getPublishers () {
+      this.publishers = await publisherService.getAllByUser()
+    },
+    async updateGame (data) {
+      let res = await gameService.updateByUser(data)
+      if (res.data.message) {
+        await this.getGames()
+        $('#gameUpdateModal').modal('toggle')
+        this.itemToUpdate = null
+      }
+    },
+    async updateConsole (data) {
+      let res = await consoleService.updateByUser(data)
+      if (res.data.message) {
+        await this.getGames()
+        await this.getConsoles()
+        $('#consoleUpdateModal').modal('toggle')
+        this.itemToUpdate = null
+      }
+    },
+    async updatePublisher (data) {
+      let res = await publisherService.updateByUser(data)
+      if (res.data.message) {
+        await this.getGames()
+        await this.getPublishers()
+        $('#publisherUpdateModal').modal('toggle')
+        this.itemToUpdate = null
+      }
+    },
+    async deleteItemById (group, id) {
+      if (group === 'game') {
+        await gameService.deleteGameById(id)
+        await this.getGames()
+      }
+      if (group === 'console') {
+        await consoleService.deleteConsoleById(id)
+        await this.getConsoles()
+      }
+      if (group === 'publisher') {
+        await publisherService.deletePublisherById(id)
+        await this.getPublishers()
+      }
+    }
+  },
+  async beforeMount () {
+    await this.$store.dispatch('checkIsAuthenticated')
+    await this.getGames()
+    await this.getConsoles()
+    await this.getPublishers()
   }
+}
 </script>

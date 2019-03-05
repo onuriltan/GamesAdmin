@@ -32,7 +32,6 @@ module.exports = function(app){
 
     // Game Routes
     apiRoutes.use('/game', gameRoutes);
-    gameRoutes.get('/getAll', gameController.getAll);
     gameRoutes.get('/getByName/:name', gameController.getByName);
     gameRoutes.get('/getAllByAdmin', gameController.getAllByAdmin);
     gameRoutes.get('/getAllByUser', gameController.getAllByUser);
@@ -43,7 +42,6 @@ module.exports = function(app){
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
-    consoleRoutes.get('/getAll', consoleController.getAll);
     consoleRoutes.get('/getByName/:name', consoleController.getByName);
     consoleRoutes.get('/getAllByAdmin', consoleController.getAllByAdmin);
     consoleRoutes.get('/getAllByUser', consoleController.getAllByUser);
@@ -54,7 +52,6 @@ module.exports = function(app){
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
-    publisherRoutes.get('/getAll', publisherController.getAll);
     publisherRoutes.get('/getByName/:name', publisherController.getByName);
     publisherRoutes.get('/getAllByAdmin', publisherController.getAllByAdmin);
     publisherRoutes.get('/getAllByUser', publisherController.getAllByUser);
