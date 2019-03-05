@@ -21,12 +21,21 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade" id="game" role="tabpanel" aria-labelledby="game-tab">
+        <form @submit.prevent="deleteNotFoundLogs('game-notfound')" class="d-flex justify-content-start align-items-end mt-5 mb-5">
+          <button type="submit" class="btn btn-danger mb-2">Delete Logs</button>
+        </form>
         <LogTable :logs="gameNotFoundLogs" category="game-notfound"/>
       </div>
       <div class="tab-pane fade" id="console" role="tabpanel" aria-labelledby="profile-tab">
+        <form @submit.prevent="deleteNotFoundLogs('console-notfound')" class="d-flex justify-content-start align-items-end mt-5 mb-5">
+          <button type="submit" class="btn btn-danger mb-2">Delete Logs</button>
+        </form>
        <LogTable :logs="consoleNotFoundLogs" category="category-notfound"/>
       </div>
       <div class="tab-pane fade" id="publisher" role="tabpanel" aria-labelledby="contact-tab">
+        <form @submit.prevent="deleteNotFoundLogs('publisher-notfound')" class="d-flex justify-content-start align-items-end mt-5 mb-5">
+          <button type="submit" class="btn btn-danger mb-2">Delete Logs</button>
+        </form>
         <LogTable :logs="publisherNotFoundLogs" category="publisher-notfound"/>
       </div>
       <div class="tab-pane fade show active" id="crud" role="tabpanel" aria-labelledby="contact-tab">
@@ -80,6 +89,12 @@ export default {
     async deleteLogsByCategory () {
       await LogService.deleteByCategory(this.deleteCategory)
       this.getCrudLogs()
+    },
+    async deleteNotFoundLogs (category) {
+      await LogService.deleteByCategory(category)
+      if(category === 'game-notfound') this.getGameLogs()
+      if(category === 'console-notfound') this.getConsoleLogs()
+      if(category === 'publisher-notfound') this.getPublisherLogs()
     }
   },
   mounted () {
