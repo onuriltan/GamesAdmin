@@ -99,7 +99,7 @@ export default {
       this.publishers = await publisherService.getAll()
     },
     async updateGame (data) {
-      let res = await gameService.updateByUser(data)
+      let res = await gameService.update(data)
       if (res.data.message) {
         await this.getGames()
         this.gameUpdateError = null
