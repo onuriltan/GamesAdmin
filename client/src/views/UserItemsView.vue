@@ -76,7 +76,7 @@ export default {
       itemToUpdate: null,
       gameUpdateError: null,
       consoleUpdateError: null,
-      publisherUpdateError: null,
+      publisherUpdateError: null
     }
   },
   methods: {
@@ -106,7 +106,7 @@ export default {
         $('#gameUpdateModal').modal('toggle')
         this.itemToUpdate = null
       }
-      if(res.data.error) {
+      if (res.data.error) {
         this.gameUpdateError = res.data.error
       }
     },
@@ -119,7 +119,7 @@ export default {
         $('#consoleUpdateModal').modal('toggle')
         this.itemToUpdate = null
       }
-      if(res.data.error) {
+      if (res.data.error) {
         this.consoleUpdateError = res.data.error
       }
     },
@@ -132,7 +132,7 @@ export default {
         $('#publisherUpdateModal').modal('toggle')
         this.itemToUpdate = null
       }
-      if(res.data.error) {
+      if (res.data.error) {
         this.publisherUpdateError = res.data.error
       }
     },

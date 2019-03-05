@@ -7,7 +7,7 @@ exports.login = async function (req, res, next) {
     const {email, password} = req.body;
     const existingUser = await userDb.getUser(email);
     if (existingUser) {
-        if(!existingUser.active) {
+        if (!existingUser.active) {
             return res.status(403).send({error: 'User is not active'});
         }
         let isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);

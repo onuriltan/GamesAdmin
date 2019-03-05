@@ -1,5 +1,5 @@
 exports.validateAddUser = function (req) {
-    const {email, password, role } = req.body;
+    const {email, password, role} = req.body;
     if (!email) {
         return 'You must enter the email address';
     } else if (!validEmail(email)) {
@@ -34,12 +34,12 @@ exports.validateUpdatePassword = function (req) {
         return 'You must enter the old password';
     }
     if (!newPassword) {
-        return  'You must enter the new password';
+        return 'You must enter the new password';
     } else if (newPassword.length < 6) {
-        return  'New password length should be 6';
+        return 'New password length should be 6';
     }
     if (!repeatPassword) {
-        return'You must enter the repeat password';
+        return 'You must enter the repeat password';
     } else if (repeatPassword.length < 6) {
         return 'Repeat password length should be 6';
     }
@@ -52,7 +52,7 @@ exports.validateUpdatePassword = function (req) {
 exports.validateUpdateEmail = function (req) {
     const {newEmail} = req.body;
     if (!newEmail) {
-        return  'You must enter an email address';
+        return 'You must enter an email address';
     } else if (!validEmail(newEmail)) {
         return 'Email is not valid';
     }

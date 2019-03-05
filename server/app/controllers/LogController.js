@@ -8,7 +8,7 @@ exports.getLogsByType = async function (req, res, next) {
         let type = req.params.type;
         let logs = await logDb.findLogsByType(type);
         res.json(logs);
-    }else {
+    } else {
         return res.sendStatus(403);
     }
 };
@@ -18,7 +18,7 @@ exports.getCrudLogs = async function (req, res, next) {
     if (authData !== null && authData.role === "admin") {
         let logs = await logDb.getCrudLogs();
         res.json(logs);
-    }else {
+    } else {
         return res.sendStatus(403);
     }
 };
@@ -29,7 +29,7 @@ exports.deleteLogsByCategory = async function (req, res, next) {
         let category = req.params.category;
         await logDb.deleteByCategory(category);
         return res.sendStatus(200);
-    }else {
+    } else {
         return res.sendStatus(403);
     }
 };

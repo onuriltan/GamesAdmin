@@ -7,7 +7,7 @@ const logController = require('./controllers/LogController');
 
 const express = require('express');
 
-module.exports = function(app){
+module.exports = function (app) {
     let apiRoutes = express.Router();
     let authRoutes = express.Router();
     let gameRoutes = express.Router();
@@ -38,7 +38,7 @@ module.exports = function(app){
     gameRoutes.post('/createByUser', gameController.createByUser);
     gameRoutes.post('/updateByAdmin', gameController.updateByAdmin);
     gameRoutes.post('/updateByUser', gameController.updateByUser);
-    gameRoutes.post('/deleteById',  gameController.deleteById);
+    gameRoutes.post('/deleteById', gameController.deleteById);
 
     // Console Routes
     apiRoutes.use('/console', consoleRoutes);
@@ -47,13 +47,13 @@ module.exports = function(app){
     consoleRoutes.post('/createByUser', consoleController.createByUser);
     consoleRoutes.post('/updateByAdmin', consoleController.updateByAdmin);
     consoleRoutes.post('/updateByUser', consoleController.updateByUser);
-    consoleRoutes.post('/deleteById',  consoleController.deleteById);
+    consoleRoutes.post('/deleteById', consoleController.deleteById);
 
     // Publisher Routes
     apiRoutes.use('/publisher', publisherRoutes);
     publisherRoutes.get('/getAllByAdmin', publisherController.getAllByAdmin);
     publisherRoutes.get('/getAllByUser', publisherController.getAllByUser);
-    publisherRoutes.post('/deleteById',  publisherController.deleteById);
+    publisherRoutes.post('/deleteById', publisherController.deleteById);
     publisherRoutes.post('/updateByAdmin', publisherController.updateByAdmin);
     publisherRoutes.post('/updateByUser', publisherController.updateByUser);
     publisherRoutes.post('/createByUser', publisherController.createByUser);

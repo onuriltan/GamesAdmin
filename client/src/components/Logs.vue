@@ -92,9 +92,9 @@ export default {
     },
     async deleteNotFoundLogs (category) {
       await LogService.deleteByCategory(category)
-      if(category === 'game-notfound') this.getGameLogs()
-      if(category === 'console-notfound') this.getConsoleLogs()
-      if(category === 'publisher-notfound') this.getPublisherLogs()
+      if (category === 'game-notfound') this.getGameLogs()
+      if (category === 'console-notfound') this.getConsoleLogs()
+      if (category === 'publisher-notfound') this.getPublisherLogs()
     }
   },
   mounted () {

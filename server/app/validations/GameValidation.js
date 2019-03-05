@@ -1,11 +1,11 @@
 exports.validateCreate = function (req) {
-    let { name, dateReleased, publisherId, consoleId } = req.body;
+    let {name, dateReleased, publisherId, consoleId} = req.body;
     if (!name) {
         return 'You must enter the game name';
     }
     if (!dateReleased) {
         return 'You must enter the release date';
-    }else if (!dateReleased instanceof Date) {
+    } else if (!dateReleased instanceof Date) {
         return 'You must enter the release date in date format';
     }
     if (!publisherId) {
@@ -18,7 +18,7 @@ exports.validateCreate = function (req) {
 };
 
 exports.validateDelete = function (req) {
-    let { id } = req.body;
+    let {id} = req.body;
     if (!id) {
         return 'You must enter an id';
     }
@@ -26,7 +26,7 @@ exports.validateDelete = function (req) {
 };
 
 exports.validateUpdate = function (req) {
-    let { oldName, name } = req.body;
+    let {oldName, name} = req.body;
     if (!oldName) {
         return 'You must enter the old name of the item';
     }

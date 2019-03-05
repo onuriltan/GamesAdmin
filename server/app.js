@@ -1,9 +1,9 @@
-const express    = require('express');
-const app        = express();
-const mongoose   = require('mongoose');
-const logger     = require('morgan');
+const express = require('express');
+const app = express();
+const mongoose = require('mongoose');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
-const cors       = require('cors');
+const cors = require('cors');
 
 const router = require('./app/routes');
 
@@ -12,7 +12,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true})
     .then(() => console.log('MongoDB connected.'))
     .catch(err => console.log(err));
 
@@ -21,7 +21,7 @@ const initialDataLoader = require('./app/helpers/InitialDataLoader');
 initialDataLoader.loadData();
 
 // Middlewares for Express
-app.use(bodyParser.urlencoded({ extended: false })); // Parses urlencoded bodies
+app.use(bodyParser.urlencoded({extended: false})); // Parses urlencoded bodies
 app.use(bodyParser.json()); // Send JSON responses
 app.use(logger('tiny')); // Log requests to API using morgan
 app.use(cors());

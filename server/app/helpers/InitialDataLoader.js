@@ -6,8 +6,8 @@ const loadData = async () => {
         password: process.env.ADMIN_PASSWORD,
         role: 'admin'
     });
-    const existingUser = await User.findOne({ "email":AdminUser.email});
-    if(!existingUser) {
+    const existingUser = await User.findOne({"email": AdminUser.email});
+    if (!existingUser) {
         AdminUser.save()
         console.log("Admin saved to repositories")
     }

@@ -18,15 +18,15 @@ exports.getByExactName = async function (name) {
 };
 
 exports.getById = async function (id) {
-    return Game.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
+    return Game.findOne({_id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
 
 exports.getGameByUserandId = async function (userId, id) {
-    return Game.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
+    return Game.findOne({userId, _id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
 
 exports.createGame = async function (data, userId) {
-    let { name, dateReleased, publisherId, consoleId } = data;
+    let {name, dateReleased, publisherId, consoleId} = data;
     const newGame = new Game({
         name,
         userId,
@@ -39,5 +39,5 @@ exports.createGame = async function (data, userId) {
 };
 
 exports.deleteGameById = async function (id) {
-    return await Game.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
+    return await Game.deleteOne({_id: new mongodb.ObjectID(id)}).select('-__v');
 };

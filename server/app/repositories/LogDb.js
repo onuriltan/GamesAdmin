@@ -11,16 +11,16 @@ exports.createLog = function (message, type, email, count) {
 };
 
 exports.findLogsByType = function (type) {
-    return Log.find({type}).select('-__v').sort( { count: -1 }) // -1 means descending sort
+    return Log.find({type}).select('-__v').sort({count: -1}) // -1 means descending sort
 };
 
 exports.getCrudLogs = function () {
     let regex = new RegExp("crud", "i");
-    return Log.find({"type": {$regex: regex}}).select('-__v').sort( { count: -1 }) // -1 means descending sort
+    return Log.find({"type": {$regex: regex}}).select('-__v').sort({count: -1}) // -1 means descending sort
 };
 
 exports.findLogsByPathandEmail = function (message, email) {
-    return Log.findOne({message, email}).select('-__v').sort( { count: -1 })
+    return Log.findOne({message, email}).select('-__v').sort({count: -1})
 };
 
 exports.deleteByCategory = async function (type) {

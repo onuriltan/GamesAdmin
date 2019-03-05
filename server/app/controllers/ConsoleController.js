@@ -38,7 +38,7 @@ exports.getAllByUser = async function (req, res, next) {
 
 exports.getByName = async function (req, res, next) {
     let items = await consoleDb.getByName(req.params.name);
-    if(items === null || items === undefined || items.length === 0) {
+    if (items === null || items === undefined || items.length === 0) {
         await logHelper.createLog(req.params.name + ' console not found.', '', "console-notfound");
     }
     return res.json(items);
@@ -49,7 +49,7 @@ exports.createByUser = async function (req, res, next) {
     if (authData !== null) {
         let {email} = authData;
         let error = consoleValidation.validateCreate(req);
-        if(error) {
+        if (error) {
             return res.status(400).send({error})
         }
         let user = await userDb.getUser(email);
@@ -76,11 +76,11 @@ exports.deleteById = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let existingItem = await consoleDb.getById(itemId);
-        if(existingItem) {
+        if (existingItem) {
             await consoleDb.deleteConsoleById(itemId);
             await logHelper.createLog(existingItem.name + ' console deleted.', email, "console-crud");
             return res.sendStatus(200);
-        }else {
+        } else {
             return res.status(404).send({error: "Console not found"});
         }
     }
@@ -92,7 +92,7 @@ exports.deleteById = async function (req, res, next) {
         let user = await userDb.getUser(email);
         if (user) {
             let ownItem = await consoleDb.getConsoleByUserandId(user._id, itemId);
-            if(ownItem) {
+            if (ownItem) {
                 await consoleDb.deleteConsoleById(itemId);
                 await logHelper.createLog(ownItem.name + ' console deleted.', email, "console-crud");
                 return res.status(200).send({message: ownItem.name + ' deleted'});
@@ -117,7 +117,7 @@ exports.updateByUser = async function (req, res, next) {
             if (error) {
                 return res.status(400).send({error})
             }
-            let { oldName, name, cpu, ram, year, comment } = req.body;
+            let {oldName, name, cpu, ram, year, comment} = req.body;
             let item = await consoleDb.getByExactName(oldName);
             if (item) {
                 if (name) item.name = name;
@@ -147,7 +147,7 @@ exports.updateByAdmin = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let {email} = authData;
-        let { oldName, name, cpu, ram, year, comment } = req.body;
+        let {oldName, name, cpu, ram, year, comment} = req.body;
         let item = await consoleDb.getByExactName(oldName);
         if (item) {
             if (name) item.name = name;

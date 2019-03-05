@@ -11,17 +11,17 @@ const verifyToken = (req) => {
     }
 };
 
-const decodeToken =  async (req) => {
+const decodeToken = async (req) => {
     const bearerToken = verifyToken(req);
     if (bearerToken !== null) {
         let userData = null;
         try {
-           userData = jwt.verify(bearerToken, process.env.JWT_SECRET);
-        } catch(err) {
-           console.log("Error verifying token");
+            userData = jwt.verify(bearerToken, process.env.JWT_SECRET);
+        } catch (err) {
+            console.log("Error verifying token");
         }
         return userData
-    }else {
+    } else {
         return null;
     }
 };

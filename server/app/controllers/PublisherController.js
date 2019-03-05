@@ -38,7 +38,7 @@ exports.getAllByUser = async function (req, res, next) {
 
 exports.getByName = async function (req, res, next) {
     let items = await publisherDb.getByName(req.params.name);
-    if(items === null || items === undefined || items.length === 0) {
+    if (items === null || items === undefined || items.length === 0) {
         await logHelper.createLog(req.params.name + ' publisher not found.', '', "publisher-notfound");
     }
     return res.json(items);
@@ -76,11 +76,11 @@ exports.deleteById = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let existingItem = await publisherDb.getById(itemId);
-        if(existingItem) {
+        if (existingItem) {
             await publisherDb.deletePublisherById(itemId);
             await logHelper.createLog(existingItem.name + ' publisher deleted.', email, "publisher-crud");
             return res.sendStatus(200);
-        }else {
+        } else {
             return res.status(404).send({error: "Console not found"});
         }
     }
@@ -118,7 +118,7 @@ exports.updateByUser = async function (req, res, next) {
             if (error) {
                 return res.status(400).send({error})
             }
-            let { oldName, name, location, comment } = req.body;
+            let {oldName, name, location, comment} = req.body;
             let item = await publisherDb.getByExactName(oldName);
             if (item) {
                 if (name) item.name = name;
@@ -146,7 +146,7 @@ exports.updateByAdmin = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let {email} = authData;
-        let { oldName, name, location, comment } = req.body;
+        let {oldName, name, location, comment} = req.body;
         let item = await publisherDb.getByExactName(oldName);
         if (item) {
             if (name) item.name = name;

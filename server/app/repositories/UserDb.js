@@ -6,7 +6,7 @@ exports.getUser = async function (email) {
 };
 
 exports.getUsersByRole = async function (role) {
-    return User.find( { "role" : role}).select('-__v -password');
+    return User.find({"role": role}).select('-__v -password');
 };
 
 exports.getAll = async function () {
@@ -14,7 +14,7 @@ exports.getAll = async function () {
 };
 
 exports.getById = async function (id) {
-    return User.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v -_id -password -createdAt -updatedAt').lean().exec();
+    return User.findOne({_id: new mongodb.ObjectID(id)}).select('-__v -_id -password -createdAt -updatedAt').lean().exec();
 };
 
 exports.addUser = async function (email, password, role, comment) {

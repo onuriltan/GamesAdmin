@@ -7,7 +7,7 @@ exports.getAll = async function () {
 };
 
 exports.getById = async function (id) {
-    return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
+    return Publisher.findOne({_id: new mongodb.ObjectID(id)}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
 exports.getPublishersByUser = async function (userId) {
     return Publisher.find({userId}).select('-__v').lean().exec();
@@ -19,11 +19,11 @@ exports.getByName = async function (name) {
 };
 
 exports.findById = async function (id) {
-    return Publisher.findOne({_id:  new mongodb.ObjectID(id)}).select('-__v');
+    return Publisher.findOne({_id: new mongodb.ObjectID(id)}).select('-__v');
 };
 
 exports.getPublisherByUserandId = async function (userId, id) {
-    return Publisher.findOne({userId, _id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
+    return Publisher.findOne({userId, _id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
 
 exports.getByExactName = async function (name) {
@@ -47,5 +47,5 @@ exports.deletePublisher = async function (email, name) {
 };
 
 exports.deletePublisherById = async function (id) {
-    return await Publisher.deleteOne({_id:  new mongodb.ObjectID(id)}).select('-__v').lean().exec();
+    return await Publisher.deleteOne({_id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };

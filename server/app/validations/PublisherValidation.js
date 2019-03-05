@@ -10,7 +10,7 @@ exports.validateCreate = function (req) {
 };
 
 exports.validateDelete = function (req) {
-    let { id } = req.body;
+    let {id} = req.body;
     if (!id) {
         return 'You must enter an id';
     }
@@ -18,7 +18,7 @@ exports.validateDelete = function (req) {
 };
 
 exports.validateUpdate = function (req) {
-    let { oldName, name } = req.body;
+    let {oldName, name} = req.body;
     if (!oldName) {
         return 'You must enter the old name of the item';
     }
