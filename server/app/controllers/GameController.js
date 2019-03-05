@@ -7,10 +7,16 @@ const logHelper = require('../helpers/LogHelper');
 const gameValidation = require('../validations/GameValidation');
 
 
-exports.getAllByAdmin = async function (req, res, next) {
+exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === "admin") {
-        let items = await gameDb.getAll();
+    if (authData !== null) {
+        let items = [];
+        if(authData.role === "admin") {
+            items = await gameDb.getAll();
+        }if(authData.role === "user") {
+            let user = await userDb.getUser(authData.email);
+            items = await gameDb.getGamesByUser(user.id);
+        }
         for (item of items) {
             let consolee = await consoleDb.getById(item.consoleId);
             let publisher = await publisherDb.getById(item.publisherId);
@@ -23,28 +29,6 @@ exports.getAllByAdmin = async function (req, res, next) {
         res.json(items);
     } else {
         res.sendStatus(403);
-    }
-};
-
-exports.getAllByUser = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let {email} = authData;
-        let user = await userDb.getUser(email);
-        if (user) {
-            let items = await gameDb.getGamesByUser(user.id);
-            for (item of items) {
-                let consolee = await consoleDb.getById(item.consoleId);
-                let publisher = await publisherDb.getById(item.publisherId);
-                item.console = consolee;
-                item.publisher = publisher;
-            }
-            return res.json(items);
-        } else {
-            res.sendStatus(403);
-        }
-    } else {
-        return res.sendStatus(403);
     }
 };
 

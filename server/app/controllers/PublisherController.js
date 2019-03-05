@@ -5,10 +5,16 @@ const logHelper = require('../helpers/LogHelper');
 const publisherValidation = require('../validations/PublisherValidation');
 
 
-exports.getAllByAdmin = async function (req, res, next) {
+exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null && authData.role === "admin") {
-        let items = await publisherDb.getAll();
+    if (authData !== null) {
+        let items = [];
+        if(authData.role === "admin") {
+            items = await publisherDb.getAll();
+        }if(authData.role === "user") {
+            let user = await userDb.getUser(authData.email);
+            items = await publisherDb.getPublishersByUser(user.id);
+        }
         for (item of items) {
             let user = await userDb.getById(item.userId);
             delete item.userId;
@@ -20,21 +26,6 @@ exports.getAllByAdmin = async function (req, res, next) {
     }
 };
 
-exports.getAllByUser = async function (req, res, next) {
-    const authData = await jwtHelper.decodeToken(req, res);
-    if (authData !== null) {
-        let {email} = authData;
-        let user = await userDb.getUser(email);
-        if (user) {
-            let items = await publisherDb.getPublishersByUser(user.id);
-            return res.json(items);
-        } else {
-            res.sendStatus(403);
-        }
-    } else {
-        return res.sendStatus(403);
-    }
-};
 
 exports.getByName = async function (req, res, next) {
     let items = await publisherDb.getByName(req.params.name);
