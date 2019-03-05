@@ -10,13 +10,7 @@ const gameValidation = require('../validations/GameValidation');
 exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let items = [];
-        if(authData.role === "admin") {
-            items = await gameDb.getAll();
-        }if(authData.role === "user") {
-            let user = await userDb.getUser(authData.email);
-            items = await gameDb.getGamesByUser(user.id);
-        }
+        let items = await gameDb.getAll();
         for (item of items) {
             let consolee = await consoleDb.getById(item.consoleId);
             let publisher = await publisherDb.getById(item.publisherId);
@@ -70,9 +64,8 @@ exports.create = async function (req, res, next) {
 
 exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    let {email} = authData;
     let itemId = req.body.id;
-    if (authData !== null && authData.role === "admin") {
+    if (authData !== null) {
         let {email} = authData;
         let error = gameValidation.validateDelete(req);
         if (error) {
@@ -85,25 +78,6 @@ exports.deleteById = async function (req, res, next) {
             return res.sendStatus(200);
         } else {
             return res.status(404).send({error: "Game not found"});
-        }
-    }
-    if (authData !== null && authData.role === "user") {
-        let error = gameValidation.validateDelete(req);
-        if (error) {
-            return res.status(400).send({error})
-        }
-        let user = await userDb.getUser(email);
-        if (user) {
-            let ownItem = await gameDb.getGameByUserandId(user._id, itemId);
-            if (ownItem) {
-                await gameDb.deleteGameById(itemId);
-                await logHelper.createLog(ownItem.name + ' game deleted.', email, "game-crud");
-                return res.status(200).send({message: ownItem.name + ' deleted'});
-            } else {
-                return res.sendStatus(403);
-            }
-        } else {
-            return res.sendStatus(403);
         }
     } else {
         return res.sendStatus(403);
@@ -118,14 +92,7 @@ exports.update = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let {oldName, name, consoleId, publisherId, dateReleased} = req.body;
-        let item = null;
-        if(authData.role === "admin") {
-            item = await gameDb.getByExactName(oldName);
-        }
-        if(authData.role === "user") {
-            let user = await userDb.getUser(authData.email);
-            item = await gameDb.getByNameandUser(oldName, user.id);
-        }
+        let item = await gameDb.getByExactName(oldName);
         if (item) {
             if (name) item.name = name;
             if (consoleId) item.consoleId = consoleId;
