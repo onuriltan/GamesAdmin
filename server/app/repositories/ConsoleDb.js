@@ -1,7 +1,6 @@
 const Console = require('../models/Console');
 const mongodb = require('mongodb');
 
-
 exports.getAll = async function () {
     return Console.find().select('-__v').lean().exec();
 };
