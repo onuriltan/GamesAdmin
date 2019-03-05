@@ -25,7 +25,7 @@ give parameters as;
 
 Also you need to create .env.development and .env.production files in the client folder to justify backend url's on development and production, for example in .env.development;
 
-##### Vue Developemnt Environment
+##### Vue Development Environment
 * VUE_APP_AUTH_URL=http://localhost:5000/api/auth 
 * VUE_APP_GAMES_URL=http://localhost:5000/api/game 
 * VUE_APP_CONSOLES_URL=http://localhost:5000/api/console 
@@ -33,7 +33,7 @@ Also you need to create .env.development and .env.production files in the client
 * VUE_APP_USERS_URL=http://localhost:5000/api/user 
 * VUE_APP_LOGS_URL=http://localhost:5000/api/log 
 
-##### Vue Developemnt Environment
+##### Vue Production Environment
 "Your production API URL's like above"
 
 ### Development
