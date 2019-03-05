@@ -13,17 +13,14 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav" style="min-width: 100%; justify-content: flex-end !important;">
-          <li class="nav-item mr-2" v-if="isUser">
-            <router-link class="nav-link" to="/useritems" data-toggle="collapse" data-target=".navbar-collapse.show">Items</router-link>
-          </li>
           <li class="nav-item mr-2" v-if="isAdmin">
             <router-link class="nav-link" to="/logs" data-toggle="collapse" data-target=".navbar-collapse.show">Logs</router-link>
           </li>
           <li class="nav-item mr-2" v-if="isAdmin">
             <router-link class="nav-link" to="/users" data-toggle="collapse" data-target=".navbar-collapse.show">Users</router-link>
           </li>
-          <li class="nav-item mr-2" v-if="isAdmin">
-            <router-link class="nav-link" to="/adminitems" data-toggle="collapse" data-target=".navbar-collapse.show">Items</router-link>
+          <li class="nav-item mr-2" v-if="isAuthenticated">
+            <router-link class="nav-link" to="/items" data-toggle="collapse" data-target=".navbar-collapse.show">Items</router-link>
           </li>
           <li class="nav-item dropdown" style="float: right" v-if="isAuthenticated">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -48,7 +48,7 @@ import UpdateConsoleModal from '../components/UpdateConsoleModal'
 import UpdatePublisherModal from '../components/UpdatePublisherModal'
 
 export default {
-  name: 'AdminItemsView',
+  name: 'ItemsView',
   components: {
     ItemTable,
     AddGame,

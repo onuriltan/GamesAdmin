@@ -8,13 +8,7 @@ const publisherValidation = require('../validations/PublisherValidation');
 exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let items = [];
-        if(authData.role === "admin") {
-            items = await publisherDb.getAll();
-        }if(authData.role === "user") {
-            let user = await userDb.getUser(authData.email);
-            items = await publisherDb.getPublishersByUser(user.id);
-        }
+        let items = await publisherDb.getAll();
         for (item of items) {
             let user = await userDb.getById(item.userId);
             delete item.userId;
@@ -58,9 +52,8 @@ exports.create = async function (req, res, next) {
 
 exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    let {email} = authData;
     let itemId = req.body.id;
-    if (authData !== null && authData.role === "admin") {
+    if (authData !== null) {
         let {email} = authData;
         let error = publisherValidation.validateDelete(req);
         if (error) {
@@ -74,25 +67,7 @@ exports.deleteById = async function (req, res, next) {
         } else {
             return res.status(404).send({error: "Console not found"});
         }
-    }
-    if (authData !== null && authData.role === "user") {
-        let error = publisherValidation.validateDelete(req);
-        if (error) {
-            return res.status(400).send({error})
-        }
-        let user = await userDb.getUser(email);
-        if (user) {
-            let ownItem = await publisherDb.getPublisherByUserandId(user._id, itemId);
-            if (ownItem) {
-                await publisherDb.deletePublisherById(itemId);
-                await logHelper.createLog(ownItem.name + ' publisher deleted.', email, "publisher-crud");
-                return res.status(200).send({message: ownItem.name + ' deleted'});
-            } else {
-                return res.sendStatus(403);
-            }
-        } else {
-            return res.sendStatus(403);
-        }
+
     } else {
         return res.sendStatus(403);
     }
@@ -106,14 +81,7 @@ exports.update = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let {oldName, name, location, comment} = req.body;
-        let item = null;
-        if(authData.role === "admin") {
-            item = await publisherDb.getByExactName(oldName);
-        }
-        if(authData.role === "user") {
-            let user = await userDb.getUser(authData.email);
-            item = await publisherDb.getByNameandUser(oldName, user.id);
-        }
+        let item = await publisherDb.getByExactName(oldName);
         if (item) {
             if (name) item.name = name;
             if (location) item.location = location;

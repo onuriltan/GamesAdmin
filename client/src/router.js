@@ -56,8 +56,7 @@ const Login = () => import('./views/LoginView.vue')
 const Dashboard = () => import('./views/DashboardView.vue')
 const Logs = () => import('./views/LogsView.vue')
 const Users = () => import('./views/UsersView.vue')
-const AdminItems = () => import('./views/AdminItemsView.vue')
-const UserItems = () => import('./views/UserItemsView.vue')
+const Items = () => import('./views/ItemsView.vue')
 const UserProfile = () => import('./views/UserProfileView.vue')
 
 export default new Router({
@@ -70,8 +69,7 @@ export default new Router({
     { path: '/login', name: 'login', component: Login },
     { path: '/logs', name: 'logs', component: Logs, beforeEnter: requireAdminAuth },
     { path: '/users', name: 'users', component: Users, beforeEnter: requireAdminAuth },
-    { path: '/adminitems', name: 'adminItems', component: AdminItems, beforeEnter: requireAdminAuth },
-    { path: '/useritems', name: 'userItems', component: UserItems, beforeEnter: requireUserAuth },
+    { path: '/items', name: 'items', component: Items, beforeEnter: requireAuth },
     { path: '/userprofile', name: 'userprofile', component: UserProfile, beforeEnter: requireUserAuth }
   ]
 })

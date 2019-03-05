@@ -8,13 +8,7 @@ const consoleValidation = require('../validations/ConsoleValidation');
 exports.getAll = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     if (authData !== null) {
-        let items = [];
-        if(authData.role === "admin") {
-            items = await consoleDb.getAll();
-        }if(authData.role === "user") {
-            let user = await userDb.getUser(authData.email);
-            items = await consoleDb.getConsolesByUser(user.id);
-        }
+        let items = await consoleDb.getAll();
         for (item of items) {
             let user = await userDb.getById(item.userId);
             delete item.userId;
@@ -57,9 +51,8 @@ exports.create = async function (req, res, next) {
 
 exports.deleteById = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
-    let {email} = authData;
     let itemId = req.body.id;
-    if (authData !== null && authData.role === "admin") {
+    if (authData !== null) {
         let {email} = authData;
         let error = consoleValidation.validateDelete(req);
         if (error) {
@@ -72,25 +65,6 @@ exports.deleteById = async function (req, res, next) {
             return res.sendStatus(200);
         } else {
             return res.status(404).send({error: "Console not found"});
-        }
-    }
-    if (authData !== null && authData.role === "user") {
-        let error = consoleValidation.validateDelete(req);
-        if (error) {
-            return res.status(400).send({error})
-        }
-        let user = await userDb.getUser(email);
-        if (user) {
-            let ownItem = await consoleDb.getConsoleByUserandId(user._id, itemId);
-            if (ownItem) {
-                await consoleDb.deleteConsoleById(itemId);
-                await logHelper.createLog(ownItem.name + ' console deleted.', email, "console-crud");
-                return res.status(200).send({message: ownItem.name + ' deleted'});
-            } else {
-                return res.sendStatus(403);
-            }
-        } else {
-            return res.sendStatus(403);
         }
     } else {
         return res.sendStatus(403);
@@ -105,14 +79,7 @@ exports.update = async function (req, res, next) {
             return res.status(400).send({error})
         }
         let {oldName, name, cpu, ram, year, comment} = req.body;
-        let item = null;
-        if(authData.role === "admin") {
-            item = await consoleDb.getByExactName(oldName);
-        }
-        if(authData.role === "user") {
-            let user = await userDb.getUser(authData.email);
-            item = await consoleDb.getByNameandUser(oldName, user.id);
-        }
+        let item = await consoleDb.getByExactName(oldName);
         if (item) {
             if (name) item.name = name;
             if (cpu) item.cpu = cpu;
