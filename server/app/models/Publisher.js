@@ -10,12 +10,10 @@ const PublisherSchema = new mongoose.Schema({
         required: true
     },
     location: {
-        type: String,
-        required: true
+        type: String
     },
     comment: {
-        type: String,
-        required: true
+        type: String
     }
 }, {
     timestamps: true
