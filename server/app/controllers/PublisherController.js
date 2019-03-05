@@ -50,7 +50,7 @@ exports.create = async function (req, res, next) {
     }
 };
 
-exports.deleteById = async function (req, res, next) {
+exports.delete = async function (req, res, next) {
     const authData = await jwtHelper.decodeToken(req, res);
     let itemId = req.body.id;
     if (authData !== null) {

@@ -40,7 +40,7 @@ class PublisherService {
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
-    return axios.post(`${url}/deleteById`, { id }, config)
+    return axios.post(`${url}/delete`, { id }, config)
   }
 
   static async update (data) {
