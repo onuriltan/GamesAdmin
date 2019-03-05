@@ -1,5 +1,5 @@
 exports.validateCreate = function (req) {
-    let {name, cpu, ram, year, comment} = req.body;
+    let {name, cpu, ram, year } = req.body;
     if (!name) {
         return 'You must enter the console name';
     }
@@ -11,9 +11,6 @@ exports.validateCreate = function (req) {
     }
     if (!year) {
         return 'You must enter the year';
-    }
-    if (!comment) {
-        return 'You must enter the comment';
     }
     return null;
 };

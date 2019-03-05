@@ -1,5 +1,5 @@
 exports.validateAddUser = function (req) {
-    const {email, password, role, comment} = req.body;
+    const {email, password, role } = req.body;
     if (!email) {
         return 'You must enter the email address';
     } else if (!validEmail(email)) {
@@ -14,9 +14,6 @@ exports.validateAddUser = function (req) {
         return 'You must enter the role';
     } else if (role !== 'user') {
         return 'Wrong role';
-    }
-    if (!comment) {
-        return 'You must enter the comment';
     }
     return null;
 };
