@@ -9,9 +9,6 @@ exports.getAll = async function () {
 exports.getById = async function (id) {
     return Publisher.findOne({_id: new mongodb.ObjectID(id)}).select('-__v -_id -userId -createdAt -updatedAt').lean().exec();
 };
-exports.getPublishersByUser = async function (userId) {
-    return Publisher.find({userId}).select('-__v').lean().exec();
-};
 
 exports.getByName = async function (name) {
     let regex = new RegExp(`${name}`, "i");
@@ -22,9 +19,6 @@ exports.findById = async function (id) {
     return Publisher.findOne({_id: new mongodb.ObjectID(id)}).select('-__v');
 };
 
-exports.getPublisherByUserandId = async function (userId, id) {
-    return Publisher.findOne({userId, _id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
-};
 
 exports.getByExactName = async function (name) {
     return Publisher.findOne({name});
@@ -40,10 +34,6 @@ exports.createPublisher = async function (data, userId) {
     });
     await newPublisher.save();
     return newPublisher;
-};
-
-exports.deletePublisher = async function (email, name) {
-    await Publisher.deleteOne({name: name, email: email}).select('-__v').lean().exec();
 };
 
 exports.deletePublisherById = async function (id) {

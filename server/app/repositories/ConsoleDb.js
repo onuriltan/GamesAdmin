@@ -19,14 +19,6 @@ exports.getByExactName = async function (name) {
     return Console.findOne({name});
 };
 
-exports.getConsolesByUser = async function (userId) {
-    return Console.find({userId}).select('-__v').lean().exec();
-};
-
-exports.getConsoleByUserandId = async function (userId, id) {
-    return Console.findOne({userId, _id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
-};
-
 exports.createConsole = async function (data, userId) {
     let {name, cpu, ram, year, comment} = data;
     const newConsole = new Console({

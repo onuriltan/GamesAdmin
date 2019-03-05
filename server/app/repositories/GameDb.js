@@ -4,9 +4,6 @@ const mongodb = require('mongodb');
 exports.getAll = async function () {
     return Game.find().select('-__v').lean().exec();
 };
-exports.getGamesByUser = async function (userId) {
-    return Game.find({userId}).select('-__v').lean().exec();
-};
 
 exports.getByName = async function (name) {
     let regex = new RegExp(`${name}`, "i");
@@ -19,10 +16,6 @@ exports.getByExactName = async function (name) {
 
 exports.getById = async function (id) {
     return Game.findOne({_id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
-};
-
-exports.getGameByUserandId = async function (userId, id) {
-    return Game.findOne({userId, _id: new mongodb.ObjectID(id)}).select('-__v').lean().exec();
 };
 
 exports.createGame = async function (data, userId) {
