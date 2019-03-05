@@ -111,7 +111,7 @@ export default {
       }
     },
     async updateConsole (data) {
-      let res = await consoleService.updateByUser(data)
+      let res = await consoleService.update(data)
       if (res.data.message) {
         await this.getGames()
         await this.getConsoles()

@@ -42,8 +42,7 @@ module.exports = function (app) {
     apiRoutes.use('/console', consoleRoutes);
     consoleRoutes.get('/getAll', consoleController.getAll);
     consoleRoutes.post('/createByUser', consoleController.createByUser);
-    consoleRoutes.post('/updateByAdmin', consoleController.updateByAdmin);
-    consoleRoutes.post('/updateByUser', consoleController.updateByUser);
+    consoleRoutes.post('/update', consoleController.update);
     consoleRoutes.post('/deleteById', consoleController.deleteById);
 
     // Publisher Routes

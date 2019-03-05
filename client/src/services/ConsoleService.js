@@ -43,28 +43,14 @@ class ConsoleService {
     return axios.post(`${url}/deleteById`, { id }, config)
   }
 
-  static async updateByUser (data) {
+  static async update (data) {
     Store.dispatch('checkIsAuthenticated')
     let config = {
       headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
     }
     let res = null
     try {
-      res = await axios.post(`${url}/updateByUser`, data, config)
-    } catch (err) {
-      res = err.response
-    }
-    return res
-  }
-
-  static async updateByAdmin (data) {
-    Store.dispatch('checkIsAuthenticated')
-    let config = {
-      headers: { 'Authorization': `Bearer ${window.localStorage.getItem('token')}` }
-    }
-    let res = null
-    try {
-      res = await axios.post(`${url}/updateByAdmin`, data, config)
+      res = await axios.post(`${url}/update`, data, config)
     } catch (err) {
       res = err.response
     }
