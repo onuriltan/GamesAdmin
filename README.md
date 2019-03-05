@@ -42,5 +42,5 @@ Also you need to create .env.development and .env.production files in the client
 
 ### Production
 To run the Node.js server with public distribution folder, 
-1. Go to client folder and run `npm run build` to create dist folder. It will create a folder called public inside server folder
-2. Go to root folder and run `npm run start`
+1. Go to client folder and run `npm run build` to create public folder. It will create a folder called public inside server folder
+2. Go to root folder and run `npm run start` to serve the public folder as well as api's
