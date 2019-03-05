@@ -23,7 +23,7 @@ give parameters as;
 * ADMIN_PASSWORD="initial admin password"
 * JWT_SECRET="secret to parse jwt tokens"
 
-Also you need to create .env.development and .env.production files in the client folder to justify backend url's and social app id's on development and production, for example in .env.development;
+Also you need to create .env.development and .env.production files in the client folder to justify backend url's on development and production, for example in .env.development;
 
 ##### Vue Developemnt Environment
 * VUE_APP_AUTH_URL=http://localhost:5000/api/auth 
