@@ -114,7 +114,7 @@ export default {
       }
     },
     async updatePublisher (data) {
-      let res = await publisherService.updateByAdmin(data)
+      let res = await publisherService.update(data)
       if (res.data.message) {
         await this.getGames()
         await this.getPublishers()

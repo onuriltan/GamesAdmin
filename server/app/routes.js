@@ -49,8 +49,7 @@ module.exports = function (app) {
     apiRoutes.use('/publisher', publisherRoutes);
     publisherRoutes.get('/getAll', publisherController.getAll);
     publisherRoutes.post('/deleteById', publisherController.deleteById);
-    publisherRoutes.post('/updateByAdmin', publisherController.updateByAdmin);
-    publisherRoutes.post('/updateByUser', publisherController.updateByUser);
+    publisherRoutes.post('/update', publisherController.update);
     publisherRoutes.post('/createByUser', publisherController.createByUser);
 
     // Log Routes
